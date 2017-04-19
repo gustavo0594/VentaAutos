@@ -1,0 +1,136 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Data;
+using System.Data.Entity;
+using System.Linq;
+using System.Net;
+using System.Web;
+using System.Web.Mvc;
+using VentaAutos.Models;
+
+namespace VentaAutos.Controllers
+{
+    public class ComprasController : Controller
+    {
+        private VentasEntities db = new VentasEntities();
+
+        // GET: Compras
+        public ActionResult Index()
+        {
+            var tCompra = db.TCompra.Include(t => t.TCliente).Include(t => t.TVehiculo);
+            return View(tCompra.ToList());
+        }
+
+        // GET: Compras/Details/5
+        public ActionResult Details(int? id)
+        {
+            if (id == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+            TCompra tCompra = db.TCompra.Find(id);
+            if (tCompra == null)
+            {
+                return HttpNotFound();
+            }
+            return View(tCompra);
+        }
+
+        // GET: Compras/Create
+        public ActionResult Create()
+        {
+            ViewBag.IdCliente = new SelectList(db.TCliente, "IdCliente", "Identificacion");
+            ViewBag.Placa = new SelectList(db.TVehiculo, "Placa", "Estilo");
+            return View();
+        }
+
+        // POST: Compras/Create
+        // Para protegerse de ataques de publicación excesiva, habilite las propiedades específicas a las que desea enlazarse. Para obtener 
+        // más información vea https://go.microsoft.com/fwlink/?LinkId=317598.
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult Create([Bind(Include = "IdCliente,Placa,Monto,Fecha")] TCompra tCompra)
+        {
+            if (ModelState.IsValid)
+            {
+                db.TCompra.Add(tCompra);
+                db.SaveChanges();
+                return RedirectToAction("Index");
+            }
+
+            ViewBag.IdCliente = new SelectList(db.TCliente, "IdCliente", "Identificacion", tCompra.IdCliente);
+            ViewBag.Placa = new SelectList(db.TVehiculo, "Placa", "Estilo", tCompra.Placa);
+            return View(tCompra);
+        }
+
+        // GET: Compras/Edit/5
+        public ActionResult Edit(int? id)
+        {
+            if (id == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+            TCompra tCompra = db.TCompra.Find(id);
+            if (tCompra == null)
+            {
+                return HttpNotFound();
+            }
+            ViewBag.IdCliente = new SelectList(db.TCliente, "IdCliente", "Identificacion", tCompra.IdCliente);
+            ViewBag.Placa = new SelectList(db.TVehiculo, "Placa", "Estilo", tCompra.Placa);
+            return View(tCompra);
+        }
+
+        // POST: Compras/Edit/5
+        // Para protegerse de ataques de publicación excesiva, habilite las propiedades específicas a las que desea enlazarse. Para obtener 
+        // más información vea https://go.microsoft.com/fwlink/?LinkId=317598.
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult Edit([Bind(Include = "IdCliente,Placa,Monto,Fecha")] TCompra tCompra)
+        {
+            if (ModelState.IsValid)
+            {
+                db.Entry(tCompra).State = EntityState.Modified;
+                db.SaveChanges();
+                return RedirectToAction("Index");
+            }
+            ViewBag.IdCliente = new SelectList(db.TCliente, "IdCliente", "Identificacion", tCompra.IdCliente);
+            ViewBag.Placa = new SelectList(db.TVehiculo, "Placa", "Estilo", tCompra.Placa);
+            return View(tCompra);
+        }
+
+        // GET: Compras/Delete/5
+        public ActionResult Delete(int? id)
+        {
+            if (id == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+            TCompra tCompra = db.TCompra.Find(id);
+            if (tCompra == null)
+            {
+                return HttpNotFound();
+            }
+            return View(tCompra);
+        }
+
+        // POST: Compras/Delete/5
+        [HttpPost, ActionName("Delete")]
+        [ValidateAntiForgeryToken]
+        public ActionResult DeleteConfirmed(int id)
+        {
+            TCompra tCompra = db.TCompra.Find(id);
+            db.TCompra.Remove(tCompra);
+            db.SaveChanges();
+            return RedirectToAction("Index");
+        }
+
+        protected override void Dispose(bool disposing)
+        {
+            if (disposing)
+            {
+                db.Dispose();
+            }
+            base.Dispose(disposing);
+        }
+    }
+}

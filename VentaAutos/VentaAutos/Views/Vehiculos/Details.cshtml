@@ -1,0 +1,98 @@
+﻿@model VentaAutos.Models.TVehiculo
+
+@{
+    ViewBag.Title = "Details";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>TVehiculo</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.Anio)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Anio)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Estilo)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Estilo)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Modelo)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Modelo)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.NumPuertas)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.NumPuertas)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Valor)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Valor)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.CEstadoArticulo.Descripcion)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.CEstadoArticulo.Descripcion)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.CMarcaVehiculo.Descripcion)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.CMarcaVehiculo.Descripcion)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.CTipoArticulo.Descripcion)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.CTipoArticulo.Descripcion)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.CTipoVehiculo.Descripcion)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.CTipoVehiculo.Descripcion)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.CTransmision.Descripcion)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.CTransmision.Descripcion)
+        </dd>
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id = Model.Placa }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>

@@ -1,0 +1,34 @@
+﻿@model VentaAutos.Models.TTelefonoCliente
+
+@{
+    ViewBag.Title = "Details";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>TTelefonoCliente</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.Descripcion)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Descripcion)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.TCliente.Identificacion)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.TCliente.Identificacion)
+        </dd>
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Editar", "Edit", new { id = Model.IdTelefono }) |
+    @Html.ActionLink("Regresar", "Index", new { IdCliente = Model.TCliente.IdCliente })
+</p>

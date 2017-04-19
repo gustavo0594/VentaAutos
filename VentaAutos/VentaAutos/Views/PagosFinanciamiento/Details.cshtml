@@ -1,0 +1,58 @@
+﻿@model VentaAutos.Models.TPagoFinanciamiento
+
+@{
+    ViewBag.Title = "Details";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>TPagoFinanciamiento</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.IdVenta)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.IdVenta)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Fecha)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Fecha)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Monto)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Monto)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.CTipoPago.Descripcion)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.CTipoPago.Descripcion)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.TFinanciamiento.IdFinanciamiento)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.TFinanciamiento.IdFinanciamiento)
+        </dd>
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Editar", "Edit", new { id = Model.IdPagoFinan }) |
+    @Html.ActionLink("Regresar", "Index")
+</p>

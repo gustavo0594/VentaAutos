@@ -1,0 +1,104 @@
+﻿@model VentaAutos.Models.TVehiculo
+
+@{
+    ViewBag.Title = "Delete";
+}
+
+<h2>Delete</h2>
+
+<h3>Are you sure you want to delete this?</h3>
+<div>
+    <h4>TVehiculo</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.Anio)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Anio)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Estilo)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Estilo)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Modelo)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Modelo)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.NumPuertas)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.NumPuertas)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Valor)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Valor)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.CEstadoArticulo.Descripcion)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.CEstadoArticulo.Descripcion)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.CMarcaVehiculo.Descripcion)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.CMarcaVehiculo.Descripcion)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.CTipoArticulo.Descripcion)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.CTipoArticulo.Descripcion)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.CTipoVehiculo.Descripcion)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.CTipoVehiculo.Descripcion)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.CTransmision.Descripcion)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.CTransmision.Descripcion)
+        </dd>
+
+    </dl>
+
+    @using (Html.BeginForm()) {
+        @Html.AntiForgeryToken()
+
+        <div class="form-actions no-color">
+            <input type="submit" value="Delete" class="btn btn-default" /> |
+            @Html.ActionLink("Back to List", "Index")
+        </div>
+    }
+</div>

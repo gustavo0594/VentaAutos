@@ -1,0 +1,40 @@
+﻿@model VentaAutos.Models.TTelefonoCliente
+
+@{
+    ViewBag.Title = "Eliminar Registro";
+}
+
+<h2>Delete</h2>
+
+<h3>¿Esta seguro de eliminar este registro?</h3>
+<div>
+    <h4>TTelefonoCliente</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.Descripcion)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Descripcion)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.TCliente.Identificacion)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.TCliente.Identificacion)
+        </dd>
+
+    </dl>
+
+    @using (Html.BeginForm()) {
+        @Html.AntiForgeryToken()
+
+        <div class="form-actions no-color">
+            <input type="submit" value="Eliminar" class="btn btn-default" /> |
+            @Html.ActionLink("Regresar", "Index", new { idCliente = ViewBag.IdClienteInt })
+        </div>
+    }
+</div>

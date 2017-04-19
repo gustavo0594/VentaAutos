@@ -1,0 +1,64 @@
+﻿@model VentaAutos.Models.TFinanciamiento
+
+@{
+    ViewBag.Title = "Eliminar Registro";
+}
+
+<h2>Delete</h2>
+
+<h3>¿Esta seguro de eliminar este registro?</h3>
+<div>
+    <h4>TFinanciamiento</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.Interes)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Interes)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Plazo)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Plazo)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Monto)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Monto)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.CPeriodoPago.Descripcion)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.CPeriodoPago.Descripcion)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.TVenta.IdVenta)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.TVenta.IdVenta)
+        </dd>
+
+    </dl>
+
+    @using (Html.BeginForm()) {
+        @Html.AntiForgeryToken()
+
+        <div class="form-actions no-color">
+            <input type="submit" value="Eliminar" class="btn btn-default" /> |
+            @Html.ActionLink("Regresar", "Index")
+        </div>
+    }
+</div>

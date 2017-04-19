@@ -1,0 +1,1219 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+      <Schema Namespace="VentasModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="CEstadoArticulo">
+          <Key>
+            <PropertyRef Name="IdEstado" />
+          </Key>
+          <Property Name="IdEstado" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Descripcion" Type="varchar" MaxLength="256" Nullable="false" />
+        </EntityType>
+        <EntityType Name="CMarcaVehiculo">
+          <Key>
+            <PropertyRef Name="IdMarca" />
+          </Key>
+          <Property Name="IdMarca" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Descripcion" Type="varchar" MaxLength="256" Nullable="false" />
+        </EntityType>
+        <EntityType Name="CPeriodoPago">
+          <Key>
+            <PropertyRef Name="IdPeriodoPago" />
+          </Key>
+          <Property Name="IdPeriodoPago" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Descripcion" Type="varchar" MaxLength="256" Nullable="false" />
+        </EntityType>
+        <EntityType Name="CTipoArticulo">
+          <Key>
+            <PropertyRef Name="IdTipoArticulo" />
+          </Key>
+          <Property Name="IdTipoArticulo" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Descripcion" Type="varchar" MaxLength="256" Nullable="false" />
+        </EntityType>
+        <EntityType Name="CTipoPago">
+          <Key>
+            <PropertyRef Name="IdTipoPago" />
+          </Key>
+          <Property Name="IdTipoPago" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Descripcion" Type="varchar" MaxLength="256" Nullable="false" />
+        </EntityType>
+        <EntityType Name="CTipoVehiculo">
+          <Key>
+            <PropertyRef Name="IdTipo" />
+          </Key>
+          <Property Name="IdTipo" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Descripcion" Type="varchar" MaxLength="256" Nullable="false" />
+        </EntityType>
+        <EntityType Name="CTipoVenta">
+          <Key>
+            <PropertyRef Name="IdTipoVenta" />
+          </Key>
+          <Property Name="IdTipoVenta" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Descripcion" Type="varchar" MaxLength="256" Nullable="false" />
+        </EntityType>
+        <EntityType Name="CTransmision">
+          <Key>
+            <PropertyRef Name="IdTransmision" />
+          </Key>
+          <Property Name="IdTransmision" Type="smallint" Nullable="false" />
+          <Property Name="Descripcion" Type="varchar" MaxLength="50" Nullable="false" />
+        </EntityType>
+        <EntityType Name="sysdiagrams">
+          <Key>
+            <PropertyRef Name="diagram_id" />
+          </Key>
+          <Property Name="name" Type="nvarchar" MaxLength="128" Nullable="false" />
+          <Property Name="principal_id" Type="int" Nullable="false" />
+          <Property Name="diagram_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="version" Type="int" />
+          <Property Name="definition" Type="varbinary(max)" />
+        </EntityType>
+        <EntityType Name="TArticulo">
+          <Key>
+            <PropertyRef Name="IdArticulo" />
+          </Key>
+          <Property Name="IdArticulo" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Descripcion" Type="varchar" MaxLength="4000" Nullable="false" />
+          <Property Name="Valor" Type="decimal" Precision="18" Scale="0" Nullable="false" />
+          <Property Name="IdTipo" Type="int" Nullable="false" />
+          <Property Name="IdEstado" Type="int" Nullable="false" />
+          <Property Name="IdCliente" Type="int" />
+        </EntityType>
+        <EntityType Name="TCliente">
+          <Key>
+            <PropertyRef Name="IdCliente" />
+          </Key>
+          <Property Name="IdCliente" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Identificacion" Type="varchar" MaxLength="100" Nullable="false" />
+          <Property Name="Nombre" Type="varchar" MaxLength="256" Nullable="false" />
+          <Property Name="PrimerApellido" Type="varchar" MaxLength="256" Nullable="false" />
+          <Property Name="SegundoApellido" Type="varchar" MaxLength="256" />
+          <Property Name="Direccion" Type="varchar" MaxLength="4000" />
+          <Property Name="Correo" Type="varchar" MaxLength="512" />
+        </EntityType>
+        <EntityType Name="TCompra">
+          <Key>
+            <PropertyRef Name="IdCliente" />
+            <PropertyRef Name="Placa" />
+          </Key>
+          <Property Name="IdCliente" Type="int" Nullable="false" />
+          <Property Name="Placa" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="Monto" Type="decimal" Precision="18" Scale="0" Nullable="false" />
+          <Property Name="Fecha" Type="datetime" Nullable="false" />
+        </EntityType>
+        <EntityType Name="TFinanciamiento">
+          <Key>
+            <PropertyRef Name="IdFinanciamiento" />
+          </Key>
+          <Property Name="IdFinanciamiento" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Interes" Type="smallint" Nullable="false" />
+          <Property Name="Plazo" Type="smallint" Nullable="false" />
+          <Property Name="Monto" Type="datetime" Nullable="false" />
+          <Property Name="IdPeriodoPago" Type="int" Nullable="false" />
+          <Property Name="IdVenta" Type="int" />
+        </EntityType>
+        <EntityType Name="TPagoFinanciamiento">
+          <Key>
+            <PropertyRef Name="IdPagoFinan" />
+          </Key>
+          <Property Name="IdPagoFinan" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="IdVenta" Type="int" Nullable="false" />
+          <Property Name="IdTipoPago" Type="int" Nullable="false" />
+          <Property Name="Fecha" Type="datetime" Nullable="false" />
+          <Property Name="Monto" Type="decimal" Precision="18" Scale="0" />
+          <Property Name="IdFinanciamiento" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="TTelefonoCliente">
+          <Key>
+            <PropertyRef Name="IdTelefono" />
+          </Key>
+          <Property Name="IdTelefono" Type="smallint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Descripcion" Type="varchar" MaxLength="256" />
+          <Property Name="IdCliente" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="TUsuario">
+          <Key>
+            <PropertyRef Name="Usuario" />
+          </Key>
+          <Property Name="Usuario" Type="varchar" MaxLength="128" Nullable="false" />
+          <Property Name="Contrasenia" Type="varchar" MaxLength="50" Nullable="false" />
+        </EntityType>
+        <EntityType Name="TVehiculo">
+          <Key>
+            <PropertyRef Name="Placa" />
+          </Key>
+          <Property Name="Placa" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="IdMarca" Type="int" Nullable="false" />
+          <Property Name="Anio" Type="int" Nullable="false" />
+          <Property Name="Estilo" Type="varchar" MaxLength="1000" />
+          <Property Name="IdTransmision" Type="smallint" />
+          <Property Name="Modelo" Type="varchar" MaxLength="1000" />
+          <Property Name="NumPuertas" Type="tinyint" />
+          <Property Name="IdTipoVehiculo" Type="int" Nullable="false" />
+          <Property Name="Valor" Type="decimal" Precision="18" Scale="0" Nullable="false" />
+          <Property Name="IdTipoArticulo" Type="int" Nullable="false" />
+          <Property Name="IdEstado" Type="int" />
+        </EntityType>
+        <EntityType Name="TVenta">
+          <Key>
+            <PropertyRef Name="IdVenta" />
+          </Key>
+          <Property Name="IdVenta" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Monto" Type="decimal" Precision="18" Scale="0" Nullable="false" />
+          <Property Name="Fecha" Type="datetime" Nullable="false" />
+          <Property Name="IdTipoVenta" Type="int" Nullable="false" />
+          <Property Name="IdCliente" Type="int" Nullable="false" />
+          <Property Name="Saldo" Type="decimal" Precision="18" Scale="0" Nullable="false" />
+        </EntityType>
+        <EntityType Name="TVentaArticulo">
+          <Key>
+            <PropertyRef Name="IdVenta" />
+            <PropertyRef Name="Placa" />
+          </Key>
+          <Property Name="IdVenta" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Placa" Type="varchar" MaxLength="50" Nullable="false" />
+        </EntityType>
+        <Association Name="FK_Financiamiento_CPeriodoPago">
+          <End Role="CPeriodoPago" Type="Self.CPeriodoPago" Multiplicity="1" />
+          <End Role="TFinanciamiento" Type="Self.TFinanciamiento" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="CPeriodoPago">
+              <PropertyRef Name="IdPeriodoPago" />
+            </Principal>
+            <Dependent Role="TFinanciamiento">
+              <PropertyRef Name="IdPeriodoPago" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Financiamiento_TVenta">
+          <End Role="TVenta" Type="Self.TVenta" Multiplicity="0..1" />
+          <End Role="TFinanciamiento" Type="Self.TFinanciamiento" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TVenta">
+              <PropertyRef Name="IdVenta" />
+            </Principal>
+            <Dependent Role="TFinanciamiento">
+              <PropertyRef Name="IdVenta" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_TCompra_TCliente">
+          <End Role="TCliente" Type="Self.TCliente" Multiplicity="1" />
+          <End Role="TCompra" Type="Self.TCompra" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TCliente">
+              <PropertyRef Name="IdCliente" />
+            </Principal>
+            <Dependent Role="TCompra">
+              <PropertyRef Name="IdCliente" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_TCompra_TVehiculo">
+          <End Role="TVehiculo" Type="Self.TVehiculo" Multiplicity="1" />
+          <End Role="TCompra" Type="Self.TCompra" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TVehiculo">
+              <PropertyRef Name="Placa" />
+            </Principal>
+            <Dependent Role="TCompra">
+              <PropertyRef Name="Placa" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_TPago_CTipoPago">
+          <End Role="CTipoPago" Type="Self.CTipoPago" Multiplicity="1" />
+          <End Role="TPagoFinanciamiento" Type="Self.TPagoFinanciamiento" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="CTipoPago">
+              <PropertyRef Name="IdTipoPago" />
+            </Principal>
+            <Dependent Role="TPagoFinanciamiento">
+              <PropertyRef Name="IdTipoPago" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_TPago_Financiamiento">
+          <End Role="TFinanciamiento" Type="Self.TFinanciamiento" Multiplicity="1" />
+          <End Role="TPagoFinanciamiento" Type="Self.TPagoFinanciamiento" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TFinanciamiento">
+              <PropertyRef Name="IdFinanciamiento" />
+            </Principal>
+            <Dependent Role="TPagoFinanciamiento">
+              <PropertyRef Name="IdFinanciamiento" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_TTelefonoCliente_TCliente">
+          <End Role="TCliente" Type="Self.TCliente" Multiplicity="1" />
+          <End Role="TTelefonoCliente" Type="Self.TTelefonoCliente" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TCliente">
+              <PropertyRef Name="IdCliente" />
+            </Principal>
+            <Dependent Role="TTelefonoCliente">
+              <PropertyRef Name="IdCliente" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_TVehiculo_CEstadoArticulo">
+          <End Role="CEstadoArticulo" Type="Self.CEstadoArticulo" Multiplicity="0..1" />
+          <End Role="TVehiculo" Type="Self.TVehiculo" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="CEstadoArticulo">
+              <PropertyRef Name="IdEstado" />
+            </Principal>
+            <Dependent Role="TVehiculo">
+              <PropertyRef Name="IdEstado" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_TVehiculo_CMarcaVehiculo">
+          <End Role="CMarcaVehiculo" Type="Self.CMarcaVehiculo" Multiplicity="1" />
+          <End Role="TVehiculo" Type="Self.TVehiculo" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="CMarcaVehiculo">
+              <PropertyRef Name="IdMarca" />
+            </Principal>
+            <Dependent Role="TVehiculo">
+              <PropertyRef Name="IdMarca" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_TVehiculo_CTipoArticulo">
+          <End Role="CTipoArticulo" Type="Self.CTipoArticulo" Multiplicity="1" />
+          <End Role="TVehiculo" Type="Self.TVehiculo" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="CTipoArticulo">
+              <PropertyRef Name="IdTipoArticulo" />
+            </Principal>
+            <Dependent Role="TVehiculo">
+              <PropertyRef Name="IdTipoArticulo" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_TVehiculo_CTipoVehiculo">
+          <End Role="CTipoVehiculo" Type="Self.CTipoVehiculo" Multiplicity="1" />
+          <End Role="TVehiculo" Type="Self.TVehiculo" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="CTipoVehiculo">
+              <PropertyRef Name="IdTipo" />
+            </Principal>
+            <Dependent Role="TVehiculo">
+              <PropertyRef Name="IdTipoVehiculo" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_TVehiculo_CTransmision">
+          <End Role="CTransmision" Type="Self.CTransmision" Multiplicity="0..1" />
+          <End Role="TVehiculo" Type="Self.TVehiculo" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="CTransmision">
+              <PropertyRef Name="IdTransmision" />
+            </Principal>
+            <Dependent Role="TVehiculo">
+              <PropertyRef Name="IdTransmision" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_TVenta_CTipoVenta">
+          <End Role="CTipoVenta" Type="Self.CTipoVenta" Multiplicity="1" />
+          <End Role="TVenta" Type="Self.TVenta" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="CTipoVenta">
+              <PropertyRef Name="IdTipoVenta" />
+            </Principal>
+            <Dependent Role="TVenta">
+              <PropertyRef Name="IdTipoVenta" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_TVenta_TCliente">
+          <End Role="TCliente" Type="Self.TCliente" Multiplicity="1" />
+          <End Role="TVenta" Type="Self.TVenta" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TCliente">
+              <PropertyRef Name="IdCliente" />
+            </Principal>
+            <Dependent Role="TVenta">
+              <PropertyRef Name="IdCliente" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_TVentaArticulo_TVehiculo">
+          <End Role="TVehiculo" Type="Self.TVehiculo" Multiplicity="1" />
+          <End Role="TVentaArticulo" Type="Self.TVentaArticulo" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TVehiculo">
+              <PropertyRef Name="Placa" />
+            </Principal>
+            <Dependent Role="TVentaArticulo">
+              <PropertyRef Name="Placa" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_TVentaArticulo_TVenta">
+          <End Role="TVenta" Type="Self.TVenta" Multiplicity="1" />
+          <End Role="TVentaArticulo" Type="Self.TVentaArticulo" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TVenta">
+              <PropertyRef Name="IdVenta" />
+            </Principal>
+            <Dependent Role="TVentaArticulo">
+              <PropertyRef Name="IdVenta" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Function Name="fn_diagramobjects" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="true" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" ReturnType="int" />
+        <Function Name="sp_alterdiagram" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="diagramname" Type="nvarchar" Mode="In" />
+          <Parameter Name="owner_id" Type="int" Mode="In" />
+          <Parameter Name="version" Type="int" Mode="In" />
+          <Parameter Name="definition" Type="varbinary(max)" Mode="In" />
+        </Function>
+        <Function Name="sp_creatediagram" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="diagramname" Type="nvarchar" Mode="In" />
+          <Parameter Name="owner_id" Type="int" Mode="In" />
+          <Parameter Name="version" Type="int" Mode="In" />
+          <Parameter Name="definition" Type="varbinary(max)" Mode="In" />
+        </Function>
+        <Function Name="sp_dropdiagram" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="diagramname" Type="nvarchar" Mode="In" />
+          <Parameter Name="owner_id" Type="int" Mode="In" />
+        </Function>
+        <Function Name="sp_helpdiagramdefinition" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="diagramname" Type="nvarchar" Mode="In" />
+          <Parameter Name="owner_id" Type="int" Mode="In" />
+        </Function>
+        <Function Name="sp_helpdiagrams" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="diagramname" Type="nvarchar" Mode="In" />
+          <Parameter Name="owner_id" Type="int" Mode="In" />
+        </Function>
+        <Function Name="sp_renamediagram" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="diagramname" Type="nvarchar" Mode="In" />
+          <Parameter Name="owner_id" Type="int" Mode="In" />
+          <Parameter Name="new_diagramname" Type="nvarchar" Mode="In" />
+        </Function>
+        <Function Name="sp_upgraddiagrams" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
+        <EntityContainer Name="VentasModelStoreContainer">
+          <EntitySet Name="CEstadoArticulo" EntityType="Self.CEstadoArticulo" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="CMarcaVehiculo" EntityType="Self.CMarcaVehiculo" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="CPeriodoPago" EntityType="Self.CPeriodoPago" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="CTipoArticulo" EntityType="Self.CTipoArticulo" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="CTipoPago" EntityType="Self.CTipoPago" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="CTipoVehiculo" EntityType="Self.CTipoVehiculo" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="CTipoVenta" EntityType="Self.CTipoVenta" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="CTransmision" EntityType="Self.CTransmision" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagrams" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="TArticulo" EntityType="Self.TArticulo" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="TCliente" EntityType="Self.TCliente" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="TCompra" EntityType="Self.TCompra" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="TFinanciamiento" EntityType="Self.TFinanciamiento" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="TPagoFinanciamiento" EntityType="Self.TPagoFinanciamiento" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="TTelefonoCliente" EntityType="Self.TTelefonoCliente" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="TUsuario" EntityType="Self.TUsuario" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="TVehiculo" EntityType="Self.TVehiculo" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="TVenta" EntityType="Self.TVenta" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="TVentaArticulo" EntityType="Self.TVentaArticulo" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK_Financiamiento_CPeriodoPago" Association="Self.FK_Financiamiento_CPeriodoPago">
+            <End Role="CPeriodoPago" EntitySet="CPeriodoPago" />
+            <End Role="TFinanciamiento" EntitySet="TFinanciamiento" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Financiamiento_TVenta" Association="Self.FK_Financiamiento_TVenta">
+            <End Role="TVenta" EntitySet="TVenta" />
+            <End Role="TFinanciamiento" EntitySet="TFinanciamiento" />
+          </AssociationSet>
+          <AssociationSet Name="FK_TCompra_TCliente" Association="Self.FK_TCompra_TCliente">
+            <End Role="TCliente" EntitySet="TCliente" />
+            <End Role="TCompra" EntitySet="TCompra" />
+          </AssociationSet>
+          <AssociationSet Name="FK_TCompra_TVehiculo" Association="Self.FK_TCompra_TVehiculo">
+            <End Role="TVehiculo" EntitySet="TVehiculo" />
+            <End Role="TCompra" EntitySet="TCompra" />
+          </AssociationSet>
+          <AssociationSet Name="FK_TPago_CTipoPago" Association="Self.FK_TPago_CTipoPago">
+            <End Role="CTipoPago" EntitySet="CTipoPago" />
+            <End Role="TPagoFinanciamiento" EntitySet="TPagoFinanciamiento" />
+          </AssociationSet>
+          <AssociationSet Name="FK_TPago_Financiamiento" Association="Self.FK_TPago_Financiamiento">
+            <End Role="TFinanciamiento" EntitySet="TFinanciamiento" />
+            <End Role="TPagoFinanciamiento" EntitySet="TPagoFinanciamiento" />
+          </AssociationSet>
+          <AssociationSet Name="FK_TTelefonoCliente_TCliente" Association="Self.FK_TTelefonoCliente_TCliente">
+            <End Role="TCliente" EntitySet="TCliente" />
+            <End Role="TTelefonoCliente" EntitySet="TTelefonoCliente" />
+          </AssociationSet>
+          <AssociationSet Name="FK_TVehiculo_CEstadoArticulo" Association="Self.FK_TVehiculo_CEstadoArticulo">
+            <End Role="CEstadoArticulo" EntitySet="CEstadoArticulo" />
+            <End Role="TVehiculo" EntitySet="TVehiculo" />
+          </AssociationSet>
+          <AssociationSet Name="FK_TVehiculo_CMarcaVehiculo" Association="Self.FK_TVehiculo_CMarcaVehiculo">
+            <End Role="CMarcaVehiculo" EntitySet="CMarcaVehiculo" />
+            <End Role="TVehiculo" EntitySet="TVehiculo" />
+          </AssociationSet>
+          <AssociationSet Name="FK_TVehiculo_CTipoArticulo" Association="Self.FK_TVehiculo_CTipoArticulo">
+            <End Role="CTipoArticulo" EntitySet="CTipoArticulo" />
+            <End Role="TVehiculo" EntitySet="TVehiculo" />
+          </AssociationSet>
+          <AssociationSet Name="FK_TVehiculo_CTipoVehiculo" Association="Self.FK_TVehiculo_CTipoVehiculo">
+            <End Role="CTipoVehiculo" EntitySet="CTipoVehiculo" />
+            <End Role="TVehiculo" EntitySet="TVehiculo" />
+          </AssociationSet>
+          <AssociationSet Name="FK_TVehiculo_CTransmision" Association="Self.FK_TVehiculo_CTransmision">
+            <End Role="CTransmision" EntitySet="CTransmision" />
+            <End Role="TVehiculo" EntitySet="TVehiculo" />
+          </AssociationSet>
+          <AssociationSet Name="FK_TVenta_CTipoVenta" Association="Self.FK_TVenta_CTipoVenta">
+            <End Role="CTipoVenta" EntitySet="CTipoVenta" />
+            <End Role="TVenta" EntitySet="TVenta" />
+          </AssociationSet>
+          <AssociationSet Name="FK_TVenta_TCliente" Association="Self.FK_TVenta_TCliente">
+            <End Role="TCliente" EntitySet="TCliente" />
+            <End Role="TVenta" EntitySet="TVenta" />
+          </AssociationSet>
+          <AssociationSet Name="FK_TVentaArticulo_TVehiculo" Association="Self.FK_TVentaArticulo_TVehiculo">
+            <End Role="TVehiculo" EntitySet="TVehiculo" />
+            <End Role="TVentaArticulo" EntitySet="TVentaArticulo" />
+          </AssociationSet>
+          <AssociationSet Name="FK_TVentaArticulo_TVenta" Association="Self.FK_TVentaArticulo_TVenta">
+            <End Role="TVenta" EntitySet="TVenta" />
+            <End Role="TVentaArticulo" EntitySet="TVentaArticulo" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="VentasModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="CEstadoArticulo">
+          <Key>
+            <PropertyRef Name="IdEstado" />
+          </Key>
+          <Property Name="IdEstado" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Descripcion" Type="String" MaxLength="256" FixedLength="false" Unicode="false" Nullable="false" />
+          <NavigationProperty Name="TVehiculo" Relationship="Self.FK_TVehiculo_CEstadoArticulo" FromRole="CEstadoArticulo" ToRole="TVehiculo" />
+        </EntityType>
+        <EntityType Name="CMarcaVehiculo">
+          <Key>
+            <PropertyRef Name="IdMarca" />
+          </Key>
+          <Property Name="IdMarca" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Descripcion" Type="String" MaxLength="256" FixedLength="false" Unicode="false" Nullable="false" />
+          <NavigationProperty Name="TVehiculo" Relationship="Self.FK_TVehiculo_CMarcaVehiculo" FromRole="CMarcaVehiculo" ToRole="TVehiculo" />
+        </EntityType>
+        <EntityType Name="CPeriodoPago">
+          <Key>
+            <PropertyRef Name="IdPeriodoPago" />
+          </Key>
+          <Property Name="IdPeriodoPago" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Descripcion" Type="String" MaxLength="256" FixedLength="false" Unicode="false" Nullable="false" />
+          <NavigationProperty Name="TFinanciamiento" Relationship="Self.FK_Financiamiento_CPeriodoPago" FromRole="CPeriodoPago" ToRole="TFinanciamiento" />
+        </EntityType>
+        <EntityType Name="CTipoArticulo">
+          <Key>
+            <PropertyRef Name="IdTipoArticulo" />
+          </Key>
+          <Property Name="IdTipoArticulo" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Descripcion" Type="String" MaxLength="256" FixedLength="false" Unicode="false" Nullable="false" />
+          <NavigationProperty Name="TVehiculo" Relationship="Self.FK_TVehiculo_CTipoArticulo" FromRole="CTipoArticulo" ToRole="TVehiculo" />
+        </EntityType>
+        <EntityType Name="CTipoPago">
+          <Key>
+            <PropertyRef Name="IdTipoPago" />
+          </Key>
+          <Property Name="IdTipoPago" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Descripcion" Type="String" MaxLength="256" FixedLength="false" Unicode="false" Nullable="false" />
+          <NavigationProperty Name="TPagoFinanciamiento" Relationship="Self.FK_TPago_CTipoPago" FromRole="CTipoPago" ToRole="TPagoFinanciamiento" />
+        </EntityType>
+        <EntityType Name="CTipoVehiculo">
+          <Key>
+            <PropertyRef Name="IdTipo" />
+          </Key>
+          <Property Name="IdTipo" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Descripcion" Type="String" MaxLength="256" FixedLength="false" Unicode="false" Nullable="false" />
+          <NavigationProperty Name="TVehiculo" Relationship="Self.FK_TVehiculo_CTipoVehiculo" FromRole="CTipoVehiculo" ToRole="TVehiculo" />
+        </EntityType>
+        <EntityType Name="CTipoVenta">
+          <Key>
+            <PropertyRef Name="IdTipoVenta" />
+          </Key>
+          <Property Name="IdTipoVenta" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Descripcion" Type="String" MaxLength="256" FixedLength="false" Unicode="false" Nullable="false" />
+          <NavigationProperty Name="TVenta" Relationship="Self.FK_TVenta_CTipoVenta" FromRole="CTipoVenta" ToRole="TVenta" />
+        </EntityType>
+        <EntityType Name="CTransmision">
+          <Key>
+            <PropertyRef Name="IdTransmision" />
+          </Key>
+          <Property Name="IdTransmision" Type="Int16" Nullable="false" />
+          <Property Name="Descripcion" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <NavigationProperty Name="TVehiculo" Relationship="Self.FK_TVehiculo_CTransmision" FromRole="CTransmision" ToRole="TVehiculo" />
+        </EntityType>
+        <EntityType Name="sysdiagrams">
+          <Key>
+            <PropertyRef Name="diagram_id" />
+          </Key>
+          <Property Name="name" Type="String" MaxLength="128" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="principal_id" Type="Int32" Nullable="false" />
+          <Property Name="diagram_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="version" Type="Int32" />
+          <Property Name="definition" Type="Binary" MaxLength="Max" FixedLength="false" />
+        </EntityType>
+        <EntityType Name="TArticulo">
+          <Key>
+            <PropertyRef Name="IdArticulo" />
+          </Key>
+          <Property Name="IdArticulo" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Descripcion" Type="String" MaxLength="4000" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Valor" Type="Decimal" Precision="18" Scale="0" Nullable="false" />
+          <Property Name="IdTipo" Type="Int32" Nullable="false" />
+          <Property Name="IdEstado" Type="Int32" Nullable="false" />
+          <Property Name="IdCliente" Type="Int32" />
+        </EntityType>
+        <EntityType Name="TCliente">
+          <Key>
+            <PropertyRef Name="IdCliente" />
+          </Key>
+          <Property Name="IdCliente" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Identificacion" Type="String" MaxLength="100" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Nombre" Type="String" MaxLength="256" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="PrimerApellido" Type="String" MaxLength="256" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="SegundoApellido" Type="String" MaxLength="256" FixedLength="false" Unicode="false" />
+          <Property Name="Direccion" Type="String" MaxLength="4000" FixedLength="false" Unicode="false" />
+          <Property Name="Correo" Type="String" MaxLength="512" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="TCompra" Relationship="Self.FK_TCompra_TCliente" FromRole="TCliente" ToRole="TCompra" />
+          <NavigationProperty Name="TTelefonoCliente" Relationship="Self.FK_TTelefonoCliente_TCliente" FromRole="TCliente" ToRole="TTelefonoCliente" />
+          <NavigationProperty Name="TVenta" Relationship="Self.FK_TVenta_TCliente" FromRole="TCliente" ToRole="TVenta" />
+        </EntityType>
+        <EntityType Name="TCompra">
+          <Key>
+            <PropertyRef Name="IdCliente" />
+            <PropertyRef Name="Placa" />
+          </Key>
+          <Property Name="IdCliente" Type="Int32" Nullable="false" />
+          <Property Name="Placa" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Monto" Type="Decimal" Precision="18" Scale="0" Nullable="false" />
+          <Property Name="Fecha" Type="DateTime" Nullable="false" Precision="3" />
+          <NavigationProperty Name="TCliente" Relationship="Self.FK_TCompra_TCliente" FromRole="TCompra" ToRole="TCliente" />
+          <NavigationProperty Name="TVehiculo" Relationship="Self.FK_TCompra_TVehiculo" FromRole="TCompra" ToRole="TVehiculo" />
+        </EntityType>
+        <EntityType Name="TFinanciamiento">
+          <Key>
+            <PropertyRef Name="IdFinanciamiento" />
+          </Key>
+          <Property Name="IdFinanciamiento" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Interes" Type="Int16" Nullable="false" />
+          <Property Name="Plazo" Type="Int16" Nullable="false" />
+          <Property Name="Monto" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="IdPeriodoPago" Type="Int32" Nullable="false" />
+          <Property Name="IdVenta" Type="Int32" />
+          <NavigationProperty Name="CPeriodoPago" Relationship="Self.FK_Financiamiento_CPeriodoPago" FromRole="TFinanciamiento" ToRole="CPeriodoPago" />
+          <NavigationProperty Name="TVenta" Relationship="Self.FK_Financiamiento_TVenta" FromRole="TFinanciamiento" ToRole="TVenta" />
+          <NavigationProperty Name="TPagoFinanciamiento" Relationship="Self.FK_TPago_Financiamiento" FromRole="TFinanciamiento" ToRole="TPagoFinanciamiento" />
+        </EntityType>
+        <EntityType Name="TPagoFinanciamiento">
+          <Key>
+            <PropertyRef Name="IdPagoFinan" />
+          </Key>
+          <Property Name="IdPagoFinan" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="IdVenta" Type="Int32" Nullable="false" />
+          <Property Name="IdTipoPago" Type="Int32" Nullable="false" />
+          <Property Name="Fecha" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="Monto" Type="Decimal" Precision="18" Scale="0" />
+          <Property Name="IdFinanciamiento" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="CTipoPago" Relationship="Self.FK_TPago_CTipoPago" FromRole="TPagoFinanciamiento" ToRole="CTipoPago" />
+          <NavigationProperty Name="TFinanciamiento" Relationship="Self.FK_TPago_Financiamiento" FromRole="TPagoFinanciamiento" ToRole="TFinanciamiento" />
+        </EntityType>
+        <EntityType Name="TTelefonoCliente">
+          <Key>
+            <PropertyRef Name="IdTelefono" />
+          </Key>
+          <Property Name="IdTelefono" Type="Int16" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Descripcion" Type="String" MaxLength="256" FixedLength="false" Unicode="false" />
+          <Property Name="IdCliente" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="TCliente" Relationship="Self.FK_TTelefonoCliente_TCliente" FromRole="TTelefonoCliente" ToRole="TCliente" />
+        </EntityType>
+        <EntityType Name="TUsuario">
+          <Key>
+            <PropertyRef Name="Usuario" />
+          </Key>
+          <Property Name="Usuario" Type="String" MaxLength="128" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Contrasenia" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+        </EntityType>
+        <EntityType Name="TVehiculo">
+          <Key>
+            <PropertyRef Name="Placa" />
+          </Key>
+          <Property Name="Placa" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="IdMarca" Type="Int32" Nullable="false" />
+          <Property Name="Anio" Type="Int32" Nullable="false" />
+          <Property Name="Estilo" Type="String" MaxLength="1000" FixedLength="false" Unicode="false" />
+          <Property Name="IdTransmision" Type="Int16" />
+          <Property Name="Modelo" Type="String" MaxLength="1000" FixedLength="false" Unicode="false" />
+          <Property Name="NumPuertas" Type="Byte" />
+          <Property Name="IdTipoVehiculo" Type="Int32" Nullable="false" />
+          <Property Name="Valor" Type="Decimal" Precision="18" Scale="0" Nullable="false" />
+          <Property Name="IdTipoArticulo" Type="Int32" Nullable="false" />
+          <Property Name="IdEstado" Type="Int32" />
+          <NavigationProperty Name="CEstadoArticulo" Relationship="Self.FK_TVehiculo_CEstadoArticulo" FromRole="TVehiculo" ToRole="CEstadoArticulo" />
+          <NavigationProperty Name="CMarcaVehiculo" Relationship="Self.FK_TVehiculo_CMarcaVehiculo" FromRole="TVehiculo" ToRole="CMarcaVehiculo" />
+          <NavigationProperty Name="CTipoArticulo" Relationship="Self.FK_TVehiculo_CTipoArticulo" FromRole="TVehiculo" ToRole="CTipoArticulo" />
+          <NavigationProperty Name="CTipoVehiculo" Relationship="Self.FK_TVehiculo_CTipoVehiculo" FromRole="TVehiculo" ToRole="CTipoVehiculo" />
+          <NavigationProperty Name="CTransmision" Relationship="Self.FK_TVehiculo_CTransmision" FromRole="TVehiculo" ToRole="CTransmision" />
+          <NavigationProperty Name="TCompra" Relationship="Self.FK_TCompra_TVehiculo" FromRole="TVehiculo" ToRole="TCompra" />
+          <NavigationProperty Name="TVenta" Relationship="Self.TVentaArticulo" FromRole="TVehiculo" ToRole="TVenta" />
+        </EntityType>
+        <EntityType Name="TVenta">
+          <Key>
+            <PropertyRef Name="IdVenta" />
+          </Key>
+          <Property Name="IdVenta" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Monto" Type="Decimal" Precision="18" Scale="0" Nullable="false" />
+          <Property Name="Fecha" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="IdTipoVenta" Type="Int32" Nullable="false" />
+          <Property Name="IdCliente" Type="Int32" Nullable="false" />
+          <Property Name="Saldo" Type="Decimal" Precision="18" Scale="0" Nullable="false" />
+          <NavigationProperty Name="CTipoVenta" Relationship="Self.FK_TVenta_CTipoVenta" FromRole="TVenta" ToRole="CTipoVenta" />
+          <NavigationProperty Name="TCliente" Relationship="Self.FK_TVenta_TCliente" FromRole="TVenta" ToRole="TCliente" />
+          <NavigationProperty Name="TFinanciamiento" Relationship="Self.FK_Financiamiento_TVenta" FromRole="TVenta" ToRole="TFinanciamiento" />
+          <NavigationProperty Name="TVehiculo" Relationship="Self.TVentaArticulo" FromRole="TVenta" ToRole="TVehiculo" />
+        </EntityType>
+        <Association Name="FK_TVehiculo_CEstadoArticulo">
+          <End Role="CEstadoArticulo" Type="Self.CEstadoArticulo" Multiplicity="0..1" />
+          <End Role="TVehiculo" Type="Self.TVehiculo" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="CEstadoArticulo">
+              <PropertyRef Name="IdEstado" />
+            </Principal>
+            <Dependent Role="TVehiculo">
+              <PropertyRef Name="IdEstado" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_TVehiculo_CMarcaVehiculo">
+          <End Role="CMarcaVehiculo" Type="Self.CMarcaVehiculo" Multiplicity="1" />
+          <End Role="TVehiculo" Type="Self.TVehiculo" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="CMarcaVehiculo">
+              <PropertyRef Name="IdMarca" />
+            </Principal>
+            <Dependent Role="TVehiculo">
+              <PropertyRef Name="IdMarca" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Financiamiento_CPeriodoPago">
+          <End Role="CPeriodoPago" Type="Self.CPeriodoPago" Multiplicity="1" />
+          <End Role="TFinanciamiento" Type="Self.TFinanciamiento" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="CPeriodoPago">
+              <PropertyRef Name="IdPeriodoPago" />
+            </Principal>
+            <Dependent Role="TFinanciamiento">
+              <PropertyRef Name="IdPeriodoPago" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_TVehiculo_CTipoArticulo">
+          <End Role="CTipoArticulo" Type="Self.CTipoArticulo" Multiplicity="1" />
+          <End Role="TVehiculo" Type="Self.TVehiculo" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="CTipoArticulo">
+              <PropertyRef Name="IdTipoArticulo" />
+            </Principal>
+            <Dependent Role="TVehiculo">
+              <PropertyRef Name="IdTipoArticulo" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_TPago_CTipoPago">
+          <End Role="CTipoPago" Type="Self.CTipoPago" Multiplicity="1" />
+          <End Role="TPagoFinanciamiento" Type="Self.TPagoFinanciamiento" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="CTipoPago">
+              <PropertyRef Name="IdTipoPago" />
+            </Principal>
+            <Dependent Role="TPagoFinanciamiento">
+              <PropertyRef Name="IdTipoPago" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_TVehiculo_CTipoVehiculo">
+          <End Role="CTipoVehiculo" Type="Self.CTipoVehiculo" Multiplicity="1" />
+          <End Role="TVehiculo" Type="Self.TVehiculo" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="CTipoVehiculo">
+              <PropertyRef Name="IdTipo" />
+            </Principal>
+            <Dependent Role="TVehiculo">
+              <PropertyRef Name="IdTipoVehiculo" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_TVenta_CTipoVenta">
+          <End Role="CTipoVenta" Type="Self.CTipoVenta" Multiplicity="1" />
+          <End Role="TVenta" Type="Self.TVenta" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="CTipoVenta">
+              <PropertyRef Name="IdTipoVenta" />
+            </Principal>
+            <Dependent Role="TVenta">
+              <PropertyRef Name="IdTipoVenta" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_TVehiculo_CTransmision">
+          <End Role="CTransmision" Type="Self.CTransmision" Multiplicity="0..1" />
+          <End Role="TVehiculo" Type="Self.TVehiculo" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="CTransmision">
+              <PropertyRef Name="IdTransmision" />
+            </Principal>
+            <Dependent Role="TVehiculo">
+              <PropertyRef Name="IdTransmision" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_TCompra_TCliente">
+          <End Role="TCliente" Type="Self.TCliente" Multiplicity="1" />
+          <End Role="TCompra" Type="Self.TCompra" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TCliente">
+              <PropertyRef Name="IdCliente" />
+            </Principal>
+            <Dependent Role="TCompra">
+              <PropertyRef Name="IdCliente" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_TTelefonoCliente_TCliente">
+          <End Role="TCliente" Type="Self.TCliente" Multiplicity="1" />
+          <End Role="TTelefonoCliente" Type="Self.TTelefonoCliente" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TCliente">
+              <PropertyRef Name="IdCliente" />
+            </Principal>
+            <Dependent Role="TTelefonoCliente">
+              <PropertyRef Name="IdCliente" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_TVenta_TCliente">
+          <End Role="TCliente" Type="Self.TCliente" Multiplicity="1" />
+          <End Role="TVenta" Type="Self.TVenta" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TCliente">
+              <PropertyRef Name="IdCliente" />
+            </Principal>
+            <Dependent Role="TVenta">
+              <PropertyRef Name="IdCliente" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_TCompra_TVehiculo">
+          <End Role="TVehiculo" Type="Self.TVehiculo" Multiplicity="1" />
+          <End Role="TCompra" Type="Self.TCompra" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TVehiculo">
+              <PropertyRef Name="Placa" />
+            </Principal>
+            <Dependent Role="TCompra">
+              <PropertyRef Name="Placa" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Financiamiento_TVenta">
+          <End Role="TVenta" Type="Self.TVenta" Multiplicity="0..1" />
+          <End Role="TFinanciamiento" Type="Self.TFinanciamiento" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TVenta">
+              <PropertyRef Name="IdVenta" />
+            </Principal>
+            <Dependent Role="TFinanciamiento">
+              <PropertyRef Name="IdVenta" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_TPago_Financiamiento">
+          <End Role="TFinanciamiento" Type="Self.TFinanciamiento" Multiplicity="1" />
+          <End Role="TPagoFinanciamiento" Type="Self.TPagoFinanciamiento" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TFinanciamiento">
+              <PropertyRef Name="IdFinanciamiento" />
+            </Principal>
+            <Dependent Role="TPagoFinanciamiento">
+              <PropertyRef Name="IdFinanciamiento" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="TVentaArticulo">
+          <End Role="TVehiculo" Type="Self.TVehiculo" Multiplicity="*" />
+          <End Role="TVenta" Type="Self.TVenta" Multiplicity="*" />
+        </Association>
+        <EntityContainer Name="VentasEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="CEstadoArticulo" EntityType="Self.CEstadoArticulo" />
+          <EntitySet Name="CMarcaVehiculo" EntityType="Self.CMarcaVehiculo" />
+          <EntitySet Name="CPeriodoPago" EntityType="Self.CPeriodoPago" />
+          <EntitySet Name="CTipoArticulo" EntityType="Self.CTipoArticulo" />
+          <EntitySet Name="CTipoPago" EntityType="Self.CTipoPago" />
+          <EntitySet Name="CTipoVehiculo" EntityType="Self.CTipoVehiculo" />
+          <EntitySet Name="CTipoVenta" EntityType="Self.CTipoVenta" />
+          <EntitySet Name="CTransmision" EntityType="Self.CTransmision" />
+          <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagrams" />
+          <EntitySet Name="TArticulo" EntityType="Self.TArticulo" />
+          <EntitySet Name="TCliente" EntityType="Self.TCliente" />
+          <EntitySet Name="TCompra" EntityType="Self.TCompra" />
+          <EntitySet Name="TFinanciamiento" EntityType="Self.TFinanciamiento" />
+          <EntitySet Name="TPagoFinanciamiento" EntityType="Self.TPagoFinanciamiento" />
+          <EntitySet Name="TTelefonoCliente" EntityType="Self.TTelefonoCliente" />
+          <EntitySet Name="TUsuario" EntityType="Self.TUsuario" />
+          <EntitySet Name="TVehiculo" EntityType="Self.TVehiculo" />
+          <EntitySet Name="TVenta" EntityType="Self.TVenta" />
+          <AssociationSet Name="FK_TVehiculo_CEstadoArticulo" Association="Self.FK_TVehiculo_CEstadoArticulo">
+            <End Role="CEstadoArticulo" EntitySet="CEstadoArticulo" />
+            <End Role="TVehiculo" EntitySet="TVehiculo" />
+          </AssociationSet>
+          <AssociationSet Name="FK_TVehiculo_CMarcaVehiculo" Association="Self.FK_TVehiculo_CMarcaVehiculo">
+            <End Role="CMarcaVehiculo" EntitySet="CMarcaVehiculo" />
+            <End Role="TVehiculo" EntitySet="TVehiculo" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Financiamiento_CPeriodoPago" Association="Self.FK_Financiamiento_CPeriodoPago">
+            <End Role="CPeriodoPago" EntitySet="CPeriodoPago" />
+            <End Role="TFinanciamiento" EntitySet="TFinanciamiento" />
+          </AssociationSet>
+          <AssociationSet Name="FK_TVehiculo_CTipoArticulo" Association="Self.FK_TVehiculo_CTipoArticulo">
+            <End Role="CTipoArticulo" EntitySet="CTipoArticulo" />
+            <End Role="TVehiculo" EntitySet="TVehiculo" />
+          </AssociationSet>
+          <AssociationSet Name="FK_TPago_CTipoPago" Association="Self.FK_TPago_CTipoPago">
+            <End Role="CTipoPago" EntitySet="CTipoPago" />
+            <End Role="TPagoFinanciamiento" EntitySet="TPagoFinanciamiento" />
+          </AssociationSet>
+          <AssociationSet Name="FK_TVehiculo_CTipoVehiculo" Association="Self.FK_TVehiculo_CTipoVehiculo">
+            <End Role="CTipoVehiculo" EntitySet="CTipoVehiculo" />
+            <End Role="TVehiculo" EntitySet="TVehiculo" />
+          </AssociationSet>
+          <AssociationSet Name="FK_TVenta_CTipoVenta" Association="Self.FK_TVenta_CTipoVenta">
+            <End Role="CTipoVenta" EntitySet="CTipoVenta" />
+            <End Role="TVenta" EntitySet="TVenta" />
+          </AssociationSet>
+          <AssociationSet Name="FK_TVehiculo_CTransmision" Association="Self.FK_TVehiculo_CTransmision">
+            <End Role="CTransmision" EntitySet="CTransmision" />
+            <End Role="TVehiculo" EntitySet="TVehiculo" />
+          </AssociationSet>
+          <AssociationSet Name="FK_TCompra_TCliente" Association="Self.FK_TCompra_TCliente">
+            <End Role="TCliente" EntitySet="TCliente" />
+            <End Role="TCompra" EntitySet="TCompra" />
+          </AssociationSet>
+          <AssociationSet Name="FK_TTelefonoCliente_TCliente" Association="Self.FK_TTelefonoCliente_TCliente">
+            <End Role="TCliente" EntitySet="TCliente" />
+            <End Role="TTelefonoCliente" EntitySet="TTelefonoCliente" />
+          </AssociationSet>
+          <AssociationSet Name="FK_TVenta_TCliente" Association="Self.FK_TVenta_TCliente">
+            <End Role="TCliente" EntitySet="TCliente" />
+            <End Role="TVenta" EntitySet="TVenta" />
+          </AssociationSet>
+          <AssociationSet Name="FK_TCompra_TVehiculo" Association="Self.FK_TCompra_TVehiculo">
+            <End Role="TVehiculo" EntitySet="TVehiculo" />
+            <End Role="TCompra" EntitySet="TCompra" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Financiamiento_TVenta" Association="Self.FK_Financiamiento_TVenta">
+            <End Role="TVenta" EntitySet="TVenta" />
+            <End Role="TFinanciamiento" EntitySet="TFinanciamiento" />
+          </AssociationSet>
+          <AssociationSet Name="FK_TPago_Financiamiento" Association="Self.FK_TPago_Financiamiento">
+            <End Role="TFinanciamiento" EntitySet="TFinanciamiento" />
+            <End Role="TPagoFinanciamiento" EntitySet="TPagoFinanciamiento" />
+          </AssociationSet>
+          <AssociationSet Name="TVentaArticulo" Association="Self.TVentaArticulo">
+            <End Role="TVehiculo" EntitySet="TVehiculo" />
+            <End Role="TVenta" EntitySet="TVenta" />
+          </AssociationSet>
+          <FunctionImport Name="sp_alterdiagram">
+            <Parameter Name="diagramname" Mode="In" Type="String" />
+            <Parameter Name="owner_id" Mode="In" Type="Int32" />
+            <Parameter Name="version" Mode="In" Type="Int32" />
+            <Parameter Name="definition" Mode="In" Type="Binary" />
+          </FunctionImport>
+          <FunctionImport Name="sp_creatediagram">
+            <Parameter Name="diagramname" Mode="In" Type="String" />
+            <Parameter Name="owner_id" Mode="In" Type="Int32" />
+            <Parameter Name="version" Mode="In" Type="Int32" />
+            <Parameter Name="definition" Mode="In" Type="Binary" />
+          </FunctionImport>
+          <FunctionImport Name="sp_dropdiagram">
+            <Parameter Name="diagramname" Mode="In" Type="String" />
+            <Parameter Name="owner_id" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="sp_helpdiagramdefinition" ReturnType="Collection(VentasModel.sp_helpdiagramdefinition_Result)">
+            <Parameter Name="diagramname" Mode="In" Type="String" />
+            <Parameter Name="owner_id" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="sp_helpdiagrams" ReturnType="Collection(VentasModel.sp_helpdiagrams_Result)">
+            <Parameter Name="diagramname" Mode="In" Type="String" />
+            <Parameter Name="owner_id" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="sp_renamediagram">
+            <Parameter Name="diagramname" Mode="In" Type="String" />
+            <Parameter Name="owner_id" Mode="In" Type="Int32" />
+            <Parameter Name="new_diagramname" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="sp_upgraddiagrams" />
+        </EntityContainer>
+        <ComplexType Name="sp_helpdiagramdefinition_Result">
+          <Property Type="Int32" Name="version" Nullable="true" />
+          <Property Type="Binary" Name="definition" Nullable="true" />
+        </ComplexType>
+        <ComplexType Name="sp_helpdiagrams_Result">
+          <Property Type="String" Name="Database" Nullable="true" MaxLength="128" />
+          <Property Type="String" Name="Name" Nullable="false" MaxLength="128" />
+          <Property Type="Int32" Name="ID" Nullable="false" />
+          <Property Type="String" Name="Owner" Nullable="true" MaxLength="128" />
+          <Property Type="Int32" Name="OwnerID" Nullable="false" />
+        </ComplexType>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="VentasModelStoreContainer" CdmEntityContainer="VentasEntities">
+          <EntitySetMapping Name="CEstadoArticulo">
+            <EntityTypeMapping TypeName="VentasModel.CEstadoArticulo">
+              <MappingFragment StoreEntitySet="CEstadoArticulo">
+                <ScalarProperty Name="IdEstado" ColumnName="IdEstado" />
+                <ScalarProperty Name="Descripcion" ColumnName="Descripcion" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="CMarcaVehiculo">
+            <EntityTypeMapping TypeName="VentasModel.CMarcaVehiculo">
+              <MappingFragment StoreEntitySet="CMarcaVehiculo">
+                <ScalarProperty Name="IdMarca" ColumnName="IdMarca" />
+                <ScalarProperty Name="Descripcion" ColumnName="Descripcion" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="CPeriodoPago">
+            <EntityTypeMapping TypeName="VentasModel.CPeriodoPago">
+              <MappingFragment StoreEntitySet="CPeriodoPago">
+                <ScalarProperty Name="IdPeriodoPago" ColumnName="IdPeriodoPago" />
+                <ScalarProperty Name="Descripcion" ColumnName="Descripcion" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="CTipoArticulo">
+            <EntityTypeMapping TypeName="VentasModel.CTipoArticulo">
+              <MappingFragment StoreEntitySet="CTipoArticulo">
+                <ScalarProperty Name="IdTipoArticulo" ColumnName="IdTipoArticulo" />
+                <ScalarProperty Name="Descripcion" ColumnName="Descripcion" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="CTipoPago">
+            <EntityTypeMapping TypeName="VentasModel.CTipoPago">
+              <MappingFragment StoreEntitySet="CTipoPago">
+                <ScalarProperty Name="IdTipoPago" ColumnName="IdTipoPago" />
+                <ScalarProperty Name="Descripcion" ColumnName="Descripcion" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="CTipoVehiculo">
+            <EntityTypeMapping TypeName="VentasModel.CTipoVehiculo">
+              <MappingFragment StoreEntitySet="CTipoVehiculo">
+                <ScalarProperty Name="IdTipo" ColumnName="IdTipo" />
+                <ScalarProperty Name="Descripcion" ColumnName="Descripcion" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="CTipoVenta">
+            <EntityTypeMapping TypeName="VentasModel.CTipoVenta">
+              <MappingFragment StoreEntitySet="CTipoVenta">
+                <ScalarProperty Name="IdTipoVenta" ColumnName="IdTipoVenta" />
+                <ScalarProperty Name="Descripcion" ColumnName="Descripcion" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="CTransmision">
+            <EntityTypeMapping TypeName="VentasModel.CTransmision">
+              <MappingFragment StoreEntitySet="CTransmision">
+                <ScalarProperty Name="IdTransmision" ColumnName="IdTransmision" />
+                <ScalarProperty Name="Descripcion" ColumnName="Descripcion" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="sysdiagrams">
+            <EntityTypeMapping TypeName="VentasModel.sysdiagrams">
+              <MappingFragment StoreEntitySet="sysdiagrams">
+                <ScalarProperty Name="name" ColumnName="name" />
+                <ScalarProperty Name="principal_id" ColumnName="principal_id" />
+                <ScalarProperty Name="diagram_id" ColumnName="diagram_id" />
+                <ScalarProperty Name="version" ColumnName="version" />
+                <ScalarProperty Name="definition" ColumnName="definition" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="TArticulo">
+            <EntityTypeMapping TypeName="VentasModel.TArticulo">
+              <MappingFragment StoreEntitySet="TArticulo">
+                <ScalarProperty Name="IdArticulo" ColumnName="IdArticulo" />
+                <ScalarProperty Name="Descripcion" ColumnName="Descripcion" />
+                <ScalarProperty Name="Valor" ColumnName="Valor" />
+                <ScalarProperty Name="IdTipo" ColumnName="IdTipo" />
+                <ScalarProperty Name="IdEstado" ColumnName="IdEstado" />
+                <ScalarProperty Name="IdCliente" ColumnName="IdCliente" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="TCliente">
+            <EntityTypeMapping TypeName="VentasModel.TCliente">
+              <MappingFragment StoreEntitySet="TCliente">
+                <ScalarProperty Name="IdCliente" ColumnName="IdCliente" />
+                <ScalarProperty Name="Identificacion" ColumnName="Identificacion" />
+                <ScalarProperty Name="Nombre" ColumnName="Nombre" />
+                <ScalarProperty Name="PrimerApellido" ColumnName="PrimerApellido" />
+                <ScalarProperty Name="SegundoApellido" ColumnName="SegundoApellido" />
+                <ScalarProperty Name="Direccion" ColumnName="Direccion" />
+                <ScalarProperty Name="Correo" ColumnName="Correo" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="TCompra">
+            <EntityTypeMapping TypeName="VentasModel.TCompra">
+              <MappingFragment StoreEntitySet="TCompra">
+                <ScalarProperty Name="IdCliente" ColumnName="IdCliente" />
+                <ScalarProperty Name="Placa" ColumnName="Placa" />
+                <ScalarProperty Name="Monto" ColumnName="Monto" />
+                <ScalarProperty Name="Fecha" ColumnName="Fecha" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="TFinanciamiento">
+            <EntityTypeMapping TypeName="VentasModel.TFinanciamiento">
+              <MappingFragment StoreEntitySet="TFinanciamiento">
+                <ScalarProperty Name="IdFinanciamiento" ColumnName="IdFinanciamiento" />
+                <ScalarProperty Name="Interes" ColumnName="Interes" />
+                <ScalarProperty Name="Plazo" ColumnName="Plazo" />
+                <ScalarProperty Name="Monto" ColumnName="Monto" />
+                <ScalarProperty Name="IdPeriodoPago" ColumnName="IdPeriodoPago" />
+                <ScalarProperty Name="IdVenta" ColumnName="IdVenta" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="TPagoFinanciamiento">
+            <EntityTypeMapping TypeName="VentasModel.TPagoFinanciamiento">
+              <MappingFragment StoreEntitySet="TPagoFinanciamiento">
+                <ScalarProperty Name="IdPagoFinan" ColumnName="IdPagoFinan" />
+                <ScalarProperty Name="IdVenta" ColumnName="IdVenta" />
+                <ScalarProperty Name="IdTipoPago" ColumnName="IdTipoPago" />
+                <ScalarProperty Name="Fecha" ColumnName="Fecha" />
+                <ScalarProperty Name="Monto" ColumnName="Monto" />
+                <ScalarProperty Name="IdFinanciamiento" ColumnName="IdFinanciamiento" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="TTelefonoCliente">
+            <EntityTypeMapping TypeName="VentasModel.TTelefonoCliente">
+              <MappingFragment StoreEntitySet="TTelefonoCliente">
+                <ScalarProperty Name="IdTelefono" ColumnName="IdTelefono" />
+                <ScalarProperty Name="Descripcion" ColumnName="Descripcion" />
+                <ScalarProperty Name="IdCliente" ColumnName="IdCliente" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="TUsuario">
+            <EntityTypeMapping TypeName="VentasModel.TUsuario">
+              <MappingFragment StoreEntitySet="TUsuario">
+                <ScalarProperty Name="Usuario" ColumnName="Usuario" />
+                <ScalarProperty Name="Contrasenia" ColumnName="Contrasenia" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="TVehiculo">
+            <EntityTypeMapping TypeName="VentasModel.TVehiculo">
+              <MappingFragment StoreEntitySet="TVehiculo">
+                <ScalarProperty Name="Placa" ColumnName="Placa" />
+                <ScalarProperty Name="IdMarca" ColumnName="IdMarca" />
+                <ScalarProperty Name="Anio" ColumnName="Anio" />
+                <ScalarProperty Name="Estilo" ColumnName="Estilo" />
+                <ScalarProperty Name="IdTransmision" ColumnName="IdTransmision" />
+                <ScalarProperty Name="Modelo" ColumnName="Modelo" />
+                <ScalarProperty Name="NumPuertas" ColumnName="NumPuertas" />
+                <ScalarProperty Name="IdTipoVehiculo" ColumnName="IdTipoVehiculo" />
+                <ScalarProperty Name="Valor" ColumnName="Valor" />
+                <ScalarProperty Name="IdTipoArticulo" ColumnName="IdTipoArticulo" />
+                <ScalarProperty Name="IdEstado" ColumnName="IdEstado" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="TVenta">
+            <EntityTypeMapping TypeName="VentasModel.TVenta">
+              <MappingFragment StoreEntitySet="TVenta">
+                <ScalarProperty Name="IdVenta" ColumnName="IdVenta" />
+                <ScalarProperty Name="Monto" ColumnName="Monto" />
+                <ScalarProperty Name="Fecha" ColumnName="Fecha" />
+                <ScalarProperty Name="IdTipoVenta" ColumnName="IdTipoVenta" />
+                <ScalarProperty Name="IdCliente" ColumnName="IdCliente" />
+                <ScalarProperty Name="Saldo" ColumnName="Saldo" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <AssociationSetMapping Name="TVentaArticulo" TypeName="VentasModel.TVentaArticulo" StoreEntitySet="TVentaArticulo">
+            <EndProperty Name="TVehiculo">
+              <ScalarProperty Name="Placa" ColumnName="Placa" />
+            </EndProperty>
+            <EndProperty Name="TVenta">
+              <ScalarProperty Name="IdVenta" ColumnName="IdVenta" />
+            </EndProperty>
+          </AssociationSetMapping>
+          <FunctionImportMapping FunctionImportName="sp_alterdiagram" FunctionName="VentasModel.Store.sp_alterdiagram" />
+          <FunctionImportMapping FunctionImportName="sp_creatediagram" FunctionName="VentasModel.Store.sp_creatediagram" />
+          <FunctionImportMapping FunctionImportName="sp_dropdiagram" FunctionName="VentasModel.Store.sp_dropdiagram" />
+          <FunctionImportMapping FunctionImportName="sp_helpdiagramdefinition" FunctionName="VentasModel.Store.sp_helpdiagramdefinition">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="VentasModel.sp_helpdiagramdefinition_Result">
+                <ScalarProperty Name="version" ColumnName="version" />
+                <ScalarProperty Name="definition" ColumnName="definition" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="sp_helpdiagrams" FunctionName="VentasModel.Store.sp_helpdiagrams">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="VentasModel.sp_helpdiagrams_Result">
+                <ScalarProperty Name="Database" ColumnName="Database" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="Owner" ColumnName="Owner" />
+                <ScalarProperty Name="OwnerID" ColumnName="OwnerID" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="sp_renamediagram" FunctionName="VentasModel.Store.sp_renamediagram" />
+          <FunctionImportMapping FunctionImportName="sp_upgraddiagrams" FunctionName="VentasModel.Store.sp_upgraddiagrams" />
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="false" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="Ninguno" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>
