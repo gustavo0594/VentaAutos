@@ -39,8 +39,14 @@ namespace VentaAutos.Controllers
         // GET: Compras/Create
         public ActionResult Create()
         {
-            ViewBag.IdCliente = new SelectList(db.TCliente, "IdCliente", "Identificacion");
-            ViewBag.Placa = new SelectList(db.TVehiculo, "Placa", "Estilo");
+            //ViewBag.IdCliente = new SelectList(db.TCliente, "IdCliente", "Identificacion");
+            //ViewBag.Placa = new SelectList(db.TVehiculo, "Placa", "Placa");
+
+
+            CargarComboClientes();
+            CargarComboVehiculos();
+
+
             return View();
         }
 
@@ -132,5 +138,34 @@ namespace VentaAutos.Controllers
             }
             base.Dispose(disposing);
         }
+
+        protected void CargarComboVehiculos()
+        {
+            var vehiculos = db.TVehiculo;
+            List<object> vehiculosList = new List<object>();
+            foreach (var v in vehiculos)
+                vehiculosList.Add(new
+                {
+                    Id = v.Placa,
+                    Name = v.Placa + " - " + v.CMarcaVehiculo.Descripcion
+                });
+            ViewBag.Placa = new SelectList(vehiculosList, "Id", "Name");
+
+        }
+
+        protected void CargarComboClientes()
+        {
+            var clientes = db.TCliente;
+            List<object> clientesList = new List<object>();
+            foreach (var c in clientes)
+                clientesList.Add(new
+                {
+                    Id = c.IdCliente,
+                    Name = c.Identificacion + " - " + c.Nombre + " " + c.PrimerApellido + " " + c.SegundoApellido
+                });
+            ViewBag.IdCliente = new SelectList(clientesList, "Id", "Name");
+
+        }
+
     }
 }
