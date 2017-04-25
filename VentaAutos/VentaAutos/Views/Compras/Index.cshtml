@@ -41,9 +41,9 @@
             @Html.DisplayFor(modelItem => item.TVehiculo.Estilo)
         </td>
         <td>
-            @Html.ActionLink("Edit", "Edit", new { /* id=item.PrimaryKey */ }) |
-            @Html.ActionLink("Details", "Details", new { /* id=item.PrimaryKey */ }) |
-            @Html.ActionLink("Delete", "Delete", new { /* id=item.PrimaryKey */ })
+            @Html.ActionLink("Edit", "Edit", new { idCliente = item.IdCliente, placa = item.Placa }  ) |
+            @Html.ActionLink("Details", "Details", new { idCliente = item.IdCliente, placa = item.Placa }) |
+            @Html.ActionLink("Delete", "Delete", new { idCliente = item.IdCliente, placa = item.Placa })
         </td>
     </tr>
 }

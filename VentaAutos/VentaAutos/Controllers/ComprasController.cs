@@ -22,13 +22,13 @@ namespace VentaAutos.Controllers
         }
 
         // GET: Compras/Details/5
-        public ActionResult Details(int? id)
+        public ActionResult Details(int? idCliente, string placa)
         {
-            if (id == null)
+            if (idCliente == null && placa == String.Empty)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            TCompra tCompra = db.TCompra.Find(id);
+            TCompra tCompra = db.TCompra.Find(idCliente, placa);
             if (tCompra == null)
             {
                 return HttpNotFound();
@@ -70,13 +70,13 @@ namespace VentaAutos.Controllers
         }
 
         // GET: Compras/Edit/5
-        public ActionResult Edit(int? id)
+        public ActionResult Edit(int? idCliente, string placa)    
         {
-            if (id == null)
+            if (idCliente == null && placa== String.Empty )
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            TCompra tCompra = db.TCompra.Find(id);
+            TCompra tCompra = db.TCompra.Find(idCliente, placa);
             if (tCompra == null)
             {
                 return HttpNotFound();
@@ -105,13 +105,13 @@ namespace VentaAutos.Controllers
         }
 
         // GET: Compras/Delete/5
-        public ActionResult Delete(int? id)
+        public ActionResult Delete(int? idCliente, string placa)
         {
-            if (id == null)
+            if (idCliente == null && placa == String.Empty)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            TCompra tCompra = db.TCompra.Find(id);
+            TCompra tCompra = db.TCompra.Find(idCliente, placa);
             if (tCompra == null)
             {
                 return HttpNotFound();
@@ -122,9 +122,9 @@ namespace VentaAutos.Controllers
         // POST: Compras/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
-        public ActionResult DeleteConfirmed(int id)
+        public ActionResult DeleteConfirmed(int? idCliente, string placa)
         {
-            TCompra tCompra = db.TCompra.Find(id);
+            TCompra tCompra = db.TCompra.Find(idCliente, placa);
             db.TCompra.Remove(tCompra);
             db.SaveChanges();
             return RedirectToAction("Index");
@@ -166,7 +166,6 @@ namespace VentaAutos.Controllers
             ViewBag.IdCliente = new SelectList(clientesList, "Id", "Name");
 
         }
-
 
     }
 }
