@@ -35,12 +35,12 @@
         <div class="form-group">
             @Html.LabelFor(model => model.Monto, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                @Html.EditorFor(model => model.Monto, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.EditorFor(model => model.Monto, new { htmlAttributes = new { @class = "form-control currency" } })
                 @Html.ValidationMessageFor(model => model.Monto, "", new { @class = "text-danger" })
             </div>
         </div>
 
-  
+
         <div class="form-group">
             @Html.LabelFor(model => model.Fecha, htmlAttributes: new { @class = "control-label col-md-2" })
             @Html.TextBoxFor(model => model.Fecha, new { @class = "form-control datepicker", @name = "fecha_Compra", @id = "fecha_Compra", placeholder = "Ingrese la fecha de compra" })
@@ -73,6 +73,7 @@
     <script src="~/Scripts/bootstrap-select.js"></script>
     <script src="~/Scripts/bootstrap-datetimepicker.js"></script>
     <script src="~/Scripts/mask.js"></script>
+<script src="~/Scripts/jquery.formatCurrency-1.4.0.js"></script>
 
 
     <script type="text/javascript">
@@ -85,84 +86,22 @@
                 defaultDate: new Date(),
                 format: 'dd/mm/yyyy'
             });
-            //$(".datepicker").on("change", function () {
-            //    $(".datepicker").datepicker("option", "dateFormat", "dd/mm/yy");
-            //});
-            
+
+            $.validator.methods.date = function (value, element) {
+                Globalize.culture("en-AU"); // the UK format
+                return this.optional(element) || Globalize.parseDate(value) !== null;
+            }
+
+            $('.currency').blur(function () {
+                $('.currency').formatCurrency();
+            });
+
         });
 
 
     </script>
 
 
-    @*<script>
-            $(document).ready(function () {
-                //$('#frmCrearCompra')
-                //    .bootstrapValidator({
-                //        feedbackIcons: {
-                //            valid: 'glyphicon glyphicon-ok',
-                //            invalid: 'glyphicon glyphicon-remove',
-                //            validating: 'glyphicon glyphicon-refresh'
-                //        },
-                //        excluded: ':disabled',
-                //        fields: {
-                //            fecha_compra: {
-                //                validators: {
-                //                    notEmpty: {
-                //                        message: '   Formato: DD/MM/YYYY'
-                //                    },
-                //                    date: {
-                //                        format: 'DD/MM/YYYY',
-                //                        message: '   Formato: DD/MM/YYYY'
-                //                    }
-                //                }
-                //            },
-
-                //        }
-                //    });
-
-                //$('#frmCrearCompra').data('bootstrapValidator').validate();
-
-                $("#fecha_compra").datepicker();
-
-                //$('#datepicker')
-                //    .datepicker({
-                //        format: 'dd/mm/yyyy'
-                //    })
-                //    .on('changeDate', function (e) {
-                //        $('#frmCrearCompra').bootstrapValidator('revalidateField', 'fecha_compra');
-                //        //validarFormulario();
-                //    })
-                //    .on("change", function (e) {
-                //        $('#frmCrearCompra').bootstrapValidator('revalidateField', 'fecha_compra');
-                //        //validarFormulario();
-                //    });
-
-                IdiomaCalendario();
-                //validarFormulario();
-            });
-
-
-            function IdiomaCalendario() {
-
-                $.fn.datepicker.dates['es'] = {
-                    days: ['Domingo', 'Lunes', 'Martes', 'Miércoles', 'Jueves', 'Viernes', 'Sábado'],
-                    daysShort: ['Dom', 'Lun', 'Mar', 'Mié', 'Juv', 'Vie', 'Sáb'],
-                    daysMin: ['Do', 'Lu', 'Ma', 'Mi', 'Ju', 'Vi', 'Sá'],
-                    months: ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre'],
-                    monthsShort: ['Ene', 'Feb', 'Mar', 'Abr', 'May', 'Jun', 'Jul', 'Ago', 'Sep', 'Oct', 'Nov', 'Dic'],
-                    today: "Hoy",
-                    clear: "Limpiar",
-                    format: "dd/mm/yyyy",
-                    titleFormat: "MM yyyy",
-                    weekStart: 0
-                };
-                $('#fecha_compra').datepicker({ language: 'es' });
-
-            }
-
-
-        </script>*@
 
 
 }
