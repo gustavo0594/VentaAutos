@@ -12,6 +12,12 @@
 <table class="table">
     <tr>
         <th>
+            Tipo
+        </th>
+        <th>
+            Marca
+        </th>
+        <th>
             @Html.DisplayNameFor(model => model.Anio)
         </th>
         <th>
@@ -20,24 +26,17 @@
         <th>
             @Html.DisplayNameFor(model => model.Modelo)
         </th>
-        <th>
-            @Html.DisplayNameFor(model => model.NumPuertas)
-        </th>
+        
         <th>
             @Html.DisplayNameFor(model => model.Valor)
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.CEstadoArticulo.Descripcion)
+           @* @Html.DisplayNameFor(model => model.CEstadoArticulo.Descripcion)*@
+            Estado
         </th>
-        <th>
-            @Html.DisplayNameFor(model => model.CMarcaVehiculo.Descripcion)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.CTipoArticulo.Descripcion)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.CTipoVehiculo.Descripcion)
-        </th>
+       
+        
+       
         <th>
             @Html.DisplayNameFor(model => model.CTransmision.Descripcion)
         </th>
@@ -47,6 +46,12 @@
 @foreach (var item in Model) {
     <tr>
         <td>
+            @Html.DisplayFor(modelItem => item.CTipoArticulo.Descripcion)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.CMarcaVehiculo.Descripcion)
+        </td>
+        <td>
             @Html.DisplayFor(modelItem => item.Anio)
         </td>
         <td>
@@ -55,31 +60,25 @@
         <td>
             @Html.DisplayFor(modelItem => item.Modelo)
         </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.NumPuertas)
-        </td>
+       
         <td>
             @Html.DisplayFor(modelItem => item.Valor)
         </td>
         <td>
             @Html.DisplayFor(modelItem => item.CEstadoArticulo.Descripcion)
         </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.CMarcaVehiculo.Descripcion)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.CTipoArticulo.Descripcion)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.CTipoVehiculo.Descripcion)
-        </td>
+       
+       
+       
         <td>
             @Html.DisplayFor(modelItem => item.CTransmision.Descripcion)
         </td>
         <td>
             @Html.ActionLink("Edit", "Edit", new { id=item.Placa }) |
             @Html.ActionLink("Details", "Details", new { id=item.Placa }) |
-            @Html.ActionLink("Delete", "Delete", new { id=item.Placa })
+            @Html.ActionLink("Delete", "Delete", new { id = item.Placa }) |
+            @Html.ActionLink("Comprar", "Create", "Compras", new { placa = item.Placa }, new { placa = item.Placa })
+            
         </td>
     </tr>
 }

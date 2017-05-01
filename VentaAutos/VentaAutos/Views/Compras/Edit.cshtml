@@ -22,17 +22,19 @@
         <div class="form-group">
             @Html.LabelFor(model => model.Monto, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                @Html.EditorFor(model => model.Monto, "{0:c}", new { htmlAttributes = new { @class = "form-control currency" } })
+              @*  @Html.EditorFor(model => model.Monto, "{0:c}", new { htmlAttributes = new { @class = "form-control currency" } })*@
+                @Html.EditorFor(model => model.Monto, new { htmlAttributes = new { @class = "form-control" } })
                 @Html.ValidationMessageFor(model => model.Monto, "", new { @class = "text-danger" })
             </div>
         </div>
 
         <div class="form-group">
             @Html.LabelFor(model => model.Fecha, htmlAttributes: new { @class = "control-label col-md-2" })
-            @Html.TextBoxFor(model => model.Fecha, new { @class = "form-control datepicker", @name = "fecha_Compra", @id = "fecha_Compra", placeholder = "Ingrese la fecha de compra" })
-            @Html.ValidationMessageFor(model => model.Fecha, "", new { @class = "text-danger" })
+            <div class="col-md-10">
+                @Html.TextBoxFor(model => model.Fecha, new { @class = "form-control datepicker", @name = "fecha_Compra", @id = "fecha_Compra", placeholder = "Ingrese la fecha de compra" })
+                @Html.ValidationMessageFor(model => model.Fecha, "", new { @class = "text-danger" })
+            </div>
         </div>
-
         <div class="form-group">
             <div class="col-md-offset-2 col-md-10">
                 <input type="submit" value="Save" class="btn btn-default" />
@@ -78,9 +80,9 @@
             }
 
 
-            $('.currency').blur(function () {
-                $('.currency').formatCurrency();
-            });
+            //$('.currency').blur(function () {
+            //    $('.currency').formatCurrency();
+            //});
            
 
         });

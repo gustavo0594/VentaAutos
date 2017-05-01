@@ -43,8 +43,10 @@
 
         <div class="form-group">
             @Html.LabelFor(model => model.Fecha, htmlAttributes: new { @class = "control-label col-md-2" })
-            @Html.TextBoxFor(model => model.Fecha, new { @class = "form-control datepicker", @name = "fecha_Compra", @id = "fecha_Compra", placeholder = "Ingrese la fecha de compra" })
-            @Html.ValidationMessageFor(model => model.Fecha, "", new { @class = "text-danger" })
+            <div class="col-md-10">
+                @Html.TextBoxFor(model => model.Fecha, new { @class = "form-control datepicker", @name = "fecha_Compra", @id = "fecha_Compra", placeholder = "Ingrese la fecha de compra" })
+                @Html.ValidationMessageFor(model => model.Fecha, "", new { @class = "text-danger" })
+            </div>
         </div>
 
 
@@ -73,7 +75,7 @@
     <script src="~/Scripts/bootstrap-select.js"></script>
     <script src="~/Scripts/bootstrap-datetimepicker.js"></script>
     <script src="~/Scripts/mask.js"></script>
-<script src="~/Scripts/jquery.formatCurrency-1.4.0.js"></script>
+    <script src="~/Scripts/jquery.formatCurrency-1.4.0.js"></script>
 
 
     <script type="text/javascript">
@@ -92,9 +94,9 @@
                 return this.optional(element) || Globalize.parseDate(value) !== null;
             }
 
-            $('.currency').blur(function () {
-                $('.currency').formatCurrency();
-            });
+            //$('.currency').blur(function () {
+            //    $('.currency').formatCurrency();
+            //});
 
         });
 

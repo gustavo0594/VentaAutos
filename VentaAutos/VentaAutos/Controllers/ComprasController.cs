@@ -4,6 +4,7 @@ using System.Data;
 using System.Data.Entity;
 using System.Linq;
 using System.Net;
+using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
 using VentaAutos.Models;
@@ -15,10 +16,25 @@ namespace VentaAutos.Controllers
         private VentasEntities db = new VentasEntities();
 
         // GET: Compras
-        public ActionResult Index()
+        public async Task<ActionResult> Index()
         {
-            var tCompra = db.TCompra.Include(t => t.TCliente).Include(t => t.TVehiculo);
-            return View(tCompra.ToList());
+
+            //if (placa == null || placa == string.Empty  )
+            //{
+
+                var tCompra = db.TCompra.Include(t => t.TCliente).Include(t => t.TVehiculo).OrderByDescending(t => t.Fecha) ;
+                return View(await tCompra.ToListAsync());
+            //}
+            //else
+            //{
+            //    var tCompra = db.TCompra.Include(t => t.TCliente).Where(t => t.TVehiculo.Placa == placa );
+            //    //var telefono = db.TTelefonoCliente.Where(t => t.TCliente.IdCliente == IdCliente);
+            //    ViewBag.placa = placa;
+            //    return View(await tCompra.ToListAsync());
+            //}
+
+
+           
         }
 
         // GET: Compras/Details/5
@@ -37,14 +53,14 @@ namespace VentaAutos.Controllers
         }
 
         // GET: Compras/Create
-        public ActionResult Create()
+        public ActionResult Create(string placa)
         {
             //ViewBag.IdCliente = new SelectList(db.TCliente, "IdCliente", "Identificacion");
             //ViewBag.Placa = new SelectList(db.TVehiculo, "Placa", "Placa");
 
 
             CargarComboClientes();
-            CargarComboVehiculos();
+            CargarComboVehiculos(placa);
 
 
             return View();
@@ -139,7 +155,7 @@ namespace VentaAutos.Controllers
             base.Dispose(disposing);
         }
 
-        protected void CargarComboVehiculos()
+        protected void CargarComboVehiculos(string placa)
         {
             var vehiculos = db.TVehiculo;
             List<object> vehiculosList = new List<object>();
@@ -149,7 +165,14 @@ namespace VentaAutos.Controllers
                     Id = v.Placa,
                     Name = v.Placa + " - " + v.CMarcaVehiculo.Descripcion
                 });
-            ViewBag.Placa = new SelectList(vehiculosList, "Id", "Name");
+            if (placa == string.Empty)
+            {
+
+                ViewBag.Placa = new SelectList(vehiculosList, "Id", "Name");
+            }
+            else {
+                ViewBag.Placa = new SelectList(vehiculosList, "Id", "Name", placa);
+            }
 
         }
 

@@ -11,34 +11,53 @@
 </p>
 <table class="table">
     <tr>
+       
+        <th>
+            @Html.DisplayNameFor(model => model.TCliente.Identificacion)
+        </th>
+
+        <th>
+            @Html.DisplayNameFor(model => model.TCliente.Nombre)
+        </th>
+
+        <th>
+            @Html.DisplayNameFor(model => model.TVehiculo.CMarcaVehiculo.Descripcion )
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.TVehiculo.Estilo)
+        </th>
         <th>
             @Html.DisplayNameFor(model => model.Monto)
         </th>
         <th>
             @Html.DisplayNameFor(model => model.Fecha)
         </th>
-        <th>
-            @Html.DisplayNameFor(model => model.TCliente.Identificacion)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.TVehiculo.Estilo)
-        </th>
         <th></th>
     </tr>
 
 @foreach (var item in Model) {
     <tr>
+       
+        <td>
+            @Html.DisplayFor(modelItem => item.TCliente.Identificacion)
+        </td>
+
+        <td>
+           @* @Html.DisplayFor(modelItem => item.TCliente.Nombre + " " + item.TCliente.PrimerApellido + " " + item.TCliente.SegundoApellido)*@
+            @( String.Format("{0} {1} {2}", item.TCliente.Nombre, item.TCliente.PrimerApellido, item.TCliente.SegundoApellido) )
+        </td>
+
+        <td>
+            @Html.DisplayFor(modelItem => item.TVehiculo.CMarcaVehiculo.Descripcion)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.TVehiculo.Estilo)
+        </td>
         <td>
             @Html.DisplayFor(modelItem => item.Monto)
         </td>
         <td>
             @Html.DisplayFor(modelItem => item.Fecha)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.TCliente.Identificacion)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.TVehiculo.Estilo)
         </td>
         <td>
             @Html.ActionLink("Edit", "Edit", new { idCliente = item.IdCliente, placa = item.Placa }  ) |
