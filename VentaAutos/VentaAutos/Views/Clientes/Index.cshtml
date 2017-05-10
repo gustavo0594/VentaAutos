@@ -9,67 +9,84 @@
 <p>
     @Html.ActionLink("Nuevo", "Create")
 </p>
-<table class="table">
-    <tr>
-        <th>
-            @Html.DisplayNameFor(model => model.Identificacion)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Nombre)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.PrimerApellido)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.SegundoApellido)
-        </th>
-        @*<th>
-            @Html.DisplayNameFor(model => model.Direccion)
-        </th>*@
-        <th>
-            @Html.DisplayNameFor(model => model.Correo)
-        </th>
-        <th>
-          @*  @Html.DisplayNameFor(model => model.TTelefonoCliente)*@
-            Num. Teléfonos
-        </th>
-        <th></th>
-    </tr>
+<div class="row">
+    <div class="col-lg-5 col-lg-offset-8">
+        <input type="search" id="search" value="" class="form-control" placeholder="Búsqueda">
+    </div>
+</div>
+<div class="row">
+    <table class="table">
+        <thead>
+            <tr>
+                <th>
+                    @Html.DisplayNameFor(model => model.Identificacion)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Nombre)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.PrimerApellido)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.SegundoApellido)
+                </th>
+                @*<th>
+                    @Html.DisplayNameFor(model => model.Direccion)
+                </th>*@
+                <th>
+                    @Html.DisplayNameFor(model => model.Correo)
+                </th>
+                <th>
+                    @*  @Html.DisplayNameFor(model => model.TTelefonoCliente)*@
+                    Num. Teléfonos
+                </th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                var tels = item.TTelefonoCliente.Count.ToString();
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Identificacion)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Nombre)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.PrimerApellido)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.SegundoApellido)
+                    </td>
+                    @*<td>
+                            @Html.DisplayFor(modelItem => item.Direccion)
+                        </td>*@
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Correo)
+                    </td>
 
-@foreach (var item in Model) {
-    var tels = item.TTelefonoCliente.Count.ToString();
-    <tr>
-        <td>
-            @Html.DisplayFor(modelItem => item.Identificacion)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Nombre)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.PrimerApellido)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.SegundoApellido)
-        </td>
-        @*<td>
-            @Html.DisplayFor(modelItem => item.Direccion)
-        </td>*@
-        <td>
-            @Html.DisplayFor(modelItem => item.Correo)
-        </td>
-        
-        <td>
-            
-           @* @Html.DisplayFor(modelItem => item.TTelefonoCliente.Count)*@
-            @Html.ActionLink(tels, "Index", "TelefonosCliente", new { idCliente = item.IdCliente }, new { idCliente = item.IdCliente })
-        </td>
-        <td>
-            @Html.ActionLink("Editar", "Edit", new { id=item.IdCliente }) |
-            @Html.ActionLink("Detalle", "Details", new { id=item.IdCliente }) |
-            @Html.ActionLink("Eliminar", "Delete", new { id=item.IdCliente }) |
-            @Html.ActionLink("Agregar Teléfono", "Create", "TelefonosCliente", new { idCliente = item.IdCliente }, new { idCliente = item.IdCliente })
-        </td>
-    </tr>
-}
+                    <td>
 
-</table>
+                        @* @Html.DisplayFor(modelItem => item.TTelefonoCliente.Count)*@
+                        @Html.ActionLink(tels, "Index", "TelefonosCliente", new { idCliente = item.IdCliente }, new { idCliente = item.IdCliente })
+                    </td>
+                    <td>
+                        @Html.ActionLink("Editar", "Edit", new { id = item.IdCliente }) |
+                        @Html.ActionLink("Detalle", "Details", new { id = item.IdCliente }) |
+                        @Html.ActionLink("Eliminar", "Delete", new { id = item.IdCliente }) |
+                        @Html.ActionLink("Agregar Teléfono", "Create", "TelefonosCliente", new { idCliente = item.IdCliente }, new { idCliente = item.IdCliente })
+                    </td>
+                </tr>
+            }
+        </tbody>
+
+    </table>
+ </div>
+
+    @section Scripts {
+        @Scripts.Render("~/bundles/jqueryval")
+        <script src="//rawgithub.com/stidges/jquery-searchable/master/dist/jquery.searchable-1.0.0.min.js"></script>
+        <script src="~/Scripts/table-search.js"></script>
+    }

@@ -9,64 +9,80 @@
 <p>
     @Html.ActionLink("Create New", "Create")
 </p>
-<table class="table">
-    <tr>
-        <th>
-            @Html.DisplayNameFor(model => model.Placa)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.TVehiculo.Estilo)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Monto)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Fecha)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Saldo)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.CTipoVenta.Descripcion)
-        </th>
-        <th>
-            Cliente
-        </th>
-       
-        <th></th>
-    </tr>
+<div class="row">
+    <div class="col-lg-5 col-lg-offset-8">
+        <input type="search" id="search" value="" class="form-control" placeholder="Búsqueda">
+    </div>
+</div>
+<div class="row">
+    <table class="table">
+        <thead>
+            <tr>
+                <th>
+                    @Html.DisplayNameFor(model => model.Placa)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.TVehiculo.Estilo)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Monto)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Fecha)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Saldo)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.CTipoVenta.Descripcion)
+                </th>
+                <th>
+                    Cliente
+                </th>
 
-@foreach (var item in Model) {
-    <tr>
-        <td>
-            @Html.DisplayFor(modelItem => item.Placa)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.TVehiculo.Estilo)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Monto)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Fecha)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Saldo)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.CTipoVenta.Descripcion)
-        </td>
-        <td>
-            @* @Html.DisplayFor(modelItem => item.TCliente.Identificacion)*@
-            @( String.Format("{0} {1} {2}", item.TCliente.Nombre, item.TCliente.PrimerApellido, item.TCliente.SegundoApellido) )
-        </td>
-                
-        <td>
-            @Html.ActionLink("Edit", "Edit", new { id=item.IdVenta }) |
-            @Html.ActionLink("Details", "Details", new { id=item.IdVenta }) |
-            @Html.ActionLink("Delete", "Delete", new { id=item.IdVenta })
-        </td>
-    </tr>
-}
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Placa)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.TVehiculo.Estilo)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Monto)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Fecha)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Saldo)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.CTipoVenta.Descripcion)
+                    </td>
+                    <td>
+                        @* @Html.DisplayFor(modelItem => item.TCliente.Identificacion)*@
+                        @( String.Format("{0} {1} {2}", item.TCliente.Nombre, item.TCliente.PrimerApellido, item.TCliente.SegundoApellido) )
+                    </td>
 
-</table>
+                    <td>
+                        @Html.ActionLink("Edit", "Edit", new { id = item.IdVenta }) |
+                        @Html.ActionLink("Details", "Details", new { id = item.IdVenta }) |
+                        @Html.ActionLink("Delete", "Delete", new { id = item.IdVenta })
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
+
+    @section Scripts {
+        @Scripts.Render("~/bundles/jqueryval")
+        <script src="//rawgithub.com/stidges/jquery-searchable/master/dist/jquery.searchable-1.0.0.min.js"></script>
+        <script src="~/Scripts/table-search.js"></script>
+    }

@@ -40,6 +40,7 @@ namespace VentaAutos.Controllers
         // GET: PagosFinanciamiento/Create
         public ActionResult Create()
         {
+            ViewBag.IdVenta = new SelectList(db.TVenta, "IdVenta", "Placa");
             ViewBag.IdTipoPago = new SelectList(db.CTipoPago, "IdTipoPago", "Descripcion");
             ViewBag.IdFinanciamiento = new SelectList(db.TFinanciamiento, "IdFinanciamiento", "IdFinanciamiento");
             return View();
