@@ -4,7 +4,7 @@
   <edmx:Runtime>
     <!-- SSDL content -->
     <edmx:StorageModels>
-      <Schema Namespace="VentasModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+    <Schema Namespace="VentasModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
         <EntityType Name="CEstadoArticulo">
           <Key>
             <PropertyRef Name="IdEstado" />
@@ -111,7 +111,7 @@
           <Property Name="IdFinanciamiento" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="Interes" Type="smallint" Nullable="false" />
           <Property Name="Plazo" Type="smallint" Nullable="false" />
-          <Property Name="Monto" Type="datetime" Nullable="false" />
+          <Property Name="Monto" Type="decimal" Precision="18" Scale="0" Nullable="false" />
           <Property Name="IdPeriodoPago" Type="int" Nullable="false" />
           <Property Name="IdVenta" Type="int" />
         </EntityType>
@@ -429,8 +429,7 @@
             <End Role="TVenta" EntitySet="TVenta" />
           </AssociationSet>
         </EntityContainer>
-      </Schema>
-    </edmx:StorageModels>
+      </Schema></edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
       <Schema Namespace="VentasModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
@@ -553,7 +552,7 @@
           <Property Name="IdFinanciamiento" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="Interes" Type="Int16" Nullable="false" />
           <Property Name="Plazo" Type="Int16" Nullable="false" />
-          <Property Name="Monto" Type="DateTime" Nullable="false" Precision="3" />
+	  <Property Name="Monto" Type="Decimal" Precision="18" Scale="0" Nullable="false" />
           <Property Name="IdPeriodoPago" Type="Int32" Nullable="false" />
           <Property Name="IdVenta" Type="Int32" />
           <NavigationProperty Name="CPeriodoPago" Relationship="Self.FK_Financiamiento_CPeriodoPago" FromRole="TFinanciamiento" ToRole="CPeriodoPago" />

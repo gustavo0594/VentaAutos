@@ -23,7 +23,7 @@ namespace VentaAutos.Models
         public int IdFinanciamiento { get; set; }
         public short Interes { get; set; }
         public short Plazo { get; set; }
-        public System.DateTime Monto { get; set; }
+        public decimal Monto { get; set; }
         public int IdPeriodoPago { get; set; }
         public Nullable<int> IdVenta { get; set; }
     

@@ -41,7 +41,8 @@ namespace VentaAutos.Controllers
         public ActionResult Create()
         {
             ViewBag.IdPeriodoPago = new SelectList(db.CPeriodoPago, "IdPeriodoPago", "Descripcion");
-            ViewBag.IdVenta = new SelectList(db.TVenta, "IdVenta", "IdVenta");
+            //ViewBag.IdVenta = new SelectList(db.TVenta, "IdVenta", "IdVenta");
+            this.CargarComboVentas(null);
             return View();
         }
 
@@ -77,7 +78,8 @@ namespace VentaAutos.Controllers
                 return HttpNotFound();
             }
             ViewBag.IdPeriodoPago = new SelectList(db.CPeriodoPago, "IdPeriodoPago", "Descripcion", tFinanciamiento.IdPeriodoPago);
-            ViewBag.IdVenta = new SelectList(db.TVenta, "IdVenta", "IdVenta", tFinanciamiento.IdVenta);
+            //ViewBag.IdVenta = new SelectList(db.TVenta, "IdVenta", "IdVenta", tFinanciamiento.IdVenta);
+            this.CargarComboVentas(tFinanciamiento.IdVenta);
             return View(tFinanciamiento);
         }
 
@@ -133,5 +135,33 @@ namespace VentaAutos.Controllers
             }
             base.Dispose(disposing);
         }
+
+
+        protected void CargarComboVentas(int? idVenta)
+        {
+            var ventas = db.TVenta;
+            List<object> ventasList = new List<object>();
+            foreach (var v in ventas)
+                ventasList.Add(new
+                {
+                    Id = v.IdVenta,
+                    Name = v.Placa + " - " + v.TCliente.Nombre + " " + v.TCliente.PrimerApellido + " " + v.TCliente.SegundoApellido
+                });
+
+            if (idVenta == null)
+            {
+
+                ViewBag.IdVenta = new SelectList(ventasList, "Id", "Name");
+            }
+            else
+            {
+                ViewBag.IdVenta = new SelectList(ventasList, "Id", "Name", idVenta);
+            }
+
+
+
+        }
+
+
     }
 }
