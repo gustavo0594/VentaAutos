@@ -11,17 +11,12 @@ namespace VentaAutos.Models
 {
     using System;
     using System.Collections.Generic;
-    using System.ComponentModel.DataAnnotations;
-
+    
     public partial class TCompra
     {
         public int IdCliente { get; set; }
         public string Placa { get; set; }
-
-        //[DisplayFormat(DataFormatString = "{0:C0}", ApplyFormatInEditMode = true)]
         public decimal Monto { get; set; }
-
-        [DisplayFormat(DataFormatString = "{0:dd/MM/yyyy}", ApplyFormatInEditMode = true)]
         public System.DateTime Fecha { get; set; }
     
         public virtual TCliente TCliente { get; set; }

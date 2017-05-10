@@ -82,6 +82,7 @@ namespace VentaAutos.Controllers
 
             ViewBag.IdCliente = new SelectList(db.TCliente, "IdCliente", "Identificacion", tCompra.IdCliente);
             ViewBag.Placa = new SelectList(db.TVehiculo, "Placa", "Estilo", tCompra.Placa);
+
             return View(tCompra);
         }
 

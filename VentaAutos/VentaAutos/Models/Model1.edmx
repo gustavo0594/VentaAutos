@@ -167,13 +167,6 @@
           <Property Name="IdTipoVenta" Type="int" Nullable="false" />
           <Property Name="IdCliente" Type="int" Nullable="false" />
           <Property Name="Saldo" Type="decimal" Precision="18" Scale="0" Nullable="false" />
-        </EntityType>
-        <EntityType Name="TVentaArticulo">
-          <Key>
-            <PropertyRef Name="IdVenta" />
-            <PropertyRef Name="Placa" />
-          </Key>
-          <Property Name="IdVenta" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="Placa" Type="varchar" MaxLength="50" Nullable="false" />
         </EntityType>
         <Association Name="FK_Financiamiento_CPeriodoPago">
@@ -344,61 +337,18 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK_TVentaArticulo_TVehiculo">
+        <Association Name="FK_TVenta_TVehiculo">
           <End Role="TVehiculo" Type="Self.TVehiculo" Multiplicity="1" />
-          <End Role="TVentaArticulo" Type="Self.TVentaArticulo" Multiplicity="*" />
+          <End Role="TVenta" Type="Self.TVenta" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="TVehiculo">
               <PropertyRef Name="Placa" />
             </Principal>
-            <Dependent Role="TVentaArticulo">
+            <Dependent Role="TVenta">
               <PropertyRef Name="Placa" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK_TVentaArticulo_TVenta">
-          <End Role="TVenta" Type="Self.TVenta" Multiplicity="1" />
-          <End Role="TVentaArticulo" Type="Self.TVentaArticulo" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="TVenta">
-              <PropertyRef Name="IdVenta" />
-            </Principal>
-            <Dependent Role="TVentaArticulo">
-              <PropertyRef Name="IdVenta" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Function Name="fn_diagramobjects" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="true" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" ReturnType="int" />
-        <Function Name="sp_alterdiagram" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
-          <Parameter Name="diagramname" Type="nvarchar" Mode="In" />
-          <Parameter Name="owner_id" Type="int" Mode="In" />
-          <Parameter Name="version" Type="int" Mode="In" />
-          <Parameter Name="definition" Type="varbinary(max)" Mode="In" />
-        </Function>
-        <Function Name="sp_creatediagram" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
-          <Parameter Name="diagramname" Type="nvarchar" Mode="In" />
-          <Parameter Name="owner_id" Type="int" Mode="In" />
-          <Parameter Name="version" Type="int" Mode="In" />
-          <Parameter Name="definition" Type="varbinary(max)" Mode="In" />
-        </Function>
-        <Function Name="sp_dropdiagram" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
-          <Parameter Name="diagramname" Type="nvarchar" Mode="In" />
-          <Parameter Name="owner_id" Type="int" Mode="In" />
-        </Function>
-        <Function Name="sp_helpdiagramdefinition" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
-          <Parameter Name="diagramname" Type="nvarchar" Mode="In" />
-          <Parameter Name="owner_id" Type="int" Mode="In" />
-        </Function>
-        <Function Name="sp_helpdiagrams" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
-          <Parameter Name="diagramname" Type="nvarchar" Mode="In" />
-          <Parameter Name="owner_id" Type="int" Mode="In" />
-        </Function>
-        <Function Name="sp_renamediagram" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
-          <Parameter Name="diagramname" Type="nvarchar" Mode="In" />
-          <Parameter Name="owner_id" Type="int" Mode="In" />
-          <Parameter Name="new_diagramname" Type="nvarchar" Mode="In" />
-        </Function>
-        <Function Name="sp_upgraddiagrams" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
         <EntityContainer Name="VentasModelStoreContainer">
           <EntitySet Name="CEstadoArticulo" EntityType="Self.CEstadoArticulo" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="CMarcaVehiculo" EntityType="Self.CMarcaVehiculo" Schema="dbo" store:Type="Tables" />
@@ -418,7 +368,6 @@
           <EntitySet Name="TUsuario" EntityType="Self.TUsuario" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="TVehiculo" EntityType="Self.TVehiculo" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="TVenta" EntityType="Self.TVenta" Schema="dbo" store:Type="Tables" />
-          <EntitySet Name="TVentaArticulo" EntityType="Self.TVentaArticulo" Schema="dbo" store:Type="Tables" />
           <AssociationSet Name="FK_Financiamiento_CPeriodoPago" Association="Self.FK_Financiamiento_CPeriodoPago">
             <End Role="CPeriodoPago" EntitySet="CPeriodoPago" />
             <End Role="TFinanciamiento" EntitySet="TFinanciamiento" />
@@ -475,13 +424,9 @@
             <End Role="TCliente" EntitySet="TCliente" />
             <End Role="TVenta" EntitySet="TVenta" />
           </AssociationSet>
-          <AssociationSet Name="FK_TVentaArticulo_TVehiculo" Association="Self.FK_TVentaArticulo_TVehiculo">
+          <AssociationSet Name="FK_TVenta_TVehiculo" Association="Self.FK_TVenta_TVehiculo">
             <End Role="TVehiculo" EntitySet="TVehiculo" />
-            <End Role="TVentaArticulo" EntitySet="TVentaArticulo" />
-          </AssociationSet>
-          <AssociationSet Name="FK_TVentaArticulo_TVenta" Association="Self.FK_TVentaArticulo_TVenta">
             <End Role="TVenta" EntitySet="TVenta" />
-            <End Role="TVentaArticulo" EntitySet="TVentaArticulo" />
           </AssociationSet>
         </EntityContainer>
       </Schema>
@@ -665,7 +610,7 @@
           <NavigationProperty Name="CTipoVehiculo" Relationship="Self.FK_TVehiculo_CTipoVehiculo" FromRole="TVehiculo" ToRole="CTipoVehiculo" />
           <NavigationProperty Name="CTransmision" Relationship="Self.FK_TVehiculo_CTransmision" FromRole="TVehiculo" ToRole="CTransmision" />
           <NavigationProperty Name="TCompra" Relationship="Self.FK_TCompra_TVehiculo" FromRole="TVehiculo" ToRole="TCompra" />
-          <NavigationProperty Name="TVenta" Relationship="Self.TVentaArticulo" FromRole="TVehiculo" ToRole="TVenta" />
+          <NavigationProperty Name="TVenta" Relationship="Self.FK_TVenta_TVehiculo" FromRole="TVehiculo" ToRole="TVenta" />
         </EntityType>
         <EntityType Name="TVenta">
           <Key>
@@ -677,10 +622,11 @@
           <Property Name="IdTipoVenta" Type="Int32" Nullable="false" />
           <Property Name="IdCliente" Type="Int32" Nullable="false" />
           <Property Name="Saldo" Type="Decimal" Precision="18" Scale="0" Nullable="false" />
+          <Property Name="Placa" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
           <NavigationProperty Name="CTipoVenta" Relationship="Self.FK_TVenta_CTipoVenta" FromRole="TVenta" ToRole="CTipoVenta" />
           <NavigationProperty Name="TCliente" Relationship="Self.FK_TVenta_TCliente" FromRole="TVenta" ToRole="TCliente" />
           <NavigationProperty Name="TFinanciamiento" Relationship="Self.FK_Financiamiento_TVenta" FromRole="TVenta" ToRole="TFinanciamiento" />
-          <NavigationProperty Name="TVehiculo" Relationship="Self.TVentaArticulo" FromRole="TVenta" ToRole="TVehiculo" />
+          <NavigationProperty Name="TVehiculo" Relationship="Self.FK_TVenta_TVehiculo" FromRole="TVenta" ToRole="TVehiculo" />
         </EntityType>
         <Association Name="FK_TVehiculo_CEstadoArticulo">
           <End Role="CEstadoArticulo" Type="Self.CEstadoArticulo" Multiplicity="0..1" />
@@ -850,9 +796,17 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="TVentaArticulo">
-          <End Role="TVehiculo" Type="Self.TVehiculo" Multiplicity="*" />
+        <Association Name="FK_TVenta_TVehiculo">
+          <End Role="TVehiculo" Type="Self.TVehiculo" Multiplicity="1" />
           <End Role="TVenta" Type="Self.TVenta" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TVehiculo">
+              <PropertyRef Name="Placa" />
+            </Principal>
+            <Dependent Role="TVenta">
+              <PropertyRef Name="Placa" />
+            </Dependent>
+          </ReferentialConstraint>
         </Association>
         <EntityContainer Name="VentasEntities" annotation:LazyLoadingEnabled="true">
           <EntitySet Name="CEstadoArticulo" EntityType="Self.CEstadoArticulo" />
@@ -929,52 +883,11 @@
             <End Role="TFinanciamiento" EntitySet="TFinanciamiento" />
             <End Role="TPagoFinanciamiento" EntitySet="TPagoFinanciamiento" />
           </AssociationSet>
-          <AssociationSet Name="TVentaArticulo" Association="Self.TVentaArticulo">
+          <AssociationSet Name="FK_TVenta_TVehiculo" Association="Self.FK_TVenta_TVehiculo">
             <End Role="TVehiculo" EntitySet="TVehiculo" />
             <End Role="TVenta" EntitySet="TVenta" />
           </AssociationSet>
-          <FunctionImport Name="sp_alterdiagram">
-            <Parameter Name="diagramname" Mode="In" Type="String" />
-            <Parameter Name="owner_id" Mode="In" Type="Int32" />
-            <Parameter Name="version" Mode="In" Type="Int32" />
-            <Parameter Name="definition" Mode="In" Type="Binary" />
-          </FunctionImport>
-          <FunctionImport Name="sp_creatediagram">
-            <Parameter Name="diagramname" Mode="In" Type="String" />
-            <Parameter Name="owner_id" Mode="In" Type="Int32" />
-            <Parameter Name="version" Mode="In" Type="Int32" />
-            <Parameter Name="definition" Mode="In" Type="Binary" />
-          </FunctionImport>
-          <FunctionImport Name="sp_dropdiagram">
-            <Parameter Name="diagramname" Mode="In" Type="String" />
-            <Parameter Name="owner_id" Mode="In" Type="Int32" />
-          </FunctionImport>
-          <FunctionImport Name="sp_helpdiagramdefinition" ReturnType="Collection(VentasModel.sp_helpdiagramdefinition_Result)">
-            <Parameter Name="diagramname" Mode="In" Type="String" />
-            <Parameter Name="owner_id" Mode="In" Type="Int32" />
-          </FunctionImport>
-          <FunctionImport Name="sp_helpdiagrams" ReturnType="Collection(VentasModel.sp_helpdiagrams_Result)">
-            <Parameter Name="diagramname" Mode="In" Type="String" />
-            <Parameter Name="owner_id" Mode="In" Type="Int32" />
-          </FunctionImport>
-          <FunctionImport Name="sp_renamediagram">
-            <Parameter Name="diagramname" Mode="In" Type="String" />
-            <Parameter Name="owner_id" Mode="In" Type="Int32" />
-            <Parameter Name="new_diagramname" Mode="In" Type="String" />
-          </FunctionImport>
-          <FunctionImport Name="sp_upgraddiagrams" />
         </EntityContainer>
-        <ComplexType Name="sp_helpdiagramdefinition_Result">
-          <Property Type="Int32" Name="version" Nullable="true" />
-          <Property Type="Binary" Name="definition" Nullable="true" />
-        </ComplexType>
-        <ComplexType Name="sp_helpdiagrams_Result">
-          <Property Type="String" Name="Database" Nullable="true" MaxLength="128" />
-          <Property Type="String" Name="Name" Nullable="false" MaxLength="128" />
-          <Property Type="Int32" Name="ID" Nullable="false" />
-          <Property Type="String" Name="Owner" Nullable="true" MaxLength="128" />
-          <Property Type="Int32" Name="OwnerID" Nullable="false" />
-        </ComplexType>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -1158,41 +1071,10 @@
                 <ScalarProperty Name="IdTipoVenta" ColumnName="IdTipoVenta" />
                 <ScalarProperty Name="IdCliente" ColumnName="IdCliente" />
                 <ScalarProperty Name="Saldo" ColumnName="Saldo" />
+                <ScalarProperty Name="Placa" ColumnName="Placa" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <AssociationSetMapping Name="TVentaArticulo" TypeName="VentasModel.TVentaArticulo" StoreEntitySet="TVentaArticulo">
-            <EndProperty Name="TVehiculo">
-              <ScalarProperty Name="Placa" ColumnName="Placa" />
-            </EndProperty>
-            <EndProperty Name="TVenta">
-              <ScalarProperty Name="IdVenta" ColumnName="IdVenta" />
-            </EndProperty>
-          </AssociationSetMapping>
-          <FunctionImportMapping FunctionImportName="sp_alterdiagram" FunctionName="VentasModel.Store.sp_alterdiagram" />
-          <FunctionImportMapping FunctionImportName="sp_creatediagram" FunctionName="VentasModel.Store.sp_creatediagram" />
-          <FunctionImportMapping FunctionImportName="sp_dropdiagram" FunctionName="VentasModel.Store.sp_dropdiagram" />
-          <FunctionImportMapping FunctionImportName="sp_helpdiagramdefinition" FunctionName="VentasModel.Store.sp_helpdiagramdefinition">
-            <ResultMapping>
-              <ComplexTypeMapping TypeName="VentasModel.sp_helpdiagramdefinition_Result">
-                <ScalarProperty Name="version" ColumnName="version" />
-                <ScalarProperty Name="definition" ColumnName="definition" />
-              </ComplexTypeMapping>
-            </ResultMapping>
-          </FunctionImportMapping>
-          <FunctionImportMapping FunctionImportName="sp_helpdiagrams" FunctionName="VentasModel.Store.sp_helpdiagrams">
-            <ResultMapping>
-              <ComplexTypeMapping TypeName="VentasModel.sp_helpdiagrams_Result">
-                <ScalarProperty Name="Database" ColumnName="Database" />
-                <ScalarProperty Name="Name" ColumnName="Name" />
-                <ScalarProperty Name="ID" ColumnName="ID" />
-                <ScalarProperty Name="Owner" ColumnName="Owner" />
-                <ScalarProperty Name="OwnerID" ColumnName="OwnerID" />
-              </ComplexTypeMapping>
-            </ResultMapping>
-          </FunctionImportMapping>
-          <FunctionImportMapping FunctionImportName="sp_renamediagram" FunctionName="VentasModel.Store.sp_renamediagram" />
-          <FunctionImportMapping FunctionImportName="sp_upgraddiagrams" FunctionName="VentasModel.Store.sp_upgraddiagrams" />
         </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>

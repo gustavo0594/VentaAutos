@@ -18,7 +18,7 @@ namespace VentaAutos.Controllers
         // GET: Ventas
         public async Task<ActionResult> Index()
         {
-            var tVenta = db.TVenta.Include(t => t.CTipoVenta).Include(t => t.TCliente);
+            var tVenta = db.TVenta.Include(t => t.CTipoVenta).Include(t => t.TCliente).Include(t => t.TVehiculo);
             return View(await tVenta.ToListAsync());
         }
 
@@ -41,7 +41,10 @@ namespace VentaAutos.Controllers
         public ActionResult Create()
         {
             ViewBag.IdTipoVenta = new SelectList(db.CTipoVenta, "IdTipoVenta", "Descripcion");
-            ViewBag.IdCliente = new SelectList(db.TCliente, "IdCliente", "Identificacion");
+            //ViewBag.IdCliente = new SelectList(db.TCliente, "IdCliente", "Identificacion");
+            //ViewBag.Placa = new SelectList(db.TVehiculo, "Placa","Placa");
+            CargarComboClientes(null);
+            CargarComboVehiculos(string.Empty);
             return View();
         }
 
@@ -50,7 +53,7 @@ namespace VentaAutos.Controllers
         // más información vea https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Create([Bind(Include = "IdVenta,Monto,Fecha,IdTipoVenta,IdCliente,Saldo")] TVenta tVenta)
+        public async Task<ActionResult> Create([Bind(Include = "IdVenta,Monto,Fecha,IdTipoVenta,IdCliente,Saldo,Placa")] TVenta tVenta)
         {
             if (ModelState.IsValid)
             {
@@ -61,6 +64,7 @@ namespace VentaAutos.Controllers
 
             ViewBag.IdTipoVenta = new SelectList(db.CTipoVenta, "IdTipoVenta", "Descripcion", tVenta.IdTipoVenta);
             ViewBag.IdCliente = new SelectList(db.TCliente, "IdCliente", "Identificacion", tVenta.IdCliente);
+            ViewBag.Placa = new SelectList(db.TVehiculo, "Placa", "Placa", tVenta.Placa);
             return View(tVenta);
         }
 
@@ -77,7 +81,13 @@ namespace VentaAutos.Controllers
                 return HttpNotFound();
             }
             ViewBag.IdTipoVenta = new SelectList(db.CTipoVenta, "IdTipoVenta", "Descripcion", tVenta.IdTipoVenta);
-            ViewBag.IdCliente = new SelectList(db.TCliente, "IdCliente", "Identificacion", tVenta.IdCliente);
+            //ViewBag.IdCliente = new SelectList(db.TCliente, "IdCliente", "Identificacion", tVenta.IdCliente);
+            //ViewBag.Placa = new SelectList(db.TVehiculo, "Placa", "Placa", tVenta.Placa);
+
+            CargarComboClientes(tVenta.IdCliente);
+            CargarComboVehiculos(tVenta.Placa);
+
+
             return View(tVenta);
         }
 
@@ -86,7 +96,7 @@ namespace VentaAutos.Controllers
         // más información vea https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Edit([Bind(Include = "IdVenta,Monto,Fecha,IdTipoVenta,IdCliente,Saldo")] TVenta tVenta)
+        public async Task<ActionResult> Edit([Bind(Include = "IdVenta,Monto,Fecha,IdTipoVenta,IdCliente,Saldo,Placa")] TVenta tVenta)
         {
             if (ModelState.IsValid)
             {
@@ -96,6 +106,7 @@ namespace VentaAutos.Controllers
             }
             ViewBag.IdTipoVenta = new SelectList(db.CTipoVenta, "IdTipoVenta", "Descripcion", tVenta.IdTipoVenta);
             ViewBag.IdCliente = new SelectList(db.TCliente, "IdCliente", "Identificacion", tVenta.IdCliente);
+            ViewBag.Placa = new SelectList(db.TVehiculo, "Placa", "Placa", tVenta.Placa);
             return View(tVenta);
         }
 
@@ -132,6 +143,53 @@ namespace VentaAutos.Controllers
                 db.Dispose();
             }
             base.Dispose(disposing);
+        }
+
+        protected void CargarComboVehiculos(string placa)
+        {
+            var vehiculos = db.TVehiculo;
+            List<object> vehiculosList = new List<object>();
+            foreach (var v in vehiculos)
+                vehiculosList.Add(new
+                {
+                    Id = v.Placa,
+                    Name = v.Placa + " - " + v.CMarcaVehiculo.Descripcion
+                });
+            if (placa == string.Empty)
+            {
+
+                ViewBag.Placa = new SelectList(vehiculosList, "Id", "Name");
+            }
+            else
+            {
+                ViewBag.Placa = new SelectList(vehiculosList, "Id", "Name", placa);
+            }
+
+        }
+
+        protected void CargarComboClientes(int? idCliente)
+        {
+            var clientes = db.TCliente;
+            List<object> clientesList = new List<object>();
+            foreach (var c in clientes)
+                clientesList.Add(new
+                {
+                    Id = c.IdCliente,
+                    Name = c.Identificacion + " - " + c.Nombre + " " + c.PrimerApellido + " " + c.SegundoApellido
+                });
+
+            if (idCliente == null )
+            {
+
+                ViewBag.IdCliente = new SelectList(clientesList, "Id", "Name");
+            }
+            else
+            {
+                ViewBag.IdCliente = new SelectList(clientesList, "Id", "Name", idCliente);
+            }
+
+            
+
         }
     }
 }

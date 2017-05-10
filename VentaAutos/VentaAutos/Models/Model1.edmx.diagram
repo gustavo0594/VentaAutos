@@ -4,7 +4,7 @@
   <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
     <!-- Diagram content (shape and connector positions) -->
     <edmx:Diagrams>
-      <Diagram DiagramId="489cdd4b8e884d51adc95087f70be216" Name="Diagram1">
+      <Diagram DiagramId="0b570c9eeb964746a24b88883373b00e" Name="Diagram1">
         <EntityTypeShape EntityType="VentasModel.CEstadoArticulo" Width="1.5" PointX="0.75" PointY="4.75" IsExpanded="true" />
         <EntityTypeShape EntityType="VentasModel.CMarcaVehiculo" Width="1.5" PointX="0.75" PointY="7.875" IsExpanded="true" />
         <EntityTypeShape EntityType="VentasModel.CPeriodoPago" Width="1.5" PointX="8.25" PointY="0.75" IsExpanded="true" />
@@ -13,16 +13,16 @@
         <EntityTypeShape EntityType="VentasModel.CTipoVehiculo" Width="1.5" PointX="0.75" PointY="12.625" IsExpanded="true" />
         <EntityTypeShape EntityType="VentasModel.CTipoVenta" Width="1.5" PointX="6" PointY="1.75" IsExpanded="true" />
         <EntityTypeShape EntityType="VentasModel.CTransmision" Width="1.5" PointX="0.75" PointY="14.875" IsExpanded="true" />
-        <EntityTypeShape EntityType="VentasModel.sysdiagrams" Width="1.5" PointX="7.75" PointY="8.25" IsExpanded="true" />
-        <EntityTypeShape EntityType="VentasModel.TArticulo" Width="1.5" PointX="9.75" PointY="8.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="VentasModel.sysdiagrams" Width="1.5" PointX="7.75" PointY="8.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="VentasModel.TArticulo" Width="1.5" PointX="9.75" PointY="8.125" IsExpanded="true" />
         <EntityTypeShape EntityType="VentasModel.TCliente" Width="1.5" PointX="3" PointY="10.125" IsExpanded="true" />
         <EntityTypeShape EntityType="VentasModel.TCompra" Width="1.5" PointX="5.25" PointY="4.5" IsExpanded="true" />
         <EntityTypeShape EntityType="VentasModel.TFinanciamiento" Width="1.5" PointX="10.5" PointY="4.125" IsExpanded="true" />
         <EntityTypeShape EntityType="VentasModel.TPagoFinanciamiento" Width="1.5" PointX="12.75" PointY="4.25" IsExpanded="true" />
         <EntityTypeShape EntityType="VentasModel.TTelefonoCliente" Width="1.5" PointX="5.25" PointY="10.625" IsExpanded="true" />
-        <EntityTypeShape EntityType="VentasModel.TUsuario" Width="1.5" PointX="7.75" PointY="11.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="VentasModel.TUsuario" Width="1.5" PointX="7.75" PointY="11.125" IsExpanded="true" />
         <EntityTypeShape EntityType="VentasModel.TVehiculo" Width="1.5" PointX="3" PointY="3.25" IsExpanded="true" />
-        <EntityTypeShape EntityType="VentasModel.TVenta" Width="1.5" PointX="8.25" PointY="4.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="VentasModel.TVenta" Width="1.5" PointX="8.25" PointY="4" IsExpanded="true" />
         <AssociationConnector Association="VentasModel.FK_TVehiculo_CEstadoArticulo" ManuallyRouted="false" />
         <AssociationConnector Association="VentasModel.FK_TVehiculo_CMarcaVehiculo" ManuallyRouted="false" />
         <AssociationConnector Association="VentasModel.FK_Financiamiento_CPeriodoPago" ManuallyRouted="false" />
@@ -37,7 +37,7 @@
         <AssociationConnector Association="VentasModel.FK_TCompra_TVehiculo" ManuallyRouted="false" />
         <AssociationConnector Association="VentasModel.FK_Financiamiento_TVenta" ManuallyRouted="false" />
         <AssociationConnector Association="VentasModel.FK_TPago_Financiamiento" ManuallyRouted="false" />
-        <AssociationConnector Association="VentasModel.TVentaArticulo" ManuallyRouted="false" />
+        <AssociationConnector Association="VentasModel.FK_TVenta_TVehiculo" ManuallyRouted="false" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>
