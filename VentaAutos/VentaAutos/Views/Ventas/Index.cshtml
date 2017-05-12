@@ -64,7 +64,10 @@
         <td>
             @Html.ActionLink("Edit", "Edit", new { id=item.IdVenta }) |
             @Html.ActionLink("Details", "Details", new { id=item.IdVenta }) |
-            @Html.ActionLink("Delete", "Delete", new { id=item.IdVenta })
+            @Html.ActionLink("Delete", "Delete", new { id=item.IdVenta }) |
+            @Html.ActionLink("Financiar", "Create", "Financiamientos", new { idVenta = item.IdVenta }, new { idVenta = item.IdVenta })
+
+
         </td>
     </tr>
 }

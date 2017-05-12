@@ -4,6 +4,7 @@ using System.Data;
 using System.Data.Entity;
 using System.Linq;
 using System.Net;
+using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
 using VentaAutos.Models;
@@ -16,10 +17,22 @@ namespace VentaAutos.Controllers
         private VentasEntities db = new VentasEntities();
 
         // GET: Financiamientos
-        public ActionResult Index()
+        public async Task<ActionResult> Index(int? idVenta)
         {
-            var tFinanciamiento = db.TFinanciamiento.Include(t => t.CPeriodoPago).Include(t => t.TVenta);
-            return View(tFinanciamiento.ToList());
+            if (idVenta == null)
+            {
+
+                var tFinanciamiento = db.TFinanciamiento.Include(t => t.CPeriodoPago).Include(t => t.TVenta);
+                return View( await tFinanciamiento.ToListAsync());                
+            }
+            else
+            {
+                var tFinanciamiento = db.TFinanciamiento.Where(t => t.TVenta.IdVenta == idVenta).Include(t => t.CPeriodoPago).Include(t => t.TVenta);
+                                return View(await tFinanciamiento.ToListAsync());
+            }
+
+            //var tFinanciamiento = db.TFinanciamiento.Include(t => t.CPeriodoPago).Include(t => t.TVenta);
+            //return View(tFinanciamiento.ToList());
         }
 
         // GET: Financiamientos/Details/5
