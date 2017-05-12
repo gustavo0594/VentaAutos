@@ -10,37 +10,54 @@
     @Html.ActionLink("Nuevo", "Create", new { idCliente = ViewBag.IdClienteInt }) | 
     @Html.ActionLink("Regresar a Clientes", "Index", "Clientes")
 </p>
-<table class="table">
-    <tr>
-        <th>
-            @Html.DisplayNameFor(model => model.Descripcion)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.TCliente.Identificacion)
-        </th>
-        <th>
-            Cliente
-        </th>
-        <th></th>
-    </tr>
+<div class="row">
+    <div class="col-lg-5 col-lg-offset-8">
+        <input type="search" id="search" value="" class="form-control" placeholder="Búsqueda">
+    </div>
+</div>
+<div class="row">
+    <table class="table">
+        <thead>
+            <tr>
+                <th>
+                    @Html.DisplayNameFor(model => model.Descripcion)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.TCliente.Identificacion)
+                </th>
+                <th>
+                    Cliente
+                </th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Descripcion)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.TCliente.Identificacion)
+                    </td>
+                    <td>
+                        @( String.Format("{0} {1}", item.TCliente.Nombre, item.TCliente.PrimerApellido) )
+                    </td>
+                    <td>
+                        @Html.ActionLink("Editar", "Edit", new { id = item.IdTelefono }) |
+                        @Html.ActionLink("Detalle", "Details", new { id = item.IdTelefono }) |
+                        @Html.ActionLink("Eliminar", "Delete", new { id = item.IdTelefono })
+                    </td>
+                </tr>
+            }
+        </tbody>
 
-@foreach (var item in Model) {
-    <tr>
-        <td>
-            @Html.DisplayFor(modelItem => item.Descripcion)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.TCliente.Identificacion)
-        </td>
-        <td>
-           @( String.Format("{0} {1}", item.TCliente.Nombre,item.TCliente.PrimerApellido) )
-        </td>
-        <td>
-            @Html.ActionLink("Editar", "Edit", new { id=item.IdTelefono }) |
-            @Html.ActionLink("Detalle", "Details", new { id=item.IdTelefono }) |
-            @Html.ActionLink("Eliminar", "Delete", new { id=item.IdTelefono })
-        </td>
-    </tr>
+    </table>
+</div>
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+    <script src="//rawgithub.com/stidges/jquery-searchable/master/dist/jquery.searchable-1.0.0.min.js"></script>
+    <script src="~/Scripts/table-search.js"></script>
 }
-
-</table>
