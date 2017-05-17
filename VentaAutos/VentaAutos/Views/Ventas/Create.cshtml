@@ -64,6 +64,14 @@
         </div>
 
         <div class="form-group">
+            @Html.LabelFor(model => model.IdFinanciamiento, "IdFinanciamiento", htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.DropDownList("IdFinanciamiento", null, htmlAttributes: new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.IdFinanciamiento, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
             <div class="col-md-offset-2 col-md-10">
                 <input type="submit" value="Create" class="btn btn-default" />
             </div>
@@ -77,6 +85,7 @@
 
 @section Scripts {
     @Scripts.Render("~/bundles/jqueryval")
+
 <link href="~/Content/bootstrap-select.css" rel="stylesheet" />
 <link href="~/Content/bootstrap-datepicker.css" rel="stylesheet" />
 <link href="~/Content/bootstrapValidator.min.css" rel="stylesheet" />
@@ -87,7 +96,6 @@
 <script src="~/Scripts/bootstrap-datetimepicker.js"></script>
 <script src="~/Scripts/mask.js"></script>
 <script src="~/Scripts/jquery.formatCurrency-1.4.0.js"></script>
-
 
 <script type="text/javascript">
         $(function () { // will trigger when the document is ready
@@ -104,7 +112,9 @@
                 Globalize.culture("en-AU"); // the UK format
                 return this.optional(element) || Globalize.parseDate(value) !== null;
             }
+           
 
         });
+
 </script>
 }

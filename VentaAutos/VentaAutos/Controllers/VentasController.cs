@@ -3,8 +3,8 @@ using System.Collections.Generic;
 using System.Data;
 using System.Data.Entity;
 using System.Linq;
-using System.Threading.Tasks;
 using System.Net;
+using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
 using VentaAutos.Models;
@@ -16,20 +16,20 @@ namespace VentaAutos.Controllers
         private VentasEntities db = new VentasEntities();
 
         // GET: Ventas
-        public async Task<ActionResult> Index()
+        public ActionResult Index()
         {
-            var tVenta = db.TVenta.Include(t => t.CTipoVenta).Include(t => t.TCliente).Include(t => t.TVehiculo);
-            return View(await tVenta.ToListAsync());
+            var tVenta = db.TVenta.Include(t => t.CTipoVenta).Include(t => t.TCliente).Include(t => t.TFinanciamiento).Include(t => t.TVehiculo);
+            return View(tVenta.ToList());
         }
 
         // GET: Ventas/Details/5
-        public async Task<ActionResult> Details(int? id)
+        public ActionResult Details(int? id)
         {
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            TVenta tVenta = await db.TVenta.FindAsync(id);
+            TVenta tVenta = db.TVenta.Find(id);
             if (tVenta == null)
             {
                 return HttpNotFound();
@@ -41,10 +41,14 @@ namespace VentaAutos.Controllers
         public ActionResult Create()
         {
             ViewBag.IdTipoVenta = new SelectList(db.CTipoVenta, "IdTipoVenta", "Descripcion");
+           
+            ViewBag.IdFinanciamiento = new SelectList(db.TFinanciamiento, "IdFinanciamiento", "Descripcion");
+            //ViewBag.Placa = new SelectList(db.TVehiculo, "Placa", "Estilo");
             //ViewBag.IdCliente = new SelectList(db.TCliente, "IdCliente", "Identificacion");
-            //ViewBag.Placa = new SelectList(db.TVehiculo, "Placa","Placa");
+
             CargarComboClientes(null);
             CargarComboVehiculos(string.Empty);
+
             return View();
         }
 
@@ -53,18 +57,19 @@ namespace VentaAutos.Controllers
         // más información vea https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Create([Bind(Include = "IdVenta,Monto,Fecha,IdTipoVenta,IdCliente,Saldo,Placa")] TVenta tVenta)
+        public ActionResult Create([Bind(Include = "IdVenta,Monto,Fecha,IdTipoVenta,IdCliente,Saldo,Placa,IdFinanciamiento")] TVenta tVenta)
         {
             if (ModelState.IsValid)
             {
                 db.TVenta.Add(tVenta);
-                await db.SaveChangesAsync();
+                db.SaveChanges();
                 return RedirectToAction("Index");
             }
 
             ViewBag.IdTipoVenta = new SelectList(db.CTipoVenta, "IdTipoVenta", "Descripcion", tVenta.IdTipoVenta);
             ViewBag.IdCliente = new SelectList(db.TCliente, "IdCliente", "Identificacion", tVenta.IdCliente);
-            ViewBag.Placa = new SelectList(db.TVehiculo, "Placa", "Placa", tVenta.Placa);
+            ViewBag.IdFinanciamiento = new SelectList(db.TFinanciamiento, "IdFinanciamiento", "Descripcion", tVenta.IdFinanciamiento);
+            ViewBag.Placa = new SelectList(db.TVehiculo, "Placa", "Estilo", tVenta.Placa);
             return View(tVenta);
         }
 
@@ -75,19 +80,18 @@ namespace VentaAutos.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            TVenta tVenta = await db.TVenta.FindAsync(id);
+            TVenta tVenta = db.TVenta.Find(id);
             if (tVenta == null)
             {
                 return HttpNotFound();
             }
             ViewBag.IdTipoVenta = new SelectList(db.CTipoVenta, "IdTipoVenta", "Descripcion", tVenta.IdTipoVenta);
+           
+            ViewBag.IdFinanciamiento = new SelectList(db.TFinanciamiento, "IdFinanciamiento", "Descripcion", tVenta.IdFinanciamiento);
+            //ViewBag.Placa = new SelectList(db.TVehiculo, "Placa", "Estilo", tVenta.Placa);
             //ViewBag.IdCliente = new SelectList(db.TCliente, "IdCliente", "Identificacion", tVenta.IdCliente);
-            //ViewBag.Placa = new SelectList(db.TVehiculo, "Placa", "Placa", tVenta.Placa);
-
             CargarComboClientes(tVenta.IdCliente);
             CargarComboVehiculos(tVenta.Placa);
-
-
             return View(tVenta);
         }
 
@@ -96,28 +100,29 @@ namespace VentaAutos.Controllers
         // más información vea https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Edit([Bind(Include = "IdVenta,Monto,Fecha,IdTipoVenta,IdCliente,Saldo,Placa")] TVenta tVenta)
+        public ActionResult Edit([Bind(Include = "IdVenta,Monto,Fecha,IdTipoVenta,IdCliente,Saldo,Placa,IdFinanciamiento")] TVenta tVenta)
         {
             if (ModelState.IsValid)
             {
                 db.Entry(tVenta).State = EntityState.Modified;
-                await db.SaveChangesAsync();
+                db.SaveChanges();
                 return RedirectToAction("Index");
             }
             ViewBag.IdTipoVenta = new SelectList(db.CTipoVenta, "IdTipoVenta", "Descripcion", tVenta.IdTipoVenta);
             ViewBag.IdCliente = new SelectList(db.TCliente, "IdCliente", "Identificacion", tVenta.IdCliente);
-            ViewBag.Placa = new SelectList(db.TVehiculo, "Placa", "Placa", tVenta.Placa);
+            ViewBag.IdFinanciamiento = new SelectList(db.TFinanciamiento, "IdFinanciamiento", "Descripcion", tVenta.IdFinanciamiento);
+            ViewBag.Placa = new SelectList(db.TVehiculo, "Placa", "Estilo", tVenta.Placa);
             return View(tVenta);
         }
 
         // GET: Ventas/Delete/5
-        public async Task<ActionResult> Delete(int? id)
+        public ActionResult Delete(int? id)
         {
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            TVenta tVenta = await db.TVenta.FindAsync(id);
+            TVenta tVenta = db.TVenta.Find(id);
             if (tVenta == null)
             {
                 return HttpNotFound();
@@ -128,11 +133,11 @@ namespace VentaAutos.Controllers
         // POST: Ventas/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> DeleteConfirmed(int id)
+        public ActionResult DeleteConfirmed(int id)
         {
-            TVenta tVenta = await db.TVenta.FindAsync(id);
+            TVenta tVenta = db.TVenta.Find(id);
             db.TVenta.Remove(tVenta);
-            await db.SaveChangesAsync();
+            db.SaveChanges();
             return RedirectToAction("Index");
         }
 
@@ -178,7 +183,7 @@ namespace VentaAutos.Controllers
                     Name = c.Identificacion + " - " + c.Nombre + " " + c.PrimerApellido + " " + c.SegundoApellido
                 });
 
-            if (idCliente == null )
+            if (idCliente == null)
             {
 
                 ViewBag.IdCliente = new SelectList(clientesList, "Id", "Name");
@@ -188,8 +193,10 @@ namespace VentaAutos.Controllers
                 ViewBag.IdCliente = new SelectList(clientesList, "Id", "Name", idCliente);
             }
 
-            
+
 
         }
+
     }
+
 }

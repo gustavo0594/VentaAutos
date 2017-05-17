@@ -4,38 +4,24 @@ using System.Data;
 using System.Data.Entity;
 using System.Linq;
 using System.Net;
-using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
 using VentaAutos.Models;
 
 namespace VentaAutos.Controllers
 {
-    [Authorize]
-    public class FinanciamientosController : Controller
+    public class TFinanciamientosController : Controller
     {
         private VentasEntities db = new VentasEntities();
 
-        // GET: Financiamientos
-        public async Task<ActionResult> Index(int? idVenta)
+        // GET: TFinanciamientos
+        public ActionResult Index()
         {
-            if (idVenta == null)
-            {
-
-                var tFinanciamiento = db.TFinanciamiento.Include(t => t.CPeriodoPago).Include(t => t.TVenta);
-                return View( await tFinanciamiento.ToListAsync());                
-            }
-            else
-            {
-                var tFinanciamiento = db.TFinanciamiento.Where(t => t.TVenta.IdVenta == idVenta).Include(t => t.CPeriodoPago).Include(t => t.TVenta);
-                                return View(await tFinanciamiento.ToListAsync());
-            }
-
-            //var tFinanciamiento = db.TFinanciamiento.Include(t => t.CPeriodoPago).Include(t => t.TVenta);
-            //return View(tFinanciamiento.ToList());
+            var tFinanciamiento = db.TFinanciamiento.Include(t => t.CPeriodoPago);
+            return View(tFinanciamiento.ToList());
         }
 
-        // GET: Financiamientos/Details/5
+        // GET: TFinanciamientos/Details/5
         public ActionResult Details(int? id)
         {
             if (id == null)
@@ -50,21 +36,19 @@ namespace VentaAutos.Controllers
             return View(tFinanciamiento);
         }
 
-        // GET: Financiamientos/Create
+        // GET: TFinanciamientos/Create
         public ActionResult Create()
         {
             ViewBag.IdPeriodoPago = new SelectList(db.CPeriodoPago, "IdPeriodoPago", "Descripcion");
-            //ViewBag.IdVenta = new SelectList(db.TVenta, "IdVenta", "IdVenta");
-            this.CargarComboVentas(null);
             return View();
         }
 
-        // POST: Financiamientos/Create
+        // POST: TFinanciamientos/Create
         // Para protegerse de ataques de publicación excesiva, habilite las propiedades específicas a las que desea enlazarse. Para obtener 
         // más información vea https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "IdFinanciamiento,Interes,Plazo,Monto,IdPeriodoPago,IdVenta")] TFinanciamiento tFinanciamiento)
+        public ActionResult Create([Bind(Include = "IdFinanciamiento,Interes,Plazo,IdPeriodoPago,Descripcion")] TFinanciamiento tFinanciamiento)
         {
             if (ModelState.IsValid)
             {
@@ -74,11 +58,10 @@ namespace VentaAutos.Controllers
             }
 
             ViewBag.IdPeriodoPago = new SelectList(db.CPeriodoPago, "IdPeriodoPago", "Descripcion", tFinanciamiento.IdPeriodoPago);
-            ViewBag.IdVenta = new SelectList(db.TVenta, "IdVenta", "IdVenta", tFinanciamiento.IdVenta);
             return View(tFinanciamiento);
         }
 
-        // GET: Financiamientos/Edit/5
+        // GET: TFinanciamientos/Edit/5
         public ActionResult Edit(int? id)
         {
             if (id == null)
@@ -91,17 +74,15 @@ namespace VentaAutos.Controllers
                 return HttpNotFound();
             }
             ViewBag.IdPeriodoPago = new SelectList(db.CPeriodoPago, "IdPeriodoPago", "Descripcion", tFinanciamiento.IdPeriodoPago);
-            //ViewBag.IdVenta = new SelectList(db.TVenta, "IdVenta", "IdVenta", tFinanciamiento.IdVenta);
-            this.CargarComboVentas(tFinanciamiento.IdVenta);
             return View(tFinanciamiento);
         }
 
-        // POST: Financiamientos/Edit/5
+        // POST: TFinanciamientos/Edit/5
         // Para protegerse de ataques de publicación excesiva, habilite las propiedades específicas a las que desea enlazarse. Para obtener 
         // más información vea https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "IdFinanciamiento,Interes,Plazo,Monto,IdPeriodoPago,IdVenta")] TFinanciamiento tFinanciamiento)
+        public ActionResult Edit([Bind(Include = "IdFinanciamiento,Interes,Plazo,IdPeriodoPago,Descripcion")] TFinanciamiento tFinanciamiento)
         {
             if (ModelState.IsValid)
             {
@@ -110,11 +91,10 @@ namespace VentaAutos.Controllers
                 return RedirectToAction("Index");
             }
             ViewBag.IdPeriodoPago = new SelectList(db.CPeriodoPago, "IdPeriodoPago", "Descripcion", tFinanciamiento.IdPeriodoPago);
-            ViewBag.IdVenta = new SelectList(db.TVenta, "IdVenta", "IdVenta", tFinanciamiento.IdVenta);
             return View(tFinanciamiento);
         }
 
-        // GET: Financiamientos/Delete/5
+        // GET: TFinanciamientos/Delete/5
         public ActionResult Delete(int? id)
         {
             if (id == null)
@@ -129,7 +109,7 @@ namespace VentaAutos.Controllers
             return View(tFinanciamiento);
         }
 
-        // POST: Financiamientos/Delete/5
+        // POST: TFinanciamientos/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(int id)
@@ -148,33 +128,5 @@ namespace VentaAutos.Controllers
             }
             base.Dispose(disposing);
         }
-
-
-        protected void CargarComboVentas(int? idVenta)
-        {
-            var ventas = db.TVenta;
-            List<object> ventasList = new List<object>();
-            foreach (var v in ventas)
-                ventasList.Add(new
-                {
-                    Id = v.IdVenta,
-                    Name = v.Placa + " - " + v.TCliente.Nombre + " " + v.TCliente.PrimerApellido + " " + v.TCliente.SegundoApellido
-                });
-
-            if (idVenta == null)
-            {
-
-                ViewBag.IdVenta = new SelectList(ventasList, "Id", "Name");
-            }
-            else
-            {
-                ViewBag.IdVenta = new SelectList(ventasList, "Id", "Name", idVenta);
-            }
-
-
-
-        }
-
-
     }
 }
