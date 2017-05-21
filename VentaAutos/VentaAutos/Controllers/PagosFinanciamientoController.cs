@@ -55,6 +55,8 @@ namespace VentaAutos.Controllers
         {
             if (ModelState.IsValid)
             {
+                TVenta venta = db.TVenta.Find(tPagoFinanciamiento.IdVenta);
+                venta.Saldo -= (tPagoFinanciamiento.Monto).Value;
                 db.TPagoFinanciamiento.Add(tPagoFinanciamiento);
                 db.SaveChanges();
                 return RedirectToAction("Index");
@@ -124,6 +126,14 @@ namespace VentaAutos.Controllers
             db.TPagoFinanciamiento.Remove(tPagoFinanciamiento);
             db.SaveChanges();
             return RedirectToAction("Index");
+        }
+
+        [HttpPost, ActionName("GetMontoPago")]
+        public JsonResult GetMontoPago(int ventaId)
+        {
+            TVenta tVenta = db.TVenta.Find(ventaId);
+            decimal monto = ((tVenta.Saldo * tVenta.TFinanciamiento.Interes) / 100) + (tVenta.Saldo / 12);
+            return Json(monto);
         }
 
         protected override void Dispose(bool disposing)

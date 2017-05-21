@@ -33,7 +33,6 @@ namespace VentaAutos.Models
         public virtual DbSet<CTipoVehiculo> CTipoVehiculo { get; set; }
         public virtual DbSet<CTipoVenta> CTipoVenta { get; set; }
         public virtual DbSet<CTransmision> CTransmision { get; set; }
-        public virtual DbSet<sysdiagrams> sysdiagrams { get; set; }
         public virtual DbSet<TArticulo> TArticulo { get; set; }
         public virtual DbSet<TCliente> TCliente { get; set; }
         public virtual DbSet<TCompra> TCompra { get; set; }

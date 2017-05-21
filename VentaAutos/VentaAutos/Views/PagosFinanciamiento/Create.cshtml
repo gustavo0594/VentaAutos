@@ -97,5 +97,23 @@
             }
 
         });
+
+        $(function () {
+            GetMontoPago();
+            function GetMontoPago() {
+                var ventaId = $("#IdFinanciamiento").val();
+                $.ajax({
+                    type: 'POST',
+                    data: { 'ventaId': 1 },
+                    url: "/PagosFinanciamiento/GetMontoPago",
+                    success: function (data) {
+                        $("#Monto").val(data);
+                    },
+                    error: function (msg) {
+                        alert("Error obteniendo el monto del pago " + msg.statusText);
+                    }
+                });
+            }
+        });
     </script>
 }
