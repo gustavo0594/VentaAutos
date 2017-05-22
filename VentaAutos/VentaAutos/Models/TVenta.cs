@@ -14,6 +14,12 @@ namespace VentaAutos.Models
     
     public partial class TVenta
     {
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
+        public TVenta()
+        {
+            this.TFinanciamiento = new HashSet<TFinanciamiento>();
+        }
+    
         public int IdVenta { get; set; }
         public decimal Monto { get; set; }
         public System.DateTime Fecha { get; set; }
@@ -21,11 +27,11 @@ namespace VentaAutos.Models
         public int IdCliente { get; set; }
         public decimal Saldo { get; set; }
         public string Placa { get; set; }
-        public Nullable<int> IdFinanciamiento { get; set; }
     
         public virtual CTipoVenta CTipoVenta { get; set; }
         public virtual TCliente TCliente { get; set; }
-        public virtual TFinanciamiento TFinanciamiento { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<TFinanciamiento> TFinanciamiento { get; set; }
         public virtual TVehiculo TVehiculo { get; set; }
     }
 }

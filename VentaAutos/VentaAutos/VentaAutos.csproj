@@ -197,11 +197,11 @@
     <Compile Include="Controllers\CPeriodosPagoController.cs" />
     <Compile Include="Controllers\CTiposArticuloController.cs" />
     <Compile Include="Controllers\EstadosArticulosController.cs" />
+    <Compile Include="Controllers\FinanciamientosController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
     <Compile Include="Controllers\PagosFinanciamientoController.cs" />
     <Compile Include="Controllers\TelefonosClienteController.cs" />
-    <Compile Include="Controllers\TFinanciamientosController.cs" />
     <Compile Include="Controllers\TiposPagoController.cs" />
     <Compile Include="Controllers\TiposVehiculoController.cs" />
     <Compile Include="Controllers\TiposVentaController.cs" />
@@ -387,7 +387,9 @@
     <Content Include="Scripts\respond.js" />
     <Content Include="Scripts\respond.min.js" />
     <Content Include="Scripts\table-search.js" />
-    <Content Include="Web.config" />
+    <Content Include="Web.config">
+      <SubType>Designer</SubType>
+    </Content>
     <Content Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </Content>
@@ -481,16 +483,16 @@
     <Content Include="Views\Vehiculos\Details.cshtml" />
     <Content Include="Views\Vehiculos\Edit.cshtml" />
     <Content Include="Views\Vehiculos\Index.cshtml" />
-    <Content Include="Views\TFinanciamientos\Create.cshtml" />
-    <Content Include="Views\TFinanciamientos\Delete.cshtml" />
-    <Content Include="Views\TFinanciamientos\Details.cshtml" />
-    <Content Include="Views\TFinanciamientos\Edit.cshtml" />
-    <Content Include="Views\TFinanciamientos\Index.cshtml" />
     <Content Include="Views\Ventas\Create.cshtml" />
     <Content Include="Views\Ventas\Delete.cshtml" />
     <Content Include="Views\Ventas\Details.cshtml" />
     <Content Include="Views\Ventas\Edit.cshtml" />
     <Content Include="Views\Ventas\Index.cshtml" />
+    <Content Include="Views\Financiamientos\Create.cshtml" />
+    <Content Include="Views\Financiamientos\Delete.cshtml" />
+    <Content Include="Views\Financiamientos\Details.cshtml" />
+    <Content Include="Views\Financiamientos\Edit.cshtml" />
+    <Content Include="Views\Financiamientos\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

@@ -1,12 +1,11 @@
 ﻿@model VentaAutos.Models.TFinanciamiento
 
 @{
-    ViewBag.Title = "Delete";
+    ViewBag.Title = "Details";
 }
 
-<h2>Delete</h2>
+<h2>Details</h2>
 
-<h3>Are you sure you want to delete this?</h3>
 <div>
     <h4>TFinanciamiento</h4>
     <hr />
@@ -27,8 +26,6 @@
             @Html.DisplayFor(model => model.Plazo)
         </dd>
 
-       
-
         <dt>
             @Html.DisplayNameFor(model => model.Descripcion)
         </dt>
@@ -45,14 +42,17 @@
             @Html.DisplayFor(model => model.CPeriodoPago.Descripcion)
         </dd>
 
+        <dt>
+            @Html.DisplayNameFor(model => model.TVenta.Placa)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.TVenta.Placa)
+        </dd>
+
     </dl>
-
-    @using (Html.BeginForm()) {
-        @Html.AntiForgeryToken()
-
-        <div class="form-actions no-color">
-            <input type="submit" value="Delete" class="btn btn-default" /> |
-            @Html.ActionLink("Back to List", "Index")
-        </div>
-    }
 </div>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id = Model.IdFinanciamiento }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>

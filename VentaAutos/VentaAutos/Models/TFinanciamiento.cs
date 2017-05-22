@@ -18,7 +18,6 @@ namespace VentaAutos.Models
         public TFinanciamiento()
         {
             this.TPagoFinanciamiento = new HashSet<TPagoFinanciamiento>();
-            this.TVenta = new HashSet<TVenta>();
         }
     
         public int IdFinanciamiento { get; set; }
@@ -26,11 +25,11 @@ namespace VentaAutos.Models
         public short Plazo { get; set; }
         public int IdPeriodoPago { get; set; }
         public string Descripcion { get; set; }
+        public Nullable<int> IdVenta { get; set; }
     
         public virtual CPeriodoPago CPeriodoPago { get; set; }
+        public virtual TVenta TVenta { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<TPagoFinanciamiento> TPagoFinanciamiento { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<TVenta> TVenta { get; set; }
     }
 }
