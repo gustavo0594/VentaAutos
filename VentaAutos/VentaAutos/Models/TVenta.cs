@@ -21,7 +21,7 @@ namespace VentaAutos.Models
         public int IdCliente { get; set; }
         public decimal Saldo { get; set; }
         public string Placa { get; set; }
-        public int IdFinanciamiento { get; set; }
+        public Nullable<int> IdFinanciamiento { get; set; }
     
         public virtual CTipoVenta CTipoVenta { get; set; }
         public virtual TCliente TCliente { get; set; }
