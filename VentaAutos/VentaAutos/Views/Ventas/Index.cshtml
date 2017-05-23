@@ -27,6 +27,12 @@
             @Html.DisplayNameFor(model => model.TCliente.Identificacion)
         </th>
         <th>
+            @Html.DisplayNameFor(model => model.TVehiculo.Placa)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.TVehiculo.CMarcaVehiculo.Descripcion )
+        </th>
+        <th>
             @Html.DisplayNameFor(model => model.TVehiculo.Estilo)
         </th>
         <th></th>
@@ -48,6 +54,12 @@
         </td>
         <td>
             @Html.DisplayFor(modelItem => item.TCliente.Identificacion)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.TVehiculo.Placa)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.TVehiculo.CMarcaVehiculo.Descripcion)
         </td>
         <td>
             @Html.DisplayFor(modelItem => item.TVehiculo.Estilo)

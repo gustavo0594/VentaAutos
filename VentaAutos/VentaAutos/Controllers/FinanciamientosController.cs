@@ -38,10 +38,15 @@ namespace VentaAutos.Controllers
         }
 
         // GET: Financiamientos/Create
-        public ActionResult Create()
+        public ActionResult Create(int? idVenta )
         {
             ViewBag.IdPeriodoPago = new SelectList(db.CPeriodoPago, "IdPeriodoPago", "Descripcion");
-            ViewBag.IdVenta = new SelectList(db.TVenta, "IdVenta", "Placa");
+            //ViewBag.IdVenta = new SelectList(db.TVenta, "IdVenta", "Placa");
+            CargarComboVenta(idVenta);
+            if (idVenta != null)
+                ViewBag.IdVentaEnable = true;
+            else
+                ViewBag.IdVentaEnable = false;
             return View();
         }
 
@@ -60,7 +65,10 @@ namespace VentaAutos.Controllers
             }
 
             ViewBag.IdPeriodoPago = new SelectList(db.CPeriodoPago, "IdPeriodoPago", "Descripcion", tFinanciamiento.IdPeriodoPago);
-            ViewBag.IdVenta = new SelectList(db.TVenta, "IdVenta", "Placa", tFinanciamiento.IdVenta);
+            //ViewBag.IdVenta = new SelectList(db.TVenta, "IdVenta", "Placa", tFinanciamiento.IdVenta);
+            CargarComboVenta(tFinanciamiento.IdVenta);
+
+
             return View(tFinanciamiento);
         }
 
@@ -95,7 +103,8 @@ namespace VentaAutos.Controllers
                 return RedirectToAction("Index");
             }
             ViewBag.IdPeriodoPago = new SelectList(db.CPeriodoPago, "IdPeriodoPago", "Descripcion", tFinanciamiento.IdPeriodoPago);
-            ViewBag.IdVenta = new SelectList(db.TVenta, "IdVenta", "Placa", tFinanciamiento.IdVenta);
+            //ViewBag.IdVenta = new SelectList(db.TVenta, "IdVenta", "Placa", tFinanciamiento.IdVenta);
+            CargarComboVenta(tFinanciamiento.IdVenta);
             return View(tFinanciamiento);
         }
 
@@ -133,5 +142,34 @@ namespace VentaAutos.Controllers
             }
             base.Dispose(disposing);
         }
+
+
+        protected void CargarComboVenta(int? idVenta)
+        {
+            var vens = db.TVenta;
+            var finan = db.TFinanciamiento;
+            var match = vens.Join(finan, x => x.IdVenta, y => y.IdVenta, (x, y) => new { Id = x.IdVenta });
+            var ventas = vens.Where(x => !match.Contains(new { Id = x.IdVenta }));
+
+
+           // var ventas = db.TVenta;
+            List<object> ventasList = new List<object>();
+            foreach (var v in ventas)
+                ventasList.Add(new
+                {
+                    Id = v.IdVenta,
+                    Name = v.Placa + " - " + v.TVehiculo.CMarcaVehiculo.Descripcion + " - " + v.TCliente.Nombre + " - " + v.TCliente.PrimerApellido
+                });
+            if (idVenta == null  )
+            {
+                ViewBag.IdVenta = new SelectList(ventasList, "Id", "Name");
+            }
+            else
+            {
+                ViewBag.IdVenta = new SelectList(ventasList, "Id", "Name", idVenta);
+            }
+
+        }
+
     }
 }
