@@ -158,7 +158,13 @@ namespace VentaAutos.Controllers
 
         protected void CargarComboVehiculos(string placa)
         {
-            var vehiculos = db.TVehiculo;
+            var vehs = db.TVehiculo;
+            var compras = db.TCompra;
+            var match = vehs.Join(compras, x => x.Placa, y => y.Placa, (x, y) => new { Id = x.Placa });
+            var vehiculos = vehs.Where(x => !match.Contains(new { Id = x.Placa }));
+
+
+            //var vehiculos = db.TVehiculo;
             List<object> vehiculosList = new List<object>();
             foreach (var v in vehiculos)
                 vehiculosList.Add(new

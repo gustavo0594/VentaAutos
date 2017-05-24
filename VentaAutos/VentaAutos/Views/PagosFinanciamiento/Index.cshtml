@@ -7,68 +7,57 @@
 <h2>Index</h2>
 
 <p>
-    @Html.ActionLink("Nuevo", "Create")
+    @Html.ActionLink("Create New", "Create")
 </p>
-<div class="row">
-    <div class="col-lg-5 col-lg-offset-8">
-        <input type="search" id="search" value="" class="form-control" placeholder="Búsqueda">
-    </div>
-</div>
-<div class="row">
 <table class="table">
-    <thead>
-        <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.IdVenta)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Fecha)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Monto)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.CTipoPago.Descripcion)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.TFinanciamiento.IdFinanciamiento)
-            </th>
-            <th></th>
-        </tr>
-    </thead>
-    <tbody>
-        @foreach (var item in Model)
-        {
-            <tr>
-                <td>
-                    @Html.DisplayFor(modelItem => item.IdVenta)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Fecha)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Monto)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.CTipoPago.Descripcion)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.TFinanciamiento.IdFinanciamiento)
-                </td>
-                <td>
-                    @Html.ActionLink("Editar", "Edit", new { id = item.IdPagoFinan }) |
-                    @Html.ActionLink("Detalle", "Details", new { id = item.IdPagoFinan }) |
-                    @Html.ActionLink("Eliminar", "Delete", new { id = item.IdPagoFinan })
-                </td>
-            </tr>
-        }
-    </tbody>
-</table>
-</div>
-@section Scripts {
-    @Scripts.Render("~/bundles/jqueryval")
-    <script src="//rawgithub.com/stidges/jquery-searchable/master/dist/jquery.searchable-1.0.0.min.js"></script>
-    <script src="~/Scripts/table-search.js"></script>
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.IdVenta)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Fecha)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Monto)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Intereses)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.CTipoPago.Descripcion)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.TFinanciamiento.Descripcion)
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.IdVenta)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Fecha)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Monto)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Intereses)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.CTipoPago.Descripcion)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.TFinanciamiento.Descripcion)
+        </td>
+        <td>
+            @Html.ActionLink("Edit", "Edit", new { id=item.IdPagoFinan }) |
+            @Html.ActionLink("Details", "Details", new { id=item.IdPagoFinan }) |
+            @Html.ActionLink("Delete", "Delete", new { id=item.IdPagoFinan })
+        </td>
+    </tr>
 }
 
-
+</table>

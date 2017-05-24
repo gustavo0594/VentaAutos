@@ -3,11 +3,13 @@ using System.Collections.Generic;
 using System.Data;
 using System.Data.Entity;
 using System.Linq;
-using System.Net;
 using System.Threading.Tasks;
+using System.Net;
 using System.Web;
 using System.Web.Mvc;
 using VentaAutos.Models;
+using System.Configuration;
+using System.Web.Configuration;
 
 namespace VentaAutos.Controllers
 {
@@ -16,20 +18,20 @@ namespace VentaAutos.Controllers
         private VentasEntities db = new VentasEntities();
 
         // GET: Ventas
-        public ActionResult Index()
+        public async Task<ActionResult> Index()
         {
-            var tVenta = db.TVenta.Include(t => t.CTipoVenta).Include(t => t.TCliente).Include(t => t.TFinanciamiento).Include(t => t.TVehiculo);
-            return View(tVenta.ToList());
+            var tVenta = db.TVenta.Include(t => t.CTipoVenta).Include(t => t.TCliente).Include(t => t.TVehiculo);
+            return View(await tVenta.ToListAsync());
         }
 
         // GET: Ventas/Details/5
-        public ActionResult Details(int? id)
+        public async Task<ActionResult> Details(int? id)
         {
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            TVenta tVenta = db.TVenta.Find(id);
+            TVenta tVenta = await db.TVenta.FindAsync(id);
             if (tVenta == null)
             {
                 return HttpNotFound();
@@ -41,11 +43,8 @@ namespace VentaAutos.Controllers
         public ActionResult Create()
         {
             ViewBag.IdTipoVenta = new SelectList(db.CTipoVenta, "IdTipoVenta", "Descripcion");
-           
-            ViewBag.IdFinanciamiento = new SelectList(db.TFinanciamiento, "IdFinanciamiento", "Descripcion");
-            //ViewBag.Placa = new SelectList(db.TVehiculo, "Placa", "Estilo");
             //ViewBag.IdCliente = new SelectList(db.TCliente, "IdCliente", "Identificacion");
-
+            //ViewBag.Placa = new SelectList(db.TVehiculo, "Placa", "Estilo");
             CargarComboClientes(null);
             CargarComboVehiculos(string.Empty);
 
@@ -57,18 +56,22 @@ namespace VentaAutos.Controllers
         // más información vea https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "IdVenta,Monto,Fecha,IdTipoVenta,IdCliente,Saldo,Placa,IdFinanciamiento")] TVenta tVenta)
+        public async Task<ActionResult> Create([Bind(Include = "IdVenta,Monto,Fecha,IdTipoVenta,IdCliente,Saldo,Placa")] TVenta tVenta)
         {
             if (ModelState.IsValid)
             {
                 db.TVenta.Add(tVenta);
-                db.SaveChanges();
+                await db.SaveChangesAsync();
+
+                //revisar que el web config este seteado con el mismo idtipofinanciamiento de la BD tabla ctipoVenta (2)
+                if(tVenta.IdTipoVenta == Int32.Parse( WebConfigurationManager.AppSettings["TipoVentaFinanciamiento"] ))
+                    return RedirectToAction("Create","Financiamientos", new { idVenta = tVenta.IdVenta });
+
                 return RedirectToAction("Index");
             }
 
             ViewBag.IdTipoVenta = new SelectList(db.CTipoVenta, "IdTipoVenta", "Descripcion", tVenta.IdTipoVenta);
             ViewBag.IdCliente = new SelectList(db.TCliente, "IdCliente", "Identificacion", tVenta.IdCliente);
-            ViewBag.IdFinanciamiento = new SelectList(db.TFinanciamiento, "IdFinanciamiento", "Descripcion", tVenta.IdFinanciamiento);
             ViewBag.Placa = new SelectList(db.TVehiculo, "Placa", "Estilo", tVenta.Placa);
             return View(tVenta);
         }
@@ -80,16 +83,14 @@ namespace VentaAutos.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            TVenta tVenta = db.TVenta.Find(id);
+            TVenta tVenta = await db.TVenta.FindAsync(id);
             if (tVenta == null)
             {
                 return HttpNotFound();
             }
             ViewBag.IdTipoVenta = new SelectList(db.CTipoVenta, "IdTipoVenta", "Descripcion", tVenta.IdTipoVenta);
-           
-            ViewBag.IdFinanciamiento = new SelectList(db.TFinanciamiento, "IdFinanciamiento", "Descripcion", tVenta.IdFinanciamiento);
-            //ViewBag.Placa = new SelectList(db.TVehiculo, "Placa", "Estilo", tVenta.Placa);
             //ViewBag.IdCliente = new SelectList(db.TCliente, "IdCliente", "Identificacion", tVenta.IdCliente);
+            //ViewBag.Placa = new SelectList(db.TVehiculo, "Placa", "Estilo", tVenta.Placa);
             CargarComboClientes(tVenta.IdCliente);
             CargarComboVehiculos(tVenta.Placa);
             return View(tVenta);
@@ -100,29 +101,28 @@ namespace VentaAutos.Controllers
         // más información vea https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "IdVenta,Monto,Fecha,IdTipoVenta,IdCliente,Saldo,Placa,IdFinanciamiento")] TVenta tVenta)
+        public async Task<ActionResult> Edit([Bind(Include = "IdVenta,Monto,Fecha,IdTipoVenta,IdCliente,Saldo,Placa")] TVenta tVenta)
         {
             if (ModelState.IsValid)
             {
                 db.Entry(tVenta).State = EntityState.Modified;
-                db.SaveChanges();
+                await db.SaveChangesAsync();
                 return RedirectToAction("Index");
             }
             ViewBag.IdTipoVenta = new SelectList(db.CTipoVenta, "IdTipoVenta", "Descripcion", tVenta.IdTipoVenta);
             ViewBag.IdCliente = new SelectList(db.TCliente, "IdCliente", "Identificacion", tVenta.IdCliente);
-            ViewBag.IdFinanciamiento = new SelectList(db.TFinanciamiento, "IdFinanciamiento", "Descripcion", tVenta.IdFinanciamiento);
             ViewBag.Placa = new SelectList(db.TVehiculo, "Placa", "Estilo", tVenta.Placa);
             return View(tVenta);
         }
 
         // GET: Ventas/Delete/5
-        public ActionResult Delete(int? id)
+        public async Task<ActionResult> Delete(int? id)
         {
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            TVenta tVenta = db.TVenta.Find(id);
+            TVenta tVenta = await db.TVenta.FindAsync(id);
             if (tVenta == null)
             {
                 return HttpNotFound();
@@ -133,11 +133,11 @@ namespace VentaAutos.Controllers
         // POST: Ventas/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
-        public ActionResult DeleteConfirmed(int id)
+        public async Task<ActionResult> DeleteConfirmed(int id)
         {
-            TVenta tVenta = db.TVenta.Find(id);
+            TVenta tVenta = await db.TVenta.FindAsync(id);
             db.TVenta.Remove(tVenta);
-            db.SaveChanges();
+            await db.SaveChangesAsync();
             return RedirectToAction("Index");
         }
 
@@ -152,7 +152,13 @@ namespace VentaAutos.Controllers
 
         protected void CargarComboVehiculos(string placa)
         {
-            var vehiculos = db.TVehiculo;
+            var vehs = db.TVehiculo;
+            var ventas = db.TVenta;
+            var match = vehs.Join(ventas, x => x.Placa, y => y.Placa, (x, y) => new { Id = x.Placa });
+            var vehiculos = vehs.Where(x => !match.Contains(new { Id = x.Placa }));
+
+
+            //var vehiculos = db.TVehiculo;
             List<object> vehiculosList = new List<object>();
             foreach (var v in vehiculos)
                 vehiculosList.Add(new
@@ -173,7 +179,8 @@ namespace VentaAutos.Controllers
         }
 
         protected void CargarComboClientes(int? idCliente)
-        {
+        {          
+
             var clientes = db.TCliente;
             List<object> clientesList = new List<object>();
             foreach (var c in clientes)
@@ -196,7 +203,5 @@ namespace VentaAutos.Controllers
 
 
         }
-
     }
-
 }

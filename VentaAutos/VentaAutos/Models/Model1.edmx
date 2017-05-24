@@ -103,6 +103,7 @@
           <Property Name="Plazo" Type="smallint" Nullable="false" />
           <Property Name="IdPeriodoPago" Type="int" Nullable="false" />
           <Property Name="Descripcion" Type="varchar" MaxLength="2000" />
+          <Property Name="IdVenta" Type="int" />
         </EntityType>
         <EntityType Name="TPagoFinanciamiento">
           <Key>
@@ -114,6 +115,7 @@
           <Property Name="Fecha" Type="datetime" Nullable="false" />
           <Property Name="Monto" Type="decimal" Precision="18" Scale="0" />
           <Property Name="IdFinanciamiento" Type="int" Nullable="false" />
+          <Property Name="Intereses" Type="decimal" Precision="18" Scale="0" />
         </EntityType>
         <EntityType Name="TTelefonoCliente">
           <Key>
@@ -157,7 +159,6 @@
           <Property Name="IdCliente" Type="int" Nullable="false" />
           <Property Name="Saldo" Type="decimal" Precision="18" Scale="0" Nullable="false" />
           <Property Name="Placa" Type="varchar" MaxLength="50" Nullable="false" />
-          <Property Name="IdFinanciamiento" Type="int" Nullable="false" />
         </EntityType>
         <Association Name="FK_Financiamiento_CPeriodoPago">
           <End Role="CPeriodoPago" Type="Self.CPeriodoPago" Multiplicity="1" />
@@ -192,6 +193,18 @@
             </Principal>
             <Dependent Role="TCompra">
               <PropertyRef Name="Placa" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_TFinanciamiento_TVenta">
+          <End Role="TVenta" Type="Self.TVenta" Multiplicity="0..1" />
+          <End Role="TFinanciamiento" Type="Self.TFinanciamiento" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TVenta">
+              <PropertyRef Name="IdVenta" />
+            </Principal>
+            <Dependent Role="TFinanciamiento">
+              <PropertyRef Name="IdVenta" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -315,18 +328,6 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK_TVenta_TFinanciamiento">
-          <End Role="TFinanciamiento" Type="Self.TFinanciamiento" Multiplicity="1" />
-          <End Role="TVenta" Type="Self.TVenta" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="TFinanciamiento">
-              <PropertyRef Name="IdFinanciamiento" />
-            </Principal>
-            <Dependent Role="TVenta">
-              <PropertyRef Name="IdFinanciamiento" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <Association Name="FK_TVenta_TVehiculo">
           <End Role="TVehiculo" Type="Self.TVehiculo" Multiplicity="1" />
           <End Role="TVenta" Type="Self.TVenta" Multiplicity="*" />
@@ -369,6 +370,10 @@
             <End Role="TVehiculo" EntitySet="TVehiculo" />
             <End Role="TCompra" EntitySet="TCompra" />
           </AssociationSet>
+          <AssociationSet Name="FK_TFinanciamiento_TVenta" Association="Self.FK_TFinanciamiento_TVenta">
+            <End Role="TVenta" EntitySet="TVenta" />
+            <End Role="TFinanciamiento" EntitySet="TFinanciamiento" />
+          </AssociationSet>
           <AssociationSet Name="FK_TPago_CTipoPago" Association="Self.FK_TPago_CTipoPago">
             <End Role="CTipoPago" EntitySet="CTipoPago" />
             <End Role="TPagoFinanciamiento" EntitySet="TPagoFinanciamiento" />
@@ -407,10 +412,6 @@
           </AssociationSet>
           <AssociationSet Name="FK_TVenta_TCliente" Association="Self.FK_TVenta_TCliente">
             <End Role="TCliente" EntitySet="TCliente" />
-            <End Role="TVenta" EntitySet="TVenta" />
-          </AssociationSet>
-          <AssociationSet Name="FK_TVenta_TFinanciamiento" Association="Self.FK_TVenta_TFinanciamiento">
-            <End Role="TFinanciamiento" EntitySet="TFinanciamiento" />
             <End Role="TVenta" EntitySet="TVenta" />
           </AssociationSet>
           <AssociationSet Name="FK_TVenta_TVehiculo" Association="Self.FK_TVenta_TVehiculo">
@@ -534,9 +535,10 @@
           <Property Name="Plazo" Type="Int16" Nullable="false" />
           <Property Name="IdPeriodoPago" Type="Int32" Nullable="false" />
           <Property Name="Descripcion" Type="String" MaxLength="2000" FixedLength="false" Unicode="false" />
+          <Property Name="IdVenta" Type="Int32" />
           <NavigationProperty Name="CPeriodoPago" Relationship="Self.FK_Financiamiento_CPeriodoPago" FromRole="TFinanciamiento" ToRole="CPeriodoPago" />
+          <NavigationProperty Name="TVenta" Relationship="Self.FK_TFinanciamiento_TVenta" FromRole="TFinanciamiento" ToRole="TVenta" />
           <NavigationProperty Name="TPagoFinanciamiento" Relationship="Self.FK_TPago_Financiamiento" FromRole="TFinanciamiento" ToRole="TPagoFinanciamiento" />
-          <NavigationProperty Name="TVenta" Relationship="Self.FK_TVenta_TFinanciamiento" FromRole="TFinanciamiento" ToRole="TVenta" />
         </EntityType>
         <EntityType Name="TPagoFinanciamiento">
           <Key>
@@ -548,6 +550,7 @@
           <Property Name="Fecha" Type="DateTime" Nullable="false" Precision="3" />
           <Property Name="Monto" Type="Decimal" Precision="18" Scale="0" />
           <Property Name="IdFinanciamiento" Type="Int32" Nullable="false" />
+          <Property Name="Intereses" Type="Decimal" Precision="18" Scale="0" />
           <NavigationProperty Name="CTipoPago" Relationship="Self.FK_TPago_CTipoPago" FromRole="TPagoFinanciamiento" ToRole="CTipoPago" />
           <NavigationProperty Name="TFinanciamiento" Relationship="Self.FK_TPago_Financiamiento" FromRole="TPagoFinanciamiento" ToRole="TFinanciamiento" />
         </EntityType>
@@ -601,10 +604,9 @@
           <Property Name="IdCliente" Type="Int32" Nullable="false" />
           <Property Name="Saldo" Type="Decimal" Precision="18" Scale="0" Nullable="false" />
           <Property Name="Placa" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
-          <Property Name="IdFinanciamiento" Type="Int32" Nullable="false" />
           <NavigationProperty Name="CTipoVenta" Relationship="Self.FK_TVenta_CTipoVenta" FromRole="TVenta" ToRole="CTipoVenta" />
           <NavigationProperty Name="TCliente" Relationship="Self.FK_TVenta_TCliente" FromRole="TVenta" ToRole="TCliente" />
-          <NavigationProperty Name="TFinanciamiento" Relationship="Self.FK_TVenta_TFinanciamiento" FromRole="TVenta" ToRole="TFinanciamiento" />
+          <NavigationProperty Name="TFinanciamiento" Relationship="Self.FK_TFinanciamiento_TVenta" FromRole="TVenta" ToRole="TFinanciamiento" />
           <NavigationProperty Name="TVehiculo" Relationship="Self.FK_TVenta_TVehiculo" FromRole="TVenta" ToRole="TVehiculo" />
         </EntityType>
         <Association Name="FK_TVehiculo_CEstadoArticulo">
@@ -751,6 +753,18 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_TFinanciamiento_TVenta">
+          <End Role="TVenta" Type="Self.TVenta" Multiplicity="0..1" />
+          <End Role="TFinanciamiento" Type="Self.TFinanciamiento" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TVenta">
+              <PropertyRef Name="IdVenta" />
+            </Principal>
+            <Dependent Role="TFinanciamiento">
+              <PropertyRef Name="IdVenta" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_TPago_Financiamiento">
           <End Role="TFinanciamiento" Type="Self.TFinanciamiento" Multiplicity="1" />
           <End Role="TPagoFinanciamiento" Type="Self.TPagoFinanciamiento" Multiplicity="*" />
@@ -759,18 +773,6 @@
               <PropertyRef Name="IdFinanciamiento" />
             </Principal>
             <Dependent Role="TPagoFinanciamiento">
-              <PropertyRef Name="IdFinanciamiento" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_TVenta_TFinanciamiento">
-          <End Role="TFinanciamiento" Type="Self.TFinanciamiento" Multiplicity="1" />
-          <End Role="TVenta" Type="Self.TVenta" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="TFinanciamiento">
-              <PropertyRef Name="IdFinanciamiento" />
-            </Principal>
-            <Dependent Role="TVenta">
               <PropertyRef Name="IdFinanciamiento" />
             </Dependent>
           </ReferentialConstraint>
@@ -853,13 +855,13 @@
             <End Role="TVehiculo" EntitySet="TVehiculo" />
             <End Role="TCompra" EntitySet="TCompra" />
           </AssociationSet>
+          <AssociationSet Name="FK_TFinanciamiento_TVenta" Association="Self.FK_TFinanciamiento_TVenta">
+            <End Role="TVenta" EntitySet="TVenta" />
+            <End Role="TFinanciamiento" EntitySet="TFinanciamiento" />
+          </AssociationSet>
           <AssociationSet Name="FK_TPago_Financiamiento" Association="Self.FK_TPago_Financiamiento">
             <End Role="TFinanciamiento" EntitySet="TFinanciamiento" />
             <End Role="TPagoFinanciamiento" EntitySet="TPagoFinanciamiento" />
-          </AssociationSet>
-          <AssociationSet Name="FK_TVenta_TFinanciamiento" Association="Self.FK_TVenta_TFinanciamiento">
-            <End Role="TFinanciamiento" EntitySet="TFinanciamiento" />
-            <End Role="TVenta" EntitySet="TVenta" />
           </AssociationSet>
           <AssociationSet Name="FK_TVenta_TVehiculo" Association="Self.FK_TVenta_TVehiculo">
             <End Role="TVehiculo" EntitySet="TVehiculo" />
@@ -979,6 +981,7 @@
                 <ScalarProperty Name="Plazo" ColumnName="Plazo" />
                 <ScalarProperty Name="IdPeriodoPago" ColumnName="IdPeriodoPago" />
                 <ScalarProperty Name="Descripcion" ColumnName="Descripcion" />
+                <ScalarProperty Name="IdVenta" ColumnName="IdVenta" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
@@ -991,6 +994,7 @@
                 <ScalarProperty Name="Fecha" ColumnName="Fecha" />
                 <ScalarProperty Name="Monto" ColumnName="Monto" />
                 <ScalarProperty Name="IdFinanciamiento" ColumnName="IdFinanciamiento" />
+                <ScalarProperty Name="Intereses" ColumnName="Intereses" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
@@ -1038,7 +1042,6 @@
                 <ScalarProperty Name="IdCliente" ColumnName="IdCliente" />
                 <ScalarProperty Name="Saldo" ColumnName="Saldo" />
                 <ScalarProperty Name="Placa" ColumnName="Placa" />
-                <ScalarProperty Name="IdFinanciamiento" ColumnName="IdFinanciamiento" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
