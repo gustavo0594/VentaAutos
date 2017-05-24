@@ -252,9 +252,6 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Model1.edmx</DependentUpon>
     </Compile>
-    <Compile Include="Models\sysdiagrams.cs">
-      <DependentUpon>Model1.tt</DependentUpon>
-    </Compile>
     <Compile Include="Models\TArticulo.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
@@ -463,11 +460,6 @@
     <Content Include="Views\Clientes\Details.cshtml" />
     <Content Include="Views\Clientes\Edit.cshtml" />
     <Content Include="Views\Clientes\Index.cshtml" />
-    <Content Include="Views\PagosFinanciamiento\Create.cshtml" />
-    <Content Include="Views\PagosFinanciamiento\Delete.cshtml" />
-    <Content Include="Views\PagosFinanciamiento\Details.cshtml" />
-    <Content Include="Views\PagosFinanciamiento\Edit.cshtml" />
-    <Content Include="Views\PagosFinanciamiento\Index.cshtml" />
     <Content Include="Views\TelefonosCliente\Create.cshtml" />
     <Content Include="Views\TelefonosCliente\Delete.cshtml" />
     <Content Include="Views\TelefonosCliente\Details.cshtml" />
@@ -493,6 +485,11 @@
     <Content Include="Views\Financiamientos\Details.cshtml" />
     <Content Include="Views\Financiamientos\Edit.cshtml" />
     <Content Include="Views\Financiamientos\Index.cshtml" />
+    <Content Include="Views\PagosFinanciamiento\Create.cshtml" />
+    <Content Include="Views\PagosFinanciamiento\Delete.cshtml" />
+    <Content Include="Views\PagosFinanciamiento\Details.cshtml" />
+    <Content Include="Views\PagosFinanciamiento\Edit.cshtml" />
+    <Content Include="Views\PagosFinanciamiento\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

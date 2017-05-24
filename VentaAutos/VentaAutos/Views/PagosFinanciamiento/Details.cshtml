@@ -35,6 +35,14 @@
         </dd>
 
         <dt>
+            @Html.DisplayNameFor(model => model.Intereses)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Intereses)
+        </dd>
+
+        <dt>
             @Html.DisplayNameFor(model => model.CTipoPago.Descripcion)
         </dt>
 
@@ -43,16 +51,16 @@
         </dd>
 
         <dt>
-            @Html.DisplayNameFor(model => model.TFinanciamiento.IdFinanciamiento)
+            @Html.DisplayNameFor(model => model.TFinanciamiento.Descripcion)
         </dt>
 
         <dd>
-            @Html.DisplayFor(model => model.TFinanciamiento.IdFinanciamiento)
+            @Html.DisplayFor(model => model.TFinanciamiento.Descripcion)
         </dd>
 
     </dl>
 </div>
 <p>
-    @Html.ActionLink("Editar", "Edit", new { id = Model.IdPagoFinan }) |
-    @Html.ActionLink("Regresar", "Index")
+    @Html.ActionLink("Edit", "Edit", new { id = Model.IdPagoFinan }) |
+    @Html.ActionLink("Back to List", "Index")
 </p>
