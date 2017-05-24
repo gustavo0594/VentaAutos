@@ -160,7 +160,6 @@ namespace VentaAutos.Controllers
         {
             var vehs = db.TVehiculo;
             var compras = db.TCompra;
-
             var match = vehs.Join(compras, x => x.Placa, y => y.Placa, (x, y) => new { Id = x.Placa });
             var vehiculos = vehs.Where(x => !match.Contains(new { Id = x.Placa }));
 

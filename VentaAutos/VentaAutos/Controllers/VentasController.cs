@@ -8,6 +8,8 @@ using System.Net;
 using System.Web;
 using System.Web.Mvc;
 using VentaAutos.Models;
+using System.Configuration;
+using System.Web.Configuration;
 
 namespace VentaAutos.Controllers
 {
@@ -60,6 +62,11 @@ namespace VentaAutos.Controllers
             {
                 db.TVenta.Add(tVenta);
                 await db.SaveChangesAsync();
+
+                //revisar que el web config este seteado con el mismo idtipofinanciamiento de la BD tabla ctipoVenta (2)
+                if(tVenta.IdTipoVenta == Int32.Parse( WebConfigurationManager.AppSettings["TipoVentaFinanciamiento"] ))
+                    return RedirectToAction("Create","Financiamientos", new { idVenta = tVenta.IdVenta });
+
                 return RedirectToAction("Index");
             }
 
@@ -145,7 +152,13 @@ namespace VentaAutos.Controllers
 
         protected void CargarComboVehiculos(string placa)
         {
-            var vehiculos = db.TVehiculo;
+            var vehs = db.TVehiculo;
+            var ventas = db.TVenta;
+            var match = vehs.Join(ventas, x => x.Placa, y => y.Placa, (x, y) => new { Id = x.Placa });
+            var vehiculos = vehs.Where(x => !match.Contains(new { Id = x.Placa }));
+
+
+            //var vehiculos = db.TVehiculo;
             List<object> vehiculosList = new List<object>();
             foreach (var v in vehiculos)
                 vehiculosList.Add(new
@@ -166,7 +179,8 @@ namespace VentaAutos.Controllers
         }
 
         protected void CargarComboClientes(int? idCliente)
-        {
+        {          
+
             var clientes = db.TCliente;
             List<object> clientesList = new List<object>();
             foreach (var c in clientes)
