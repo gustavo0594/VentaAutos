@@ -15,12 +15,11 @@
         <EntityTypeShape EntityType="VentasModel.CTransmision" Width="1.5" PointX="0.75" PointY="14.875" IsExpanded="true" />
         <EntityTypeShape EntityType="VentasModel.TArticulo" Width="1.5" PointX="7.75" PointY="8.125" IsExpanded="true" />
         <EntityTypeShape EntityType="VentasModel.TCliente" Width="1.5" PointX="3" PointY="10.125" IsExpanded="true" />
-        <EntityTypeShape EntityType="VentasModel.TCompra" Width="1.5" PointX="5.25" PointY="4.5" IsExpanded="true" />
         <EntityTypeShape EntityType="VentasModel.TFinanciamiento" Width="1.5" PointX="10.5" PointY="4.125" IsExpanded="true" />
         <EntityTypeShape EntityType="VentasModel.TPagoFinanciamiento" Width="1.5" PointX="12.75" PointY="4.125" IsExpanded="true" />
         <EntityTypeShape EntityType="VentasModel.TTelefonoCliente" Width="1.5" PointX="5.25" PointY="10.625" IsExpanded="true" />
         <EntityTypeShape EntityType="VentasModel.TUsuario" Width="1.5" PointX="9.75" PointY="8.125" IsExpanded="true" />
-        <EntityTypeShape EntityType="VentasModel.TVehiculo" Width="1.5" PointX="3" PointY="3.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="VentasModel.TVehiculo" Width="1.5" PointX="5.125" PointY="4.125" IsExpanded="true" />
         <EntityTypeShape EntityType="VentasModel.TVenta" Width="1.5" PointX="8.25" PointY="4" IsExpanded="true" />
         <AssociationConnector Association="VentasModel.FK_TVehiculo_CEstadoArticulo" ManuallyRouted="false" />
         <AssociationConnector Association="VentasModel.FK_TVehiculo_CMarcaVehiculo" ManuallyRouted="false" />
@@ -30,13 +29,13 @@
         <AssociationConnector Association="VentasModel.FK_TVehiculo_CTipoVehiculo" ManuallyRouted="false" />
         <AssociationConnector Association="VentasModel.FK_TVenta_CTipoVenta" ManuallyRouted="false" />
         <AssociationConnector Association="VentasModel.FK_TVehiculo_CTransmision" ManuallyRouted="false" />
-        <AssociationConnector Association="VentasModel.FK_TCompra_TCliente" ManuallyRouted="false" />
         <AssociationConnector Association="VentasModel.FK_TTelefonoCliente_TCliente" ManuallyRouted="false" />
         <AssociationConnector Association="VentasModel.FK_TVenta_TCliente" ManuallyRouted="false" />
-        <AssociationConnector Association="VentasModel.FK_TCompra_TVehiculo" ManuallyRouted="false" />
         <AssociationConnector Association="VentasModel.FK_TFinanciamiento_TVenta" ManuallyRouted="false" />
         <AssociationConnector Association="VentasModel.FK_TPago_Financiamiento" ManuallyRouted="false" />
         <AssociationConnector Association="VentasModel.FK_TVenta_TVehiculo" ManuallyRouted="false" />
+        <EntityTypeShape EntityType="VentasModel.sysdiagrams" Width="1.5" PointX="10.375" PointY="10.75" />
+        <AssociationConnector Association="VentasModel.FK_TVehiculo_TCliente" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

@@ -10,16 +10,10 @@
 namespace VentaAutos.Models
 {
     using System;
-    using System.Collections.Generic;
     
-    public partial class TCompra
+    public partial class sp_helpdiagramdefinition_Result
     {
-        public int IdCliente { get; set; }
-        public string Placa { get; set; }
-        public decimal Monto { get; set; }
-        public System.DateTime Fecha { get; set; }
-    
-        public virtual TCliente TCliente { get; set; }
-        public virtual TVehiculo TVehiculo { get; set; }
+        public Nullable<int> version { get; set; }
+        public byte[] definition { get; set; }
     }
 }

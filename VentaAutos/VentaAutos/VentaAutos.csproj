@@ -193,7 +193,6 @@
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\ClientesController.cs" />
     <Compile Include="Controllers\CMarcasVehiculoController.cs" />
-    <Compile Include="Controllers\ComprasController.cs" />
     <Compile Include="Controllers\CPeriodosPagoController.cs" />
     <Compile Include="Controllers\CTiposArticuloController.cs" />
     <Compile Include="Controllers\EstadosArticulosController.cs" />
@@ -252,13 +251,19 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Model1.edmx</DependentUpon>
     </Compile>
+    <Compile Include="Models\sp_helpdiagramdefinition_Result.cs">
+      <DependentUpon>Model1.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\sp_helpdiagrams_Result.cs">
+      <DependentUpon>Model1.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\sysdiagrams.cs">
+      <DependentUpon>Model1.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\TArticulo.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\TCliente.cs">
-      <DependentUpon>Model1.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Models\TCompra.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\TFinanciamiento.cs">
@@ -465,16 +470,6 @@
     <Content Include="Views\TelefonosCliente\Details.cshtml" />
     <Content Include="Views\TelefonosCliente\Edit.cshtml" />
     <Content Include="Views\TelefonosCliente\Index.cshtml" />
-    <Content Include="Views\Compras\Create.cshtml" />
-    <Content Include="Views\Compras\Delete.cshtml" />
-    <Content Include="Views\Compras\Details.cshtml" />
-    <Content Include="Views\Compras\Edit.cshtml" />
-    <Content Include="Views\Compras\Index.cshtml" />
-    <Content Include="Views\Vehiculos\Create.cshtml" />
-    <Content Include="Views\Vehiculos\Delete.cshtml" />
-    <Content Include="Views\Vehiculos\Details.cshtml" />
-    <Content Include="Views\Vehiculos\Edit.cshtml" />
-    <Content Include="Views\Vehiculos\Index.cshtml" />
     <Content Include="Views\Ventas\Create.cshtml" />
     <Content Include="Views\Ventas\Delete.cshtml" />
     <Content Include="Views\Ventas\Details.cshtml" />
@@ -490,6 +485,11 @@
     <Content Include="Views\PagosFinanciamiento\Details.cshtml" />
     <Content Include="Views\PagosFinanciamiento\Edit.cshtml" />
     <Content Include="Views\PagosFinanciamiento\Index.cshtml" />
+    <Content Include="Views\Vehiculos\Create.cshtml" />
+    <Content Include="Views\Vehiculos\Delete.cshtml" />
+    <Content Include="Views\Vehiculos\Details.cshtml" />
+    <Content Include="Views\Vehiculos\Edit.cshtml" />
+    <Content Include="Views\Vehiculos\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
