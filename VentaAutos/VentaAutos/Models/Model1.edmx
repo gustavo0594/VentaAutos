@@ -362,6 +362,7 @@
           <Parameter Name="new_diagramname" Type="nvarchar" Mode="In" />
         </Function>
         <Function Name="sp_upgraddiagrams" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
+        <Function Name="VehiculosDisponibles" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
         <EntityContainer Name="VentasModelStoreContainer">
           <EntitySet Name="CEstadoArticulo" EntityType="Self.CEstadoArticulo" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="CMarcaVehiculo" EntityType="Self.CMarcaVehiculo" Schema="dbo" store:Type="Tables" />
@@ -877,6 +878,7 @@
             <Parameter Name="new_diagramname" Mode="In" Type="String" />
           </FunctionImport>
           <FunctionImport Name="sp_upgraddiagrams" />
+          <FunctionImport Name="VehiculosDisponibles" ReturnType="Collection(VentasModel.VehiculosDisponibles_Result)" />
         </EntityContainer>
         <EntityType Name="sysdiagrams">
           <Key>
@@ -910,6 +912,22 @@
           <Property Type="Int32" Name="ID" Nullable="false" />
           <Property Type="String" Name="Owner" Nullable="true" MaxLength="128" />
           <Property Type="Int32" Name="OwnerID" Nullable="false" />
+        </ComplexType>
+        <ComplexType Name="VehiculosDisponibles_Result">
+          <Property Type="String" Name="Placa" Nullable="false" MaxLength="50" />
+          <Property Type="Int32" Name="IdMarca" Nullable="false" />
+          <Property Type="Int32" Name="Anio" Nullable="false" />
+          <Property Type="String" Name="Estilo" Nullable="true" MaxLength="1000" />
+          <Property Type="Int16" Name="IdTransmision" Nullable="true" />
+          <Property Type="String" Name="Modelo" Nullable="true" MaxLength="1000" />
+          <Property Type="Byte" Name="NumPuertas" Nullable="true" />
+          <Property Type="Int32" Name="IdTipoVehiculo" Nullable="false" />
+          <Property Type="Decimal" Name="Valor" Nullable="false" Precision="18" Scale="0" />
+          <Property Type="Int32" Name="IdTipoArticulo" Nullable="false" />
+          <Property Type="Int32" Name="IdEstado" Nullable="true" />
+          <Property Type="Decimal" Name="Monto" Nullable="true" Precision="18" Scale="0" />
+          <Property Type="DateTime" Name="FechaIngreso" Nullable="true" />
+          <Property Type="Int32" Name="IdCliente" Nullable="true" />
         </ComplexType>
       </Schema>
     </edmx:ConceptualModels>
@@ -1116,6 +1134,26 @@
           </FunctionImportMapping>
           <FunctionImportMapping FunctionImportName="sp_renamediagram" FunctionName="VentasModel.Store.sp_renamediagram" />
           <FunctionImportMapping FunctionImportName="sp_upgraddiagrams" FunctionName="VentasModel.Store.sp_upgraddiagrams" />
+          <FunctionImportMapping FunctionImportName="VehiculosDisponibles" FunctionName="VentasModel.Store.VehiculosDisponibles">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="VentasModel.VehiculosDisponibles_Result">
+                <ScalarProperty Name="Placa" ColumnName="Placa" />
+                <ScalarProperty Name="IdMarca" ColumnName="IdMarca" />
+                <ScalarProperty Name="Anio" ColumnName="Anio" />
+                <ScalarProperty Name="Estilo" ColumnName="Estilo" />
+                <ScalarProperty Name="IdTransmision" ColumnName="IdTransmision" />
+                <ScalarProperty Name="Modelo" ColumnName="Modelo" />
+                <ScalarProperty Name="NumPuertas" ColumnName="NumPuertas" />
+                <ScalarProperty Name="IdTipoVehiculo" ColumnName="IdTipoVehiculo" />
+                <ScalarProperty Name="Valor" ColumnName="Valor" />
+                <ScalarProperty Name="IdTipoArticulo" ColumnName="IdTipoArticulo" />
+                <ScalarProperty Name="IdEstado" ColumnName="IdEstado" />
+                <ScalarProperty Name="Monto" ColumnName="Monto" />
+                <ScalarProperty Name="FechaIngreso" ColumnName="FechaIngreso" />
+                <ScalarProperty Name="IdCliente" ColumnName="IdCliente" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
         </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>

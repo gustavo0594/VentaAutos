@@ -207,7 +207,11 @@ namespace VentaAutos.Controllers
                 // return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
                 return false;
             }
-            TVehiculo tVehiculo = await db.TVehiculo.FindAsync(placa);
+           // TVehiculo tVehiculo = await db.VehiculosDisponibles().FindAsync(placa);
+            var tVehiculo = db.VehiculosDisponibles().Where(a => a.Placa.Equals(placa)).FirstOrDefault();
+
+
+
             if (tVehiculo == null)
             {
                 // return HttpNotFound();

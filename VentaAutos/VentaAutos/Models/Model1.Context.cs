@@ -147,5 +147,10 @@ namespace VentaAutos.Models
         {
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("sp_upgraddiagrams");
         }
+    
+        public virtual ObjectResult<VehiculosDisponibles_Result> VehiculosDisponibles()
+        {
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<VehiculosDisponibles_Result>("VehiculosDisponibles");
+        }
     }
 }
