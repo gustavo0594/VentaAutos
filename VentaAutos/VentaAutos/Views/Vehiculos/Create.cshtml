@@ -152,6 +152,9 @@
     <script src="~/Scripts/bootstrap-datetimepicker.js"></script>
     <script src="~/Scripts/mask.js"></script>
     <script src="~/Scripts/jquery.formatCurrency-1.4.0.js"></script>
+    <script src="~/Scripts/jquery.validate.js"></script>
+    <script src="~/Scripts/jquery.validate.globalize.js"></script>
+    <script src="~/Scripts/globalize.js"></script>
 
     <script type="text/javascript">
         $(function () { // will trigger when the document is ready
@@ -172,12 +175,12 @@
             //valida si la placa ya existe
             $('#Placa').change(function () {
                 var placat = $(this).val();
-                $.post("@Url.Action("GetVehiculo", "Vehiculos")", { placa: placat }, function (data) {                   
+                $.post("@Url.Action("GetVehiculo", "Vehiculos")", { placa: placat }, function (data) {
                     if (data == 'True'){
                         alert('Este Vehiculo ya existe, para ingresarlo debe registarse una venta de este vehículo');
-                        $('#Placa').val("");                        
-                    }                    
-                        
+                        $('#Placa').val("");
+                    }
+
                  });
 
 
