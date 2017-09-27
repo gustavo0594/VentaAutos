@@ -19,10 +19,9 @@ namespace VentaAutos.Models
         public int IdTipoPago { get; set; }
         public System.DateTime Fecha { get; set; }
         public Nullable<decimal> Monto { get; set; }
-        public int IdFinanciamiento { get; set; }
         public Nullable<decimal> Intereses { get; set; }
     
         public virtual CTipoPago CTipoPago { get; set; }
-        public virtual TFinanciamiento TFinanciamiento { get; set; }
+        public virtual TVenta TVenta { get; set; }
     }
 }

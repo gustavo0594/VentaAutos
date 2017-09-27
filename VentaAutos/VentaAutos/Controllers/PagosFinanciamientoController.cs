@@ -18,7 +18,7 @@ namespace VentaAutos.Controllers
         // GET: PagosFinanciamiento
         public async Task<ActionResult> Index()
         {
-            var tPagoFinanciamiento = db.TPagoFinanciamiento.Include(t => t.CTipoPago).Include(t => t.TFinanciamiento);
+            var tPagoFinanciamiento = db.TPagoFinanciamiento.Include(t => t.CTipoPago).Include(t => t.TVenta);
             return View(await tPagoFinanciamiento.ToListAsync());
         }
 
@@ -41,7 +41,7 @@ namespace VentaAutos.Controllers
         public ActionResult Create()
         {
             ViewBag.IdTipoPago = new SelectList(db.CTipoPago, "IdTipoPago", "Descripcion");
-            ViewBag.IdFinanciamiento = new SelectList(db.TFinanciamiento, "IdFinanciamiento", "Descripcion");
+            ViewBag.IdVenta = new SelectList(db.TVenta, "IdVenta", "Placa");
             return View();
         }
 
@@ -50,19 +50,17 @@ namespace VentaAutos.Controllers
         // más información vea https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Create([Bind(Include = "IdPagoFinan,IdVenta,IdTipoPago,Fecha,Monto,IdFinanciamiento,Intereses")] TPagoFinanciamiento tPagoFinanciamiento)
+        public async Task<ActionResult> Create([Bind(Include = "IdPagoFinan,IdVenta,IdTipoPago,Fecha,Monto,Intereses")] TPagoFinanciamiento tPagoFinanciamiento)
         {
             if (ModelState.IsValid)
             {
-                TVenta venta = db.TVenta.Find(tPagoFinanciamiento.IdVenta);
-                venta.Saldo -= (tPagoFinanciamiento.Monto).Value;
                 db.TPagoFinanciamiento.Add(tPagoFinanciamiento);
                 await db.SaveChangesAsync();
                 return RedirectToAction("Index");
             }
 
             ViewBag.IdTipoPago = new SelectList(db.CTipoPago, "IdTipoPago", "Descripcion", tPagoFinanciamiento.IdTipoPago);
-            ViewBag.IdFinanciamiento = new SelectList(db.TFinanciamiento, "IdFinanciamiento", "Descripcion", tPagoFinanciamiento.IdFinanciamiento);
+            ViewBag.IdVenta = new SelectList(db.TVenta, "IdVenta", "Placa", tPagoFinanciamiento.IdVenta);
             return View(tPagoFinanciamiento);
         }
 
@@ -79,7 +77,7 @@ namespace VentaAutos.Controllers
                 return HttpNotFound();
             }
             ViewBag.IdTipoPago = new SelectList(db.CTipoPago, "IdTipoPago", "Descripcion", tPagoFinanciamiento.IdTipoPago);
-            ViewBag.IdFinanciamiento = new SelectList(db.TFinanciamiento, "IdFinanciamiento", "Descripcion", tPagoFinanciamiento.IdFinanciamiento);
+            ViewBag.IdVenta = new SelectList(db.TVenta, "IdVenta", "Placa", tPagoFinanciamiento.IdVenta);
             return View(tPagoFinanciamiento);
         }
 
@@ -88,7 +86,7 @@ namespace VentaAutos.Controllers
         // más información vea https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Edit([Bind(Include = "IdPagoFinan,IdVenta,IdTipoPago,Fecha,Monto,IdFinanciamiento,Intereses")] TPagoFinanciamiento tPagoFinanciamiento)
+        public async Task<ActionResult> Edit([Bind(Include = "IdPagoFinan,IdVenta,IdTipoPago,Fecha,Monto,Intereses")] TPagoFinanciamiento tPagoFinanciamiento)
         {
             if (ModelState.IsValid)
             {
@@ -97,7 +95,7 @@ namespace VentaAutos.Controllers
                 return RedirectToAction("Index");
             }
             ViewBag.IdTipoPago = new SelectList(db.CTipoPago, "IdTipoPago", "Descripcion", tPagoFinanciamiento.IdTipoPago);
-            ViewBag.IdFinanciamiento = new SelectList(db.TFinanciamiento, "IdFinanciamiento", "Descripcion", tPagoFinanciamiento.IdFinanciamiento);
+            ViewBag.IdVenta = new SelectList(db.TVenta, "IdVenta", "Placa", tPagoFinanciamiento.IdVenta);
             return View(tPagoFinanciamiento);
         }
 
@@ -125,20 +123,6 @@ namespace VentaAutos.Controllers
             db.TPagoFinanciamiento.Remove(tPagoFinanciamiento);
             await db.SaveChangesAsync();
             return RedirectToAction("Index");
-        }
-
-        [HttpPost, ActionName("GetMontoPago")]
-        public JsonResult GetMontoPago(int ventaId)
-        {
-            TVenta tVenta = db.TVenta.Find(ventaId);
-            TFinanciamiento financiamiento = tVenta.TFinanciamiento.First();
-            if (financiamiento != null)
-            {
-                decimal monto =  tVenta.Saldo / financiamiento.Plazo;
-                decimal intereses = (tVenta.Saldo * financiamiento.Interes) / 100;
-                return Json(new TPagoFinanciamiento { Monto = monto, Intereses = intereses});
-            }
-            return Json(0);
         }
 
         protected override void Dispose(bool disposing)
