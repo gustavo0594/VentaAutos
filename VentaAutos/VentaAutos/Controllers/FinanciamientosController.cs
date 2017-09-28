@@ -43,6 +43,9 @@ namespace VentaAutos.Controllers
             ViewBag.IdPeriodoPago = new SelectList(db.CPeriodoPago, "IdPeriodoPago", "Descripcion");
             //ViewBag.IdVenta = new SelectList(db.TVenta, "IdVenta", "Placa");
             CargarComboVenta(idVenta);
+            var venta = db.TVenta.Find(idVenta) ;
+            ViewBag.MontoVenta = venta.Monto;
+
             if (idVenta != null)
                 ViewBag.IdVentaEnable = true;
             else
