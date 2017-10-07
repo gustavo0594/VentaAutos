@@ -14,12 +14,6 @@ namespace VentaAutos.Models
     
     public partial class TFinanciamiento
     {
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
-        public TFinanciamiento()
-        {
-            this.TPagoFinanciamiento = new HashSet<TPagoFinanciamiento>();
-        }
-    
         public int IdFinanciamiento { get; set; }
         public short Interes { get; set; }
         public short Plazo { get; set; }
@@ -29,7 +23,5 @@ namespace VentaAutos.Models
     
         public virtual CPeriodoPago CPeriodoPago { get; set; }
         public virtual TVenta TVenta { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<TPagoFinanciamiento> TPagoFinanciamiento { get; set; }
     }
 }
