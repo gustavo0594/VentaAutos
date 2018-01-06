@@ -7,14 +7,32 @@
 <h2>Create</h2>
 
 
-@using (Html.BeginForm()) 
+@using (Html.BeginForm())
 {
     @Html.AntiForgeryToken()
-    
+
     <div class="form-horizontal">
         <h4>TFinanciamiento</h4>
         <hr />
         @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.IdVenta, "IdVenta", htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+
+                @{ var attributes = ViewBag.IdVentaEnable ? (object)new { @class = "form-control", disabled = "disabled" } : (object)new { @class = "form-control" }; }
+
+                @* @Html.DropDownList("IdVenta", null, htmlAttributes: new { @class = "form-control", disabled = ViewBag.IdVentaEnable })*@
+                @Html.DropDownList("IdVenta", null, attributes)
+                @*@Html.EditorFor(model => model.Quantity, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly" } })*@
+                @* @Html.EditorFor(model => model.Quantity, ViewBag.Readonly ? (object)new { htmlAttributes = new { @readonly = "readonly", @class = "form-control" } } : new { htmlAttributes = new { @class = "form-control" } })*@
+
+                @Html.ValidationMessageFor(model => model.IdVenta, "", new { @class = "text-danger" })
+                <label>Monto Venta:</label>  @ViewBag.MontoVenta
+            </div>
+
+        </div>
+
         <div class="form-group">
             @Html.LabelFor(model => model.Interes, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
@@ -22,6 +40,15 @@
                 @Html.ValidationMessageFor(model => model.Interes, "", new { @class = "text-danger" })
             </div>
         </div>
+
+        <div class="form-group">
+            <label class="control-label col-md-2">Monto Mensual</label>
+            <div class="col-md-10">
+                <input type="text" name="montoMensual" class="form-control">
+            </div>
+        </div>
+
+        
 
         <div class="form-group">
             @Html.LabelFor(model => model.Plazo, htmlAttributes: new { @class = "control-label col-md-2" })
@@ -47,23 +74,7 @@
             </div>
         </div>
 
-        <div class="form-group">
-            @Html.LabelFor(model => model.IdVenta, "IdVenta", htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
 
-                @{ var attributes = ViewBag.IdVentaEnable ? (object)new { @class = "form-control", disabled = "disabled" } : (object)new { @class = "form-control" }; }
-
-               @* @Html.DropDownList("IdVenta", null, htmlAttributes: new { @class = "form-control", disabled = ViewBag.IdVentaEnable })*@
-                @Html.DropDownList("IdVenta", null, attributes)
-                @*@Html.EditorFor(model => model.Quantity, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly" } })*@
-               @* @Html.EditorFor(model => model.Quantity, ViewBag.Readonly ? (object)new { htmlAttributes = new { @readonly = "readonly", @class = "form-control" } } : new { htmlAttributes = new { @class = "form-control" } })*@
-
-
-
-
-                @Html.ValidationMessageFor(model => model.IdVenta, "", new { @class = "text-danger" })
-            </div>
-        </div>
 
         <div class="form-group">
             <div class="col-md-offset-2 col-md-10">
@@ -71,7 +82,7 @@
             </div>
         </div>
     </div>
-}
+                    }
 
 <div>
     @Html.ActionLink("Back to List", "Index")

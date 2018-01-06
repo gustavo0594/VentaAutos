@@ -56,16 +56,20 @@ namespace VentaAutos.Controllers
         // más información vea https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Create([Bind(Include = "IdVenta,Monto,Fecha,IdTipoVenta,IdCliente,Saldo,Placa")] TVenta tVenta)
+        public async Task<ActionResult> Create([Bind(Include = "IdVenta,Monto,Fecha,IdTipoVenta,IdCliente,Saldo,Placa,Interes,Financiamiento")] TVenta tVenta)
         {
             if (ModelState.IsValid)
             {
+
+                string plazo = tVenta.Financiamiento.Plazo.ToString();
+
                 db.TVenta.Add(tVenta);
+
                 await db.SaveChangesAsync();
 
                 //revisar que el web config este seteado con el mismo idtipofinanciamiento de la BD tabla ctipoVenta (2)
-                if(tVenta.IdTipoVenta == Int32.Parse( WebConfigurationManager.AppSettings["TipoVentaFinanciamiento"] ))
-                    return RedirectToAction("Create","Financiamientos", new { idVenta = tVenta.IdVenta });
+                if (tVenta.IdTipoVenta == Int32.Parse(WebConfigurationManager.AppSettings["TipoVentaFinanciamiento"]))
+                    return RedirectToAction("Create", "Financiamientos", new { idVenta = tVenta.IdVenta });
 
                 return RedirectToAction("Index");
             }
@@ -75,6 +79,33 @@ namespace VentaAutos.Controllers
             ViewBag.Placa = new SelectList(db.TVehiculo, "Placa", "Estilo", tVenta.Placa);
             return View(tVenta);
         }
+
+        // POST: Ventas/Create
+        // Para protegerse de ataques de publicación excesiva, habilite las propiedades específicas a las que desea enlazarse. Para obtener 
+        // más información vea https://go.microsoft.com/fwlink/?LinkId=317598.
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        //public async Task<ActionResult> Create(FormCollection formData )
+        //{
+        //    if (ModelState.IsValid)
+        //    {
+        //        string saldo = formData["Saldo"];
+        //        string plazo = formData["Financiamiento.Plazo"]; 
+        //        //db.TVenta.Add(tVenta);
+        //        //await db.SaveChangesAsync();
+
+        //        ////revisar que el web config este seteado con el mismo idtipofinanciamiento de la BD tabla ctipoVenta (2)
+        //        //if (tVenta.IdTipoVenta == Int32.Parse(WebConfigurationManager.AppSettings["TipoVentaFinanciamiento"]))
+        //        //    return RedirectToAction("Create", "Financiamientos", new { idVenta = tVenta.IdVenta });
+
+        //        //return RedirectToAction("Index");
+        //    }
+
+        //    //ViewBag.IdTipoVenta = new SelectList(db.CTipoVenta, "IdTipoVenta", "Descripcion", tVenta.IdTipoVenta);
+        //    //ViewBag.IdCliente = new SelectList(db.TCliente, "IdCliente", "Identificacion", tVenta.IdCliente);
+        //    //ViewBag.Placa = new SelectList(db.TVehiculo, "Placa", "Estilo", tVenta.Placa);
+        //    return View();
+        //}
 
         // GET: Ventas/Edit/5
         public async Task<ActionResult> Edit(int? id)
@@ -101,7 +132,7 @@ namespace VentaAutos.Controllers
         // más información vea https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Edit([Bind(Include = "IdVenta,Monto,Fecha,IdTipoVenta,IdCliente,Saldo,Placa")] TVenta tVenta)
+        public async Task<ActionResult> Edit([Bind(Include = "IdVenta,Monto,Fecha,IdTipoVenta,IdCliente,Saldo,Placa,Interes")] TVenta tVenta)
         {
             if (ModelState.IsValid)
             {
@@ -128,6 +159,30 @@ namespace VentaAutos.Controllers
                 return HttpNotFound();
             }
             return View(tVenta);
+        }
+
+
+        
+        //[HttpPost]
+        //[ValidateAntiForgeryToken]
+        public async Task<int> CantidadCuotas(string Monto,string Cuota, string Taza )
+        {
+            decimal saldo = Convert.ToDecimal( Monto);
+            int cuota = Convert.ToInt32( Cuota);
+            decimal taza = Convert.ToDecimal(Taza);
+            int cantidad  = 0;
+            decimal interes, amortizacion;
+            if (ModelState.IsValid)
+            {
+                while (saldo>cuota) {
+                    interes = saldo * (taza/100);
+                    amortizacion = cuota - interes;
+                    saldo = saldo - amortizacion;
+                    cantidad++;
+                }                
+            }
+           
+            return cantidad+1;
         }
 
         // POST: Ventas/Delete/5
@@ -203,5 +258,6 @@ namespace VentaAutos.Controllers
 
 
         }
+
     }
 }

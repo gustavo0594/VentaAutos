@@ -17,9 +17,9 @@ namespace VentaAutos.Models
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
         public TCliente()
         {
-            this.TCompra = new HashSet<TCompra>();
             this.TTelefonoCliente = new HashSet<TTelefonoCliente>();
             this.TVenta = new HashSet<TVenta>();
+            this.TVehiculo = new HashSet<TVehiculo>();
         }
     
         public int IdCliente { get; set; }
@@ -31,10 +31,10 @@ namespace VentaAutos.Models
         public string Correo { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<TCompra> TCompra { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<TTelefonoCliente> TTelefonoCliente { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<TVenta> TVenta { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<TVehiculo> TVehiculo { get; set; }
     }
 }

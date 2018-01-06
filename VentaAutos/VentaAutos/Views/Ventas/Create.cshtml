@@ -7,51 +7,20 @@
 <h2>Create</h2>
 
 
-@using (Html.BeginForm()) 
+@using (Html.BeginForm())
 {
     @Html.AntiForgeryToken()
-    
+
     <div class="form-horizontal">
         <h4>TVenta</h4>
         <hr />
         @Html.ValidationSummary(true, "", new { @class = "text-danger" })
-        <div class="form-group">
-            @Html.LabelFor(model => model.Monto, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.Monto, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.Monto, "", new { @class = "text-danger" })
-            </div>
-        </div>
-
-        <div class="form-group">
-            @Html.LabelFor(model => model.Fecha, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.Fecha, new { htmlAttributes = new { @class = "form-control datepicker" } })
-                @Html.ValidationMessageFor(model => model.Fecha, "", new { @class = "text-danger" })
-            </div>
-        </div>
-
-        <div class="form-group">
-            @Html.LabelFor(model => model.IdTipoVenta, "IdTipoVenta", htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.DropDownList("IdTipoVenta", null, htmlAttributes: new { @class = "form-control" })
-                @Html.ValidationMessageFor(model => model.IdTipoVenta, "", new { @class = "text-danger" })
-            </div>
-        </div>
 
         <div class="form-group">
             @Html.LabelFor(model => model.IdCliente, "IdCliente", htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
                 @Html.DropDownList("IdCliente", null, htmlAttributes: new { @class = "form-control" })
                 @Html.ValidationMessageFor(model => model.IdCliente, "", new { @class = "text-danger" })
-            </div>
-        </div>
-
-        <div class="form-group">
-            @Html.LabelFor(model => model.Saldo, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.Saldo, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.Saldo, "", new { @class = "text-danger" })
             </div>
         </div>
 
@@ -64,10 +33,170 @@
         </div>
 
         <div class="form-group">
+            @Html.LabelFor(model => model.Monto, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.Monto, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.Monto, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.Fecha, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.Fecha, new { htmlAttributes = new { @class = "form-control datepicker", @Value = @DateTime.Now.ToShortDateString() } })
+                @Html.ValidationMessageFor(model => model.Fecha, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.IdTipoVenta, "IdTipoVenta", htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10 checkbox">
+                <input type="checkbox" data-toggle="toggle" data-on="Financiamiento" data-off="Contado" id="ckTipoVenta">
+            </div>
+        </div>
+
+
+        @*<div class="form-group">
+                @Html.LabelFor(model => model.Saldo, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.EditorFor(model => model.Saldo, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.Saldo, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.IdTipoVenta, "IdTipoVenta", htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.DropDownList("IdTipoVenta", null, htmlAttributes: new { @class = "form-control" })
+                    @Html.ValidationMessageFor(model => model.IdTipoVenta, "", new { @class = "text-danger" })
+                </div>
+
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.Interes, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.EditorFor(model => model.Interes, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.Interes, "", new { @class = "text-danger" })
+                </div>
+            </div>*@
+
+
+
+        @*<div class="form-group">
+                @Html.LabelFor(model => model.Financiamiento.Plazo, "Plazo", htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.EditorFor(model => model.Financiamiento.Plazo, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.Financiamiento.Plazo, "", new { @class = "text-danger" })
+                </div>
+            </div>*@
+
+
+        <div class="col-sm-6 col-sm-offset-1" id="datosFinanc" style="display:none">
+            @*<h2>Datos Financiamiento</h2>*@
+            <div class="panel-group">
+                <div class="panel panel-primary">
+                    <div class="panel-heading">Datos Financiamiento</div>
+                    <div class="panel-body">
+                        <label>Monto Financiamiento: </label> <label id="lblMontoFinanc"></label> <br />
+                        <label>Taza Interés: </label> <label id="lblTaza"></label> <br />
+                        <label>Monto Mensual: </label> <label id="lblMontoMensual"></label> <br />
+                        <label>Plazo: </label> <label id="lblPlazo"></label>
+                    </div>
+                </div>
+
+
+            </div>
+        </div>
+
+
+        <div class="form-group">
             <div class="col-md-offset-2 col-md-10">
                 <input type="submit" value="Create" class="btn btn-default" />
             </div>
         </div>
+
+
+        <div class="container">
+            @*<h2>Financiamiento</h2>
+                <button type="button" class="btn btn-info btn-lg" data-toggle="modal" data-target="#modalFinanc">Open Modal</button>*@
+
+            <!-- Modal -->
+            <div class="modal fade" id="modalFinanc" role="dialog">
+                <div class="modal-dialog">
+
+                    <!-- Modal content-->
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal">&times;</button>
+                            <h4 class="modal-title">Financiamiento</h4>
+                        </div>
+
+                        <div class="modal-body">
+                            <!-- The form is placed inside the body of modal -->
+                            <form id="loginForm" method="post" class="form-horizontal">
+
+                                <div class="form-group">
+                                    <label for="MontoVenta" class="control-label col-md-2">Monto Venta</label>
+                                    <div class="col-md-10">
+                                        <input type="text" id="MontoVenta" name="MontoVenta" class="form-control" disabled>
+                                    </div>
+
+
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="Saldo" class="control-label col-md-2">Monto Financ.</label>
+                                    <div class="col-md-10">
+                                        @*@Html.EditorFor(model => model.Saldo, new { htmlAttributes = new { @type = "number", @class = "form-control" } })*@
+                                        <input type="text" id="Saldo1" name="Saldo1" class="form-control">
+                                        @Html.ValidationMessageFor(model => model.Saldo, "", new { @class = "text-danger" })
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    @Html.LabelFor(model => model.Interes, htmlAttributes: new { @class = "control-label col-md-2" })
+                                    <div class="col-md-10">
+                                        @*@Html.EditorFor(model => model.Interes, new { htmlAttributes = new { @type = "number", @class = "form-control" } })*@
+                                        <input type="text" id="Interes1" name="Interes1" class="form-control">
+                                        @Html.ValidationMessageFor(model => model.Interes, "", new { @class = "text-danger" })
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="MontoMensual" class="control-label col-md-2">Monto Mensual</label>
+                                    <div class="col-md-10">
+                                        <input type="text" id="MontoMensual" name="MontoMensual" class="form-control">
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="Plazo" class="control-label col-md-2">Plazo</label>
+                                    <div class="col-md-10">
+                                        <input type="text" id="Plazo1" name="Plazo1" class="form-control" readonly>
+                                    </div>
+                                </div>
+                                                               
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
+
+                                    @*<button type="submit" class="btn btn-primary">Aceptar</button>
+                                    <button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>*@
+
+                                </div>
+
+                                </form>
+                            </div>
+                        </div>
+
+                    </div>
+            </div>
+
+        </div>
+
+
+
+
     </div>
 }
 
@@ -78,18 +207,24 @@
 @section Scripts {
     @Scripts.Render("~/bundles/jqueryval")
 
-<link href="~/Content/bootstrap-select.css" rel="stylesheet" />
-<link href="~/Content/bootstrap-datepicker.css" rel="stylesheet" />
-<link href="~/Content/bootstrapValidator.min.css" rel="stylesheet" />
-<script src="~/Scripts/moment.js"></script>
-<script src="~/Scripts/bootstrap-datepicker.js"></script>
-<script src="~/Scripts/bootstrapValidator.min.js"></script>
-<script src="~/Scripts/bootstrap-select.js"></script>
-<script src="~/Scripts/bootstrap-datetimepicker.js"></script>
-<script src="~/Scripts/mask.js"></script>
-<script src="~/Scripts/jquery.formatCurrency-1.4.0.js"></script>
+    <link href="~/Content/bootstrap-select.css" rel="stylesheet" />
+    <link href="~/Content/bootstrap-datepicker.css" rel="stylesheet" />
+    <link href="~/Content/bootstrap-toggle.css" rel="stylesheet" />
+    <link href="~/Content/bootstrapValidator.min.css" rel="stylesheet" />
+    <script src="~/Scripts/moment.js"></script>
+    <script src="~/Scripts/bootstrap-datepicker.js"></script>
+    <script src="~/Scripts/bootstrapValidator.min.js"></script>
+    <script src="~/Scripts/bootstrap-select.js"></script>
+    <script src="~/Scripts/bootstrap-datetimepicker.js"></script>
+    <script src="~/Scripts/bootstrap-toggle.js"></script>
+    <script src="~/Scripts/mask.js"></script>
+    <script src="~/Scripts/jquery.formatCurrency-1.4.0.js"></script>
+    <script src="~/Scripts/jquery.validate.js"></script>
+    <script src="~/Scripts/jquery.validate.unobtrusive.js"></script>
+    <script src="~/Scripts/jquery.validate.globalize.js"></script>
+    <script src="~/Scripts/globalize.js"></script>
 
-<script type="text/javascript">
+    <script type="text/javascript">
         $(function () { // will trigger when the document is ready
             $('.datepicker').datepicker({
                 dateFormat: 'dd/mm/yyyy',
@@ -97,7 +232,9 @@
                 changeMonth: true,
                 changeYear: true,
                 defaultDate: new Date(),
-                format: 'dd/mm/yyyy'
+                format: 'dd/mm/yyyy',
+                startDate: new Date()
+
             });
 
             $.validator.methods.date = function (value, element) {
@@ -106,7 +243,82 @@
             }
 
 
+            $('#modalFinanc').on('hidden.bs.modal', function () {
+                $('#modalFinanc').formValidation('resetForm', true);
+                mostrarDatosFinanciamiento();                
+                $(this).removeData('bs.modal');
+                $('#modalFinanc .modal-content').empty();
+            })
+
+
+            //evento levantar modal al hacer clic en financiamiento
+            $('input[type="checkbox"]').on('change', function (e) {
+                if (e.target.checked) {
+                    $('#MontoVenta').val($('#Monto').val());
+                    $('#modalFinanc').modal();
+                }
+            });
+
+            //culcular plazo en base a: monto a pagar, saldo, interes
+            $('#MontoMensual').blur(function () {
+                var Cuota = $(this).val();
+                var Taza = $('#Interes1').val();
+                var Monto = $('#Saldo1').val();
+                //alert('params: ' + Cuota + "-" + Taza + "-" + Monto  );
+                $.post("@Url.Action("CantidadCuotas", "Ventas")", { Monto: Monto, Taza: Taza, Cuota: Cuota }, function (data) {
+                    if (data != null){
+                        $('#Plazo1').val(data + " Meses");
+                    }
+                 });
+            });
+
+
+            $('#modalFinanc').formValidation({
+                framework: 'bootstrap',
+                excluded: ':disabled',
+                icon: {
+                    valid: 'glyphicon glyphicon-ok',
+                    invalid: 'glyphicon glyphicon-remove',
+                    validating: 'glyphicon glyphicon-refresh'
+                },
+                fields: {
+                    Saldo1: {
+                        validators: {
+                            notEmpty: {
+                                message: 'The username is required'
+                            }
+                        }
+                    },
+                    Interes1: {
+                        validators: {
+                            notEmpty: {
+                                message: 'The password is required'
+                            }
+                        }
+                    }
+                }
+            });
+
+
+
+
         });
 
-</script>
+        function mostrarDatosFinanciamiento() {
+            var x = document.getElementById("datosFinanc");
+            if (x.style.display === "none") {                
+                document.getElementById('lblMontoFinanc').innerHTML = document.getElementById('Saldo1').value;
+                document.getElementById('lblTaza').innerHTML = document.getElementById('Interes1').value;
+                document.getElementById('lblMontoMensual').innerHTML = document.getElementById('MontoMensual').value;
+                document.getElementById('lblPlazo').innerHTML = document.getElementById('Plazo1').value;
+
+                x.style.display = "block";
+            } else {
+                x.style.display = "none";
+            }
+        }
+
+
+
+    </script>
 }
