@@ -244,8 +244,8 @@
 
 
             $('#modalFinanc').on('hidden.bs.modal', function () {
-                $('#modalFinanc').formValidation('resetForm', true);
-                mostrarDatosFinanciamiento();                
+                mostrarDatosFinanciamiento(); 
+                $('#modalFinanc').bootstrapValidator('resetForm', true);                               
                 $(this).removeData('bs.modal');
                 $('#modalFinanc .modal-content').empty();
             })
@@ -257,14 +257,19 @@
                     $('#MontoVenta').val($('#Monto').val());
                     $('#modalFinanc').modal();
                 }
+                else {
+                    mostrarDatosFinanciamiento();
+                    //var x = document.getElementById("datosFinanc");
+                    //x.style.display === "none"
+                }
             });
 
             //culcular plazo en base a: monto a pagar, saldo, interes
             $('#MontoMensual').blur(function () {
+                $('#modalFinanc').data('bootstrapValidator').validate();
                 var Cuota = $(this).val();
                 var Taza = $('#Interes1').val();
                 var Monto = $('#Saldo1').val();
-                //alert('params: ' + Cuota + "-" + Taza + "-" + Monto  );
                 $.post("@Url.Action("CantidadCuotas", "Ventas")", { Monto: Monto, Taza: Taza, Cuota: Cuota }, function (data) {
                     if (data != null){
                         $('#Plazo1').val(data + " Meses");
@@ -273,7 +278,7 @@
             });
 
 
-            $('#modalFinanc').formValidation({
+            $('#modalFinanc').bootstrapValidator({
                 framework: 'bootstrap',
                 excluded: ':disabled',
                 icon: {
@@ -285,14 +290,31 @@
                     Saldo1: {
                         validators: {
                             notEmpty: {
-                                message: 'The username is required'
+                                message: 'El Saldo es requerido'
+                            },
+                            integer: {
+                                message: 'El Saldo debe ser numero'
                             }
                         }
                     },
                     Interes1: {
                         validators: {
                             notEmpty: {
-                                message: 'The password is required'
+                                message: 'El Interés es requerido'
+                            },
+                            integer: {
+                                message: 'El Interés debe ser numero'
+                            }
+                        }
+                    }
+                    ,
+                    MontoMensual: {
+                        validators: {
+                            notEmpty: {
+                                message: 'El Monto Mensual es requerido'
+                            },
+                            integer: {                                
+                                message: 'El monto debe ser numero'
                             }
                         }
                     }
