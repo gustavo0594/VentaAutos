@@ -29,6 +29,7 @@
             <div class="col-md-10">
                 @Html.DropDownList("Placa", null, htmlAttributes: new { @class = "form-control" })
                 @Html.ValidationMessageFor(model => model.Placa, "", new { @class = "text-danger" })
+                <label id="lblMontoComprado"> </label>
             </div>
         </div>
 
@@ -113,6 +114,7 @@
         <div class="form-group">
             <div class="col-md-offset-2 col-md-10">
                 <input type="submit" value="Create" class="btn btn-default" />
+                <input type="submit" value="Guardar" class="btn btn-default" id="Guardar" />
             </div>
         </div>
 
@@ -194,7 +196,7 @@
 
         </div>
 
-        
+
     </div>
 }
 
@@ -238,13 +240,72 @@
 
             $("#Monto").maskMoney();
             $("#MontoMensual").maskMoney();
-            $("#Saldo1").maskMoney();           
-            
+            $("#Saldo1").maskMoney();
+
+            //cargar lblMontoComprado cuanda carga la pagina
+            var placaCarga = $('#Placa').find(":selected").val(); // pplaca}
+            if (!$.isEmptyObject(placaCarga)) {
+                $.post("@Url.Action("GetVehiculo", "Vehiculos")", { placa: placaCarga }, function (data) {
+                    if (data == null || data.length === 0) {
+                        $('#lblMontoComprado').text("No se logro recuoerar el monto en el que fue adquirido el vehículo");
+                    }
+                    else {
+                       // var dat = JSON.parse(data);
+                        $('#lblMontoComprado').text("Este Vehículo fue comprado en: " + data["Monto"]);
+                    }
+
+                 });
+
+            }
 
             $.validator.methods.date = function (value, element) {
                 Globalize.culture("en-AU"); // the UK format
                 return this.optional(element) || Globalize.parseDate(value) !== null;
             }
+
+
+            ////////******eventos***///////////////
+
+            //guardar
+            $("#Guardar").click(function () {
+
+                var plazo = $('#lblPlazo').html(); // *pplazo
+                var montoFinanc = $('#lblMontoFinanc').html(); // psaldo
+                var taza = $('#lblTaza').html(); // pinteres
+                var montoMensual = $('#lblMontoMensual').html(); // pmonto
+                var idCliente = $('#IdCliente').find(":selected").val();// pidCliente
+                var placa = $('#Placa').find(":selected").val(); // pplaca
+                var fecha = $('#Fecha').val(); // pfecha
+                var idTipoVenta = $("#ckTipoVenta").prop('checked');// pidTipoVenta
+                if ($.isEmptyObject(idTipoVenta)) {
+                    if (idTipoVenta = true)
+                        idTipoVenta = 2; //si esta en true es fiananciamiento y en bd financiamiento es id = 2
+                    else
+                        idTipoVenta = 1;
+                }
+
+                //llamar funcion
+                $.post("@Url.Action("InsertarVentaFinanciamiento", "Ventas")", { pmonto: montoMensual, pfecha: fecha, pidTipoVenta: idTipoVenta, pidCliente: idCliente,
+                    psaldo: montoFinanc, pplaca: placa, pinteres: taza, pplazo: plazo }, function (data) {
+                        if (data != null) {
+                            alert(data);
+                            if (data == 'True') {
+                                alert('inserto');
+                            }
+                            else {
+                                alert('ocurrio un error procesando la venta');
+                            }
+
+                        }
+                        else {
+                            alert('ocurrio un error procesando la venta');
+                        }
+                });
+
+        });
+
+
+
 
 
             $('#modalFinanc').on('hidden.bs.modal', function () {
@@ -280,6 +341,26 @@
                         $('#Plazo1').val(data + " Meses");
                     }
                  });
+            });
+
+
+            //evento cambio de placa
+            $("#Placa").change(function () {
+                var placaCarga = $('#Placa').find(":selected").val();
+                alert(placaCarga);
+                $('#lblMontoComprado').empty();
+                $.post("@Url.Action("GetVehiculo", "Vehiculos")", { placa: placaCarga }, function (data) {
+                    alert(data);
+                    if (data == null || data.length === 0) {
+                        $('#lblMontoComprado').text("No se logro recuoerar el monto en el que fue adquirido el vehículo");
+                    }
+                    else {
+                       // var dat = JSON.parse(data);
+                        $('#lblMontoComprado').text("Este Vehículo fue comprado en: " + data["Monto"]);
+                    }
+
+                 });
+
             });
 
 
@@ -328,8 +409,12 @@
 
 
 
+        }); //fin carga jquery
 
-        });
+         ////////******fin eventos***///////////////
+
+
+        ////////******funciones***///////////////
 
         function mostrarDatosFinanciamiento() {
             var x = document.getElementById("datosFinanc");
@@ -344,6 +429,10 @@
                 x.style.display = "none";
             }
         }
+
+         ////////******funciones***///////////////
+
+
 
 
 

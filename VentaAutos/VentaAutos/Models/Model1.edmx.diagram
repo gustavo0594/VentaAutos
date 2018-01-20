@@ -5,7 +5,7 @@
     <!-- Diagram content (shape and connector positions) -->
     <edmx:Diagrams>
 <<<<<<< HEAD
-      <Diagram DiagramId="2f3dfce21269406e8012db8f2ac0a764" Name="Diagram1" ZoomLevel="70">
+      <Diagram DiagramId="2f3dfce21269406e8012db8f2ac0a764" Name="Diagram1" ZoomLevel="69">
         <EntityTypeShape EntityType="VentasModel.CEstadoArticulo" Width="1.5" PointX="0.75" PointY="4.75" IsExpanded="true" />
         <EntityTypeShape EntityType="VentasModel.CMarcaVehiculo" Width="1.5" PointX="0.75" PointY="7.875" IsExpanded="true" />
         <EntityTypeShape EntityType="VentasModel.CPeriodoPago" Width="1.5" PointX="8.25" PointY="0.75" IsExpanded="true" />

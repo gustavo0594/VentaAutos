@@ -200,7 +200,7 @@ namespace VentaAutos.Controllers
         //[HttpPost]
         //[ValidateAntiForgeryToken]
         //public async Task<ActionResult> GetVehiculo( String placa)
-        public async Task<Boolean> GetVehiculo(string placa)
+        public async Task<object> GetVehiculo(string placa)
         {
             if (placa == null)
             {
@@ -210,14 +210,14 @@ namespace VentaAutos.Controllers
            // TVehiculo tVehiculo = await db.VehiculosDisponibles().FindAsync(placa);
             var tVehiculo = db.VehiculosDisponibles().Where(a => a.Placa.Equals(placa)).FirstOrDefault();
 
-
-
-            if (tVehiculo == null)
-            {
-                // return HttpNotFound();
-                return false;
-            }
-            return true;
+            //if (tVehiculo == null)
+            //{
+            //    // return HttpNotFound();
+            //    return false;
+            //}
+            //return true;
+            return Json(tVehiculo);
+            //return tVehiculo;
 
         }
 

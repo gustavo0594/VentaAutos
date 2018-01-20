@@ -99,7 +99,7 @@
             <PropertyRef Name="IdFinanciamiento" />
           </Key>
           <Property Name="IdFinanciamiento" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-          <Property Name="Interes" Type="smallint" Nullable="false" />
+          <Property Name="Interes" Type="decimal" Precision="18" Scale="0" Nullable="false" />
           <Property Name="Plazo" Type="smallint" Nullable="false" />
           <Property Name="IdPeriodoPago" Type="int" Nullable="false" />
           <Property Name="Descripcion" Type="varchar" MaxLength="2000" />
@@ -114,11 +114,9 @@
           <Property Name="IdTipoPago" Type="int" Nullable="false" />
           <Property Name="Fecha" Type="datetime" Nullable="false" />
           <Property Name="Monto" Type="decimal" Precision="18" Scale="0" />
-          <Property Name="IdFinanciamiento" Type="int" Nullable="false" />
           <Property Name="Intereses" Type="decimal" Precision="18" Scale="0" />
+          <Property Name="IdFinanciamiento" Type="int" Nullable="false" />
         </EntityType>
-        <!--Errores durante la generación:
-advertencia 6002: La tabla o vista 'Ventas.dbo.TPagos' no tiene definida ninguna clave principal. Se ha inferido la clave y la definición se creado como una vista o tabla de solo lectura.-->
         <EntityType Name="TPagos">
           <Key>
             <PropertyRef Name="IdVenta" />
@@ -127,7 +125,7 @@ advertencia 6002: La tabla o vista 'Ventas.dbo.TPagos' no tiene definida ninguna
           </Key>
           <Property Name="IdPago" Type="int" />
           <Property Name="IdVenta" Type="int" Nullable="false" />
-          <Property Name="Fecha" Type="date" Nullable="false" />
+          <Property Name="Fecha" Type="datetime" Nullable="false" />
           <Property Name="PeriodoCancelado" Type="smallint" Nullable="false" />
         </EntityType>
         <EntityType Name="TTelefonoCliente">
@@ -161,7 +159,7 @@ advertencia 6002: La tabla o vista 'Ventas.dbo.TPagos' no tiene definida ninguna
           <Property Name="IdTipoArticulo" Type="int" Nullable="false" />
           <Property Name="IdEstado" Type="int" />
           <Property Name="Monto" Type="decimal" Precision="18" Scale="0" />
-          <Property Name="FechaIngreso" Type="date" />
+          <Property Name="FechaIngreso" Type="datetime" />
           <Property Name="IdCliente" Type="int" />
         </EntityType>
         <EntityType Name="TVenta">
@@ -177,6 +175,42 @@ advertencia 6002: La tabla o vista 'Ventas.dbo.TPagos' no tiene definida ninguna
           <Property Name="Placa" Type="varchar" MaxLength="50" Nullable="false" />
           <Property Name="Interes" Type="decimal" Precision="18" Scale="0" />
         </EntityType>
+        <Association Name="FK__TPagoFina__IdVen__3D5E1FD2">
+          <End Role="TVenta" Type="Self.TVenta" Multiplicity="1" />
+          <End Role="TPagoFinanciamiento" Type="Self.TPagoFinanciamiento" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TVenta">
+              <PropertyRef Name="IdVenta" />
+            </Principal>
+            <Dependent Role="TPagoFinanciamiento">
+              <PropertyRef Name="IdVenta" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Financiamiento_CPeriodoPago">
+          <End Role="CPeriodoPago" Type="Self.CPeriodoPago" Multiplicity="1" />
+          <End Role="TFinanciamiento" Type="Self.TFinanciamiento" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="CPeriodoPago">
+              <PropertyRef Name="IdPeriodoPago" />
+            </Principal>
+            <Dependent Role="TFinanciamiento">
+              <PropertyRef Name="IdPeriodoPago" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_TFinanciamiento_TVenta">
+          <End Role="TVenta" Type="Self.TVenta" Multiplicity="0..1" />
+          <End Role="TFinanciamiento" Type="Self.TFinanciamiento" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TVenta">
+              <PropertyRef Name="IdVenta" />
+            </Principal>
+            <Dependent Role="TFinanciamiento">
+              <PropertyRef Name="IdVenta" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_TPago_CTipoPago">
           <End Role="CTipoPago" Type="Self.CTipoPago" Multiplicity="1" />
           <End Role="TPagoFinanciamiento" Type="Self.TPagoFinanciamiento" Multiplicity="*" />
@@ -321,38 +355,41 @@ advertencia 6002: La tabla o vista 'Ventas.dbo.TPagos' no tiene definida ninguna
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Function Name="fn_diagramobjects" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="true" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" ReturnType="int" />
-        <Function Name="sp_alterdiagram" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
-          <Parameter Name="diagramname" Type="nvarchar" Mode="In" />
-          <Parameter Name="owner_id" Type="int" Mode="In" />
-          <Parameter Name="version" Type="int" Mode="In" />
-          <Parameter Name="definition" Type="varbinary(max)" Mode="In" />
+        <Function Name="InsertarVentaFinanciamiento" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="Monto" Type="decimal" Mode="In" />
+          <Parameter Name="Fecha" Type="datetime" Mode="In" />
+          <Parameter Name="IdTipoVenta" Type="int" Mode="In" />
+          <Parameter Name="IdCliente" Type="int" Mode="In" />
+          <Parameter Name="Saldo" Type="decimal" Mode="In" />
+          <Parameter Name="Placa" Type="varchar" Mode="In" />
+          <Parameter Name="Interes" Type="decimal" Mode="In" />
+          <Parameter Name="Plazo" Type="smallint" Mode="In" />
+          <Parameter Name="IdPeriodoPago" Type="int" Mode="In" />
+          <Parameter Name="Descripcion" Type="varchar" Mode="In" />
+          <Parameter Name="idVenta" Type="int" Mode="InOut" />
         </Function>
-        <Function Name="sp_creatediagram" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
-          <Parameter Name="diagramname" Type="nvarchar" Mode="In" />
-          <Parameter Name="owner_id" Type="int" Mode="In" />
-          <Parameter Name="version" Type="int" Mode="In" />
-          <Parameter Name="definition" Type="varbinary(max)" Mode="In" />
+        <Function Name="VehiculosDisponibles" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="true" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <ReturnType>
+            <CollectionType>
+              <RowType>
+                <Property Name="Placa" Type="varchar" MaxLength="50" Nullable="false" />
+                <Property Name="IdMarca" Type="int" Nullable="false" />
+                <Property Name="Anio" Type="int" Nullable="false" />
+                <Property Name="Estilo" Type="varchar" MaxLength="1000" />
+                <Property Name="IdTransmision" Type="smallint" />
+                <Property Name="Modelo" Type="varchar" MaxLength="1000" />
+                <Property Name="NumPuertas" Type="tinyint" />
+                <Property Name="IdTipoVehiculo" Type="int" Nullable="false" />
+                <Property Name="Valor" Type="decimal" Precision="18" Scale="0" Nullable="false" />
+                <Property Name="IdTipoArticulo" Type="int" Nullable="false" />
+                <Property Name="IdEstado" Type="int" />
+                <Property Name="Monto" Type="decimal" Precision="18" Scale="0" />
+                <Property Name="FechaIngreso" Type="datetime" />
+                <Property Name="IdCliente" Type="int" />
+              </RowType>
+            </CollectionType>
+          </ReturnType>
         </Function>
-        <Function Name="sp_dropdiagram" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
-          <Parameter Name="diagramname" Type="nvarchar" Mode="In" />
-          <Parameter Name="owner_id" Type="int" Mode="In" />
-        </Function>
-        <Function Name="sp_helpdiagramdefinition" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
-          <Parameter Name="diagramname" Type="nvarchar" Mode="In" />
-          <Parameter Name="owner_id" Type="int" Mode="In" />
-        </Function>
-        <Function Name="sp_helpdiagrams" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
-          <Parameter Name="diagramname" Type="nvarchar" Mode="In" />
-          <Parameter Name="owner_id" Type="int" Mode="In" />
-        </Function>
-        <Function Name="sp_renamediagram" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
-          <Parameter Name="diagramname" Type="nvarchar" Mode="In" />
-          <Parameter Name="owner_id" Type="int" Mode="In" />
-          <Parameter Name="new_diagramname" Type="nvarchar" Mode="In" />
-        </Function>
-        <Function Name="sp_upgraddiagrams" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
-        <Function Name="VehiculosDisponibles" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
         <EntityContainer Name="VentasModelStoreContainer">
           <EntitySet Name="CEstadoArticulo" EntityType="Self.CEstadoArticulo" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="CMarcaVehiculo" EntityType="Self.CMarcaVehiculo" Schema="dbo" store:Type="Tables" />
@@ -367,18 +404,23 @@ advertencia 6002: La tabla o vista 'Ventas.dbo.TPagos' no tiene definida ninguna
           <EntitySet Name="TCliente" EntityType="Self.TCliente" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="TFinanciamiento" EntityType="Self.TFinanciamiento" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="TPagoFinanciamiento" EntityType="Self.TPagoFinanciamiento" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="TPagos" EntityType="Self.TPagos" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="TTelefonoCliente" EntityType="Self.TTelefonoCliente" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="TUsuario" EntityType="Self.TUsuario" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="TVehiculo" EntityType="Self.TVehiculo" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="TVenta" EntityType="Self.TVenta" Schema="dbo" store:Type="Tables" />
-          <EntitySet Name="TPagos" EntityType="Self.TPagos" store:Type="Tables" store:Schema="dbo">
-            <DefiningQuery>SELECT 
-    [TPagos].[IdPago] AS [IdPago], 
-    [TPagos].[IdVenta] AS [IdVenta], 
-    [TPagos].[Fecha] AS [Fecha], 
-    [TPagos].[PeriodoCancelado] AS [PeriodoCancelado]
-    FROM [dbo].[TPagos] AS [TPagos]</DefiningQuery>
-          </EntitySet>
+          <AssociationSet Name="FK__TPagoFina__IdVen__3D5E1FD2" Association="Self.FK__TPagoFina__IdVen__3D5E1FD2">
+            <End Role="TVenta" EntitySet="TVenta" />
+            <End Role="TPagoFinanciamiento" EntitySet="TPagoFinanciamiento" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Financiamiento_CPeriodoPago" Association="Self.FK_Financiamiento_CPeriodoPago">
+            <End Role="CPeriodoPago" EntitySet="CPeriodoPago" />
+            <End Role="TFinanciamiento" EntitySet="TFinanciamiento" />
+          </AssociationSet>
+          <AssociationSet Name="FK_TFinanciamiento_TVenta" Association="Self.FK_TFinanciamiento_TVenta">
+            <End Role="TVenta" EntitySet="TVenta" />
+            <End Role="TFinanciamiento" EntitySet="TFinanciamiento" />
+          </AssociationSet>
           <AssociationSet Name="FK_TPago_CTipoPago" Association="Self.FK_TPago_CTipoPago">
             <End Role="CTipoPago" EntitySet="CTipoPago" />
             <End Role="TPagoFinanciamiento" EntitySet="TPagoFinanciamiento" />
@@ -587,7 +629,7 @@ advertencia 6002: La tabla o vista 'Ventas.dbo.TPagos' no tiene definida ninguna
           <NavigationProperty Name="CTransmision" Relationship="Self.FK_TVehiculo_CTransmision" FromRole="TVehiculo" ToRole="CTransmision" />
           <NavigationProperty Name="TVenta" Relationship="Self.FK_TVenta_TVehiculo" FromRole="TVehiculo" ToRole="TVenta" />
           <Property Name="Monto" Type="Decimal" Precision="18" Scale="0" />
-          <Property Name="FechaIngreso" Type="DateTime" Precision="0" />
+          <Property Name="FechaIngreso" Type="DateTime" Precision="3" />
           <Property Name="IdCliente" Type="Int32" />
           <NavigationProperty Name="TCliente" Relationship="VentasModel.FK_TVehiculo_TCliente" FromRole="TVehiculo" ToRole="TCliente" />
         </EntityType>
@@ -870,12 +912,25 @@ advertencia 6002: La tabla o vista 'Ventas.dbo.TPagos' no tiene definida ninguna
             <Parameter Name="new_diagramname" Mode="In" Type="String" />
           </FunctionImport>
           <FunctionImport Name="sp_upgraddiagrams" />
-          <FunctionImport Name="VehiculosDisponibles" ReturnType="Collection(VentasModel.VehiculosDisponibles_Result)" />
           <EntitySet Name="TPagos" EntityType="VentasModel.TPagos" />
           <AssociationSet Name="FK_TPagos_TVenta" Association="VentasModel.FK_TPagos_TVenta">
             <End Role="TVenta" EntitySet="TVenta" />
             <End Role="TPagos" EntitySet="TPagos" />
           </AssociationSet>
+          <FunctionImport Name="InsertarVentaFinanciamiento">
+            <Parameter Name="Monto" Mode="In" Type="Decimal" />
+            <Parameter Name="Fecha" Mode="In" Type="DateTime" />
+            <Parameter Name="IdTipoVenta" Mode="In" Type="Int32" />
+            <Parameter Name="IdCliente" Mode="In" Type="Int32" />
+            <Parameter Name="Saldo" Mode="In" Type="Decimal" />
+            <Parameter Name="Placa" Mode="In" Type="String" />
+            <Parameter Name="Interes" Mode="In" Type="Decimal" />
+            <Parameter Name="Plazo" Mode="In" Type="Int16" />
+            <Parameter Name="IdPeriodoPago" Mode="In" Type="Int32" />
+            <Parameter Name="Descripcion" Mode="In" Type="String" />
+            <Parameter Name="idVenta" Mode="InOut" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="VehiculosDisponibles" IsComposable="true" ReturnType="Collection(VentasModel.VehiculosDisponibles_Result)" />
         </EntityContainer>
         <EntityType Name="sysdiagrams">
           <Key>
@@ -934,7 +989,7 @@ advertencia 6002: La tabla o vista 'Ventas.dbo.TPagos' no tiene definida ninguna
           </Key>
           <Property Name="IdPago" Type="Int32" />
           <Property Name="IdVenta" Type="Int32" Nullable="false" />
-          <Property Name="Fecha" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="Fecha" Type="DateTime" Nullable="false" Precision="3" />
           <Property Name="PeriodoCancelado" Type="Int16" Nullable="false" />
           <NavigationProperty Name="TVenta" Relationship="VentasModel.FK_TPagos_TVenta" FromRole="TPagos" ToRole="TVenta" />
         </EntityType>
@@ -950,6 +1005,22 @@ advertencia 6002: La tabla o vista 'Ventas.dbo.TPagos' no tiene definida ninguna
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <ComplexType Name="VehiculosDisponibles1_Result">
+          <Property Type="String" Name="Placa" Nullable="false" MaxLength="50" />
+          <Property Type="Int32" Name="IdMarca" Nullable="false" />
+          <Property Type="Int32" Name="Anio" Nullable="false" />
+          <Property Type="String" Name="Estilo" Nullable="true" MaxLength="1000" />
+          <Property Type="Int16" Name="IdTransmision" Nullable="true" />
+          <Property Type="String" Name="Modelo" Nullable="true" MaxLength="1000" />
+          <Property Type="Byte" Name="NumPuertas" Nullable="true" />
+          <Property Type="Int32" Name="IdTipoVehiculo" Nullable="false" />
+          <Property Type="Decimal" Name="Valor" Nullable="false" Precision="18" Scale="0" />
+          <Property Type="Int32" Name="IdTipoArticulo" Nullable="false" />
+          <Property Type="Int32" Name="IdEstado" Nullable="true" />
+          <Property Type="Decimal" Name="Monto" Nullable="true" Precision="18" Scale="0" />
+          <Property Type="DateTime" Name="FechaIngreso" Nullable="true" Precision="23" />
+          <Property Type="Int32" Name="IdCliente" Nullable="true" />
+        </ComplexType>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -1132,30 +1203,17 @@ advertencia 6002: La tabla o vista 'Ventas.dbo.TPagos' no tiene definida ninguna
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <FunctionImportMapping FunctionImportName="sp_alterdiagram" FunctionName="VentasModel.Store.sp_alterdiagram" />
-          <FunctionImportMapping FunctionImportName="sp_creatediagram" FunctionName="VentasModel.Store.sp_creatediagram" />
-          <FunctionImportMapping FunctionImportName="sp_dropdiagram" FunctionName="VentasModel.Store.sp_dropdiagram" />
-          <FunctionImportMapping FunctionImportName="sp_helpdiagramdefinition" FunctionName="VentasModel.Store.sp_helpdiagramdefinition">
-            <ResultMapping>
-              <ComplexTypeMapping TypeName="VentasModel.sp_helpdiagramdefinition_Result">
-                <ScalarProperty Name="version" ColumnName="version" />
-                <ScalarProperty Name="definition" ColumnName="definition" />
-              </ComplexTypeMapping>
-            </ResultMapping>
-          </FunctionImportMapping>
-          <FunctionImportMapping FunctionImportName="sp_helpdiagrams" FunctionName="VentasModel.Store.sp_helpdiagrams">
-            <ResultMapping>
-              <ComplexTypeMapping TypeName="VentasModel.sp_helpdiagrams_Result">
-                <ScalarProperty Name="Database" ColumnName="Database" />
-                <ScalarProperty Name="Name" ColumnName="Name" />
-                <ScalarProperty Name="ID" ColumnName="ID" />
-                <ScalarProperty Name="Owner" ColumnName="Owner" />
-                <ScalarProperty Name="OwnerID" ColumnName="OwnerID" />
-              </ComplexTypeMapping>
-            </ResultMapping>
-          </FunctionImportMapping>
-          <FunctionImportMapping FunctionImportName="sp_renamediagram" FunctionName="VentasModel.Store.sp_renamediagram" />
-          <FunctionImportMapping FunctionImportName="sp_upgraddiagrams" FunctionName="VentasModel.Store.sp_upgraddiagrams" />
+          <EntitySetMapping Name="TPagos">
+            <EntityTypeMapping TypeName="VentasModel.TPagos">
+              <MappingFragment StoreEntitySet="TPagos">
+                <ScalarProperty Name="PeriodoCancelado" ColumnName="PeriodoCancelado" />
+                <ScalarProperty Name="Fecha" ColumnName="Fecha" />
+                <ScalarProperty Name="IdVenta" ColumnName="IdVenta" />
+                <ScalarProperty Name="IdPago" ColumnName="IdPago" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <FunctionImportMapping FunctionImportName="InsertarVentaFinanciamiento" FunctionName="VentasModel.Store.InsertarVentaFinanciamiento" />
           <FunctionImportMapping FunctionImportName="VehiculosDisponibles" FunctionName="VentasModel.Store.VehiculosDisponibles">
             <ResultMapping>
               <ComplexTypeMapping TypeName="VentasModel.VehiculosDisponibles_Result">
@@ -1176,16 +1234,6 @@ advertencia 6002: La tabla o vista 'Ventas.dbo.TPagos' no tiene definida ninguna
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>
-          <EntitySetMapping Name="TPagos">
-            <EntityTypeMapping TypeName="VentasModel.TPagos">
-              <MappingFragment StoreEntitySet="TPagos">
-                <ScalarProperty Name="PeriodoCancelado" ColumnName="PeriodoCancelado" />
-                <ScalarProperty Name="Fecha" ColumnName="Fecha" />
-                <ScalarProperty Name="IdVenta" ColumnName="IdVenta" />
-                <ScalarProperty Name="IdPago" ColumnName="IdPago" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
         </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>

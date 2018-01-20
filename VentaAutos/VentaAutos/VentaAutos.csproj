@@ -288,6 +288,9 @@
     <Compile Include="Models\TVenta.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\VehiculosDisponibles1_Result.cs">
+      <DependentUpon>Model1.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\VehiculosDisponibles_Result.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>

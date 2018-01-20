@@ -176,10 +176,19 @@
             $('#Placa').change(function () {
                 var placat = $(this).val();
                 $.post("@Url.Action("GetVehiculo", "Vehiculos")", { placa: placat }, function (data) {
-                    if (data == 'True'){
+                    if (data == null || data.length === 0) {
+                       // alert('{}');
+                    }
+                    else {
                         alert('Este Vehiculo ya existe, para ingresarlo debe registarse una venta de este vehículo');
                         $('#Placa').val("");
                     }
+
+                   
+                    //if (data == 'True') {
+                    //    alert('Este Vehiculo ya existe, para ingresarlo debe registarse una venta de este vehículo');
+                    //    $('#Placa').val("");
+                    //}
 
                  });
 

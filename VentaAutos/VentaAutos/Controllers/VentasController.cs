@@ -61,9 +61,9 @@ namespace VentaAutos.Controllers
             if (ModelState.IsValid)
             {
 
-                string plazo = tVenta.Financiamiento.Plazo.ToString();
+                //string plazo = tVenta.Financiamiento.Plazo.ToString();
 
-                db.TVenta.Add(tVenta);
+                 db.TVenta.Add(tVenta);
 
                 await db.SaveChangesAsync();
 
@@ -162,7 +162,48 @@ namespace VentaAutos.Controllers
         }
 
 
-        
+        //[HttpPost]
+        //[ValidateAntiForgeryToken]
+        //public async Task<ActionResult> GetVehiculo( String placa)
+        //(Nullable<decimal> monto, Nullable<System.DateTime> fecha, Nullable<int> idTipoVenta, Nullable<int> idCliente, Nullable<decimal> saldo, 
+        //string placa, Nullable<decimal> interes, Nullable<short> plazo, Nullable<int> idPeriodoPago, string descripcion)
+        public async Task<Boolean> InsertarVentaFinanciamiento(string pmonto, string pfecha, string pidTipoVenta, string pidCliente, string psaldo,
+        string pplaca, string pinteres, string pplazo)
+        {
+            //if (placa == null)
+            //{
+            //    // return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            //    return false;
+            //}
+            if(pplazo != null)
+            {
+                if(pplazo != string.Empty)
+                {
+                    pplazo = pplazo.Replace(" Meses", "");
+                }
+            }
+
+            Decimal monto = Convert.ToDecimal(pmonto);
+            Decimal saldo = Convert.ToDecimal(psaldo);
+            Decimal interes = Convert.ToDecimal(pinteres);
+            DateTime fecha = Convert.ToDateTime(pfecha);
+            int idTipoVenta = Convert.ToInt32(pidTipoVenta);
+            int idCliente = Convert.ToInt32(pidCliente);
+            Int16 plazo = Convert.ToInt16(pplazo);
+
+            System.Data.Entity.Core.Objects.ObjectParameter returnId = new System.Data.Entity.Core.Objects.ObjectParameter("idVenta", typeof(int)); //Create Object parameter to receive a output value.It will behave like output parameter  
+            int venta = db.InsertarVentaFinanciamiento( monto,  fecha,  idTipoVenta,  idCliente,  saldo, pplaca,  interes,  plazo,1, " ", returnId);
+
+            if (int.Parse(returnId.Value.ToString())  > 0)
+            {
+                
+                return true;
+            }
+            return false;
+
+        }
+
+
         //[HttpPost]
         //[ValidateAntiForgeryToken]
         public async Task<int> CantidadCuotas(string Monto,string Cuota, string Taza )

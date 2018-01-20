@@ -11,7 +11,7 @@ namespace VentaAutos.Models
 {
     using System;
     
-    public partial class VehiculosDisponibles_Result
+    public partial class VehiculosDisponibles1_Result
     {
         public string Placa { get; set; }
         public int IdMarca { get; set; }
