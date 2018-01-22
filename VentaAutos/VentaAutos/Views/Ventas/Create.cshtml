@@ -180,11 +180,7 @@
                                 </div>
 
                                 <div class="modal-footer">
-                                    <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
-
-                                    @*<button type="submit" class="btn btn-primary">Aceptar</button>
-                                        <button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>*@
-
+                                    <button type="button" class="btn btn-primary" data-dismiss="modal">Cerrar</button>
                                 </div>
 
                             </form>
@@ -226,6 +222,8 @@
     <script src="~/Scripts/jquery.maskMoney.js"></script>
 
     <script type="text/javascript">
+        //variables
+
         $(function () { // will trigger when the document is ready
             $('.datepicker').datepicker({
                 dateFormat: 'dd/mm/yyyy',
@@ -268,7 +266,6 @@
 
             //guardar
             $("#Guardar").click(function () {
-
                 var plazo = $('#lblPlazo').html(); // *pplazo
                 var montoFinanc = $('#lblMontoFinanc').html(); // psaldo
                 var taza = $('#lblTaza').html(); // pinteres
@@ -283,12 +280,10 @@
                     else
                         idTipoVenta = 1;
                 }
-
                 //llamar funcion
                 $.post("@Url.Action("InsertarVentaFinanciamiento", "Ventas")", { pmonto: montoMensual, pfecha: fecha, pidTipoVenta: idTipoVenta, pidCliente: idCliente,
                     psaldo: montoFinanc, pplaca: placa, pinteres: taza, pplazo: plazo }, function (data) {
                         if (data != null) {
-                            alert(data);
                             if (data == 'True') {
                                 alert('inserto');
                             }
@@ -305,16 +300,15 @@
         });
 
 
-
-
-
+            //cerrar modal financiamiento
             $('#modalFinanc').on('hidden.bs.modal', function () {
+                $('#modalFinanc').data('bootstrapValidator').validate();
                 mostrarDatosFinanciamiento();
-                $('#modalFinanc').bootstrapValidator('resetForm', true);
-                $(this).removeData('bs.modal');
-                $('#modalFinanc .modal-content').empty();
-            })
-
+               //$('#modalFinanc').modal('hide');
+                //$('#modalFinanc').bootstrapValidator('resetForm', true);
+                //$(this).removeData('bs.modal');
+                //$('#modalFinanc .modal-content').empty();
+            })           
 
             //evento levantar modal al hacer clic en financiamiento
             $('input[type="checkbox"]').on('change', function (e) {
@@ -323,19 +317,18 @@
                     $('#modalFinanc').modal();
                 }
                 else {
+                    alert('checkbox change');
                     mostrarDatosFinanciamiento();
-                    //var x = document.getElementById("datosFinanc");
-                    //x.style.display === "none"
                 }
             });
 
             //culcular plazo en base a: monto a pagar, saldo, interes
             $('#MontoMensual').blur(function () {
                 $('#modalFinanc').data('bootstrapValidator').validate();
-                var Cuota = parseFloat($(this).val().replace(',', "")) ;
+                var Cuota = parseFloat($(this).val().split(",").join("")) ;
                 var Taza = $('#Interes1').val();
-                var Monto = parseFloat($('#Saldo1').val().replace(',', ""));
-                //alert('params: ' + Cuota + ' ' + Taza + ' ' + Monto);
+                var Monto = parseFloat($('#Saldo1').val().split(",").join(""));
+                alert('params: ' + Cuota + ' ' + Taza + ' ' + Monto);
                 $.post("@Url.Action("CantidadCuotas", "Ventas")", { Monto: Monto, Taza: Taza, Cuota: Cuota }, function (data) {
                     if (data != null){
                         $('#Plazo1').val(data + " Meses");
@@ -347,10 +340,8 @@
             //evento cambio de placa
             $("#Placa").change(function () {
                 var placaCarga = $('#Placa').find(":selected").val();
-                alert(placaCarga);
                 $('#lblMontoComprado').empty();
                 $.post("@Url.Action("GetVehiculo", "Vehiculos")", { placa: placaCarga }, function (data) {
-                    alert(data);
                     if (data == null || data.length === 0) {
                         $('#lblMontoComprado').text("No se logro recuoerar el monto en el que fue adquirido el vehículo");
                     }
@@ -418,16 +409,25 @@
 
         function mostrarDatosFinanciamiento() {
             var x = document.getElementById("datosFinanc");
-            if (x.style.display === "none") {
+            //if (x.style.display === "none") {
+            //    document.getElementById('lblMontoFinanc').innerHTML = document.getElementById('Saldo1').value;
+            //    x.style.display = "block";
+            //} else {
+            //    x.style.display = "none";
+            //}
+
+            if ($("#ckTipoVenta").prop('checked')) {//si esta chequiado es funanciamiento y hay que mostrar
                 document.getElementById('lblMontoFinanc').innerHTML = document.getElementById('Saldo1').value;
                 document.getElementById('lblTaza').innerHTML = document.getElementById('Interes1').value;
                 document.getElementById('lblMontoMensual').innerHTML = document.getElementById('MontoMensual').value;
                 document.getElementById('lblPlazo').innerHTML = document.getElementById('Plazo1').value;
 
                 x.style.display = "block";
-            } else {
+            }
+            else {
                 x.style.display = "none";
             }
+
         }
 
          ////////******funciones***///////////////
