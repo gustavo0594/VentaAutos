@@ -266,37 +266,50 @@
 
             //guardar
             $("#Guardar").click(function () {
-                var plazo = $('#lblPlazo').html(); // *pplazo
-                var montoFinanc = $('#lblMontoFinanc').html(); // psaldo
-                var taza = $('#lblTaza').html(); // pinteres
-                var montoMensual = $('#lblMontoMensual').html(); // pmonto
+                
+                var montoVenta = $('#Monto').val();
+                var idTipoVenta = $("#ckTipoVenta").prop('checked');// pidTipoVenta                               
                 var idCliente = $('#IdCliente').find(":selected").val();// pidCliente
                 var placa = $('#Placa').find(":selected").val(); // pplaca
                 var fecha = $('#Fecha').val(); // pfecha
-                var idTipoVenta = $("#ckTipoVenta").prop('checked');// pidTipoVenta
-                if ($.isEmptyObject(idTipoVenta)) {
-                    if (idTipoVenta = true)
+                var plazo = -1
+                var montoFinanc = -1
+                var taza = -1
+                var montoMensual = -1
+                
+                alert('idTipoVenta' + idTipoVenta);
+                
+                    if (idTipoVenta == true) {
                         idTipoVenta = 2; //si esta en true es fiananciamiento y en bd financiamiento es id = 2
+                        plazo = $('#lblPlazo').html(); // *pplazo
+                        montoFinanc = $('#lblMontoFinanc').html(); // psaldo
+                        taza = $('#lblTaza').html(); // pinteres
+                        montoMensual = $('#lblMontoMensual').html(); // pmonto
+                    }
                     else
                         idTipoVenta = 1;
-                }
-                //llamar funcion
-                $.post("@Url.Action("InsertarVentaFinanciamiento", "Ventas")", { pmonto: montoMensual, pfecha: fecha, pidTipoVenta: idTipoVenta, pidCliente: idCliente,
-                    psaldo: montoFinanc, pplaca: placa, pinteres: taza, pplazo: plazo }, function (data) {
-                        if (data != null) {
-                            if (data == 'True') {
-                                alert('inserto');
+                        //llamar funcion
+                    alert('idTipoVenta' + idTipoVenta);
+                        $.post("@Url.Action("InsertarVentaFinanciamiento", "Ventas")", {
+                            pmonto: montoVenta, pfecha: fecha, pidTipoVenta: idTipoVenta, pidCliente: idCliente,
+                            psaldo: montoFinanc, pplaca: placa, pinteres: taza, pplazo: plazo
+                        }, function (data) {
+                            if (data != null) {
+                                if (data == 'True') {
+                                    alert('inserto');
+                                    var url = '@Url.Action("Index", "Ventas")';
+                                    window.location.href = url;
+                                }
+                                else {
+                                    alert('ocurrio un error procesando la venta');
+                                }
+
                             }
                             else {
                                 alert('ocurrio un error procesando la venta');
                             }
-
-                        }
-                        else {
-                            alert('ocurrio un error procesando la venta');
-                        }
-                });
-
+                        });
+                
         });
 
 
@@ -308,7 +321,7 @@
                 //$('#modalFinanc').bootstrapValidator('resetForm', true);
                 //$(this).removeData('bs.modal');
                 //$('#modalFinanc .modal-content').empty();
-            })           
+            })
 
             //evento levantar modal al hacer clic en financiamiento
             $('input[type="checkbox"]').on('change', function (e) {
@@ -317,7 +330,6 @@
                     $('#modalFinanc').modal();
                 }
                 else {
-                    alert('checkbox change');
                     mostrarDatosFinanciamiento();
                 }
             });
@@ -328,7 +340,7 @@
                 var Cuota = parseFloat($(this).val().split(",").join("")) ;
                 var Taza = $('#Interes1').val();
                 var Monto = parseFloat($('#Saldo1').val().split(",").join(""));
-                alert('params: ' + Cuota + ' ' + Taza + ' ' + Monto);
+                //alert('params: ' + Cuota + ' ' + Taza + ' ' + Monto);
                 $.post("@Url.Action("CantidadCuotas", "Ventas")", { Monto: Monto, Taza: Taza, Cuota: Cuota }, function (data) {
                     if (data != null){
                         $('#Plazo1').val(data + " Meses");

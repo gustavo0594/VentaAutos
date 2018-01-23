@@ -54,37 +54,38 @@ namespace VentaAutos.Controllers
         // POST: Ventas/Create
         // Para protegerse de ataques de publicación excesiva, habilite las propiedades específicas a las que desea enlazarse. Para obtener 
         // más información vea https://go.microsoft.com/fwlink/?LinkId=317598.
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Create([Bind(Include = "IdVenta,Monto,Fecha,IdTipoVenta,IdCliente,Saldo,Placa,Interes,Financiamiento")] TVenta tVenta)
-        {
-            if (ModelState.IsValid)
-            {
+        //[HttpPost]
+        //[ValidateAntiForgeryToken]
+        //public async Task<ActionResult> Create([Bind(Include = "IdVenta,Monto,Fecha,IdTipoVenta,IdCliente,Saldo,Placa,Interes,Financiamiento")] TVenta tVenta)
+        //{
+        //    if (ModelState.IsValid)
+        //    {
 
-                //string plazo = tVenta.Financiamiento.Plazo.ToString();
+        //        //string plazo = tVenta.Financiamiento.Plazo.ToString();
 
-                 db.TVenta.Add(tVenta);
+        //        db.TVenta.Add(tVenta);
 
-                await db.SaveChangesAsync();
+        //        await db.SaveChangesAsync();
 
-                //revisar que el web config este seteado con el mismo idtipofinanciamiento de la BD tabla ctipoVenta (2)
-                if (tVenta.IdTipoVenta == Int32.Parse(WebConfigurationManager.AppSettings["TipoVentaFinanciamiento"]))
-                    return RedirectToAction("Create", "Financiamientos", new { idVenta = tVenta.IdVenta });
+        //        //revisar que el web config este seteado con el mismo idtipofinanciamiento de la BD tabla ctipoVenta (2)
+        //        if (tVenta.IdTipoVenta == Int32.Parse(WebConfigurationManager.AppSettings["TipoVentaFinanciamiento"]))
+        //            return RedirectToAction("Create", "Financiamientos", new { idVenta = tVenta.IdVenta });
 
-                return RedirectToAction("Index");
-            }
+        //        return RedirectToAction("Index");
+        //    }
 
-            ViewBag.IdTipoVenta = new SelectList(db.CTipoVenta, "IdTipoVenta", "Descripcion", tVenta.IdTipoVenta);
-            ViewBag.IdCliente = new SelectList(db.TCliente, "IdCliente", "Identificacion", tVenta.IdCliente);
-            ViewBag.Placa = new SelectList(db.TVehiculo, "Placa", "Estilo", tVenta.Placa);
-            return View(tVenta);
-        }
+        //    ViewBag.IdTipoVenta = new SelectList(db.CTipoVenta, "IdTipoVenta", "Descripcion", tVenta.IdTipoVenta);
+        //    ViewBag.IdCliente = new SelectList(db.TCliente, "IdCliente", "Identificacion", tVenta.IdCliente);
+        //    ViewBag.Placa = new SelectList(db.TVehiculo, "Placa", "Estilo", tVenta.Placa);
+        //    return View(tVenta);
+        //}
+               
 
         // POST: Ventas/Create
         // Para protegerse de ataques de publicación excesiva, habilite las propiedades específicas a las que desea enlazarse. Para obtener 
         // más información vea https://go.microsoft.com/fwlink/?LinkId=317598.
-        [HttpPost]
-        [ValidateAntiForgeryToken]
+        //[HttpPost]
+        //[ValidateAntiForgeryToken]
         //public async Task<ActionResult> Create(FormCollection formData )
         //{
         //    if (ModelState.IsValid)
@@ -175,30 +176,63 @@ namespace VentaAutos.Controllers
             //    // return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             //    return false;
             //}
-            if(pplazo != null)
+
+            try
             {
-                if(pplazo != string.Empty)
-                {
-                    pplazo = pplazo.Replace(" Meses", "");
+                Decimal monto = Convert.ToDecimal(pmonto);
+                DateTime fecha = Convert.ToDateTime(pfecha);
+                int idTipoVenta = Convert.ToInt32(pidTipoVenta);
+                int idCliente = Convert.ToInt32(pidCliente);
+
+                if (idTipoVenta == 2)
+                {//financiamiento
+                    if (pplazo != null)
+                    {
+                        if (pplazo != string.Empty)
+                        {
+                            pplazo = pplazo.Replace(" Meses", "");
+                        }
+                    }
+                    Decimal saldo = Convert.ToDecimal(psaldo);
+                    Decimal interes = Convert.ToDecimal(pinteres);
+                    Int16 plazo = Convert.ToInt16(pplazo);
+                    System.Data.Entity.Core.Objects.ObjectParameter returnId = new System.Data.Entity.Core.Objects.ObjectParameter("idVenta", typeof(int)); //Create Object parameter to receive a output value.It will behave like output parameter  
+
+                    int venta = db.InsertarVentaFinanciamiento(monto, fecha, idTipoVenta, idCliente, saldo, pplaca, interes, plazo, 1, " ", returnId);
+                    if (int.Parse(returnId.Value.ToString()) > 0)
+                    {
+                        RedirectToAction("Index");
+                        return true;
+                    }
                 }
+                else
+                {// contado
+                    TVenta tVenta = new TVenta();
+                    tVenta.Monto = Convert.ToDecimal(pmonto);
+                    tVenta.Fecha = Convert.ToDateTime(pfecha);
+                    tVenta.IdTipoVenta = Convert.ToInt32(pidTipoVenta);
+                    tVenta.IdCliente = Convert.ToInt32(pidCliente);
+                    tVenta.Placa = pplaca;
+                    tVenta.Saldo = tVenta.Monto;
+
+                    db.TVenta.Add(tVenta);
+                    await db.SaveChangesAsync();
+                    RedirectToAction("Index");
+                    return true;
+
+                    //revisar que el web config este seteado con el mismo idtipofinanciamiento de la BD tabla ctipoVenta (2)
+                    //if (tVenta.IdTipoVenta == Int32.Parse(WebConfigurationManager.AppSettings["TipoVentaFinanciamiento"]))
+                    //    return RedirectToAction("Create", "Financiamientos", new { idVenta = tVenta.IdVenta });
+
+
+                }
+
+            }
+            catch (Exception e) {
+                return false;
             }
 
-            Decimal monto = Convert.ToDecimal(pmonto);
-            Decimal saldo = Convert.ToDecimal(psaldo);
-            Decimal interes = Convert.ToDecimal(pinteres);
-            DateTime fecha = Convert.ToDateTime(pfecha);
-            int idTipoVenta = Convert.ToInt32(pidTipoVenta);
-            int idCliente = Convert.ToInt32(pidCliente);
-            Int16 plazo = Convert.ToInt16(pplazo);
 
-            System.Data.Entity.Core.Objects.ObjectParameter returnId = new System.Data.Entity.Core.Objects.ObjectParameter("idVenta", typeof(int)); //Create Object parameter to receive a output value.It will behave like output parameter  
-            int venta = db.InsertarVentaFinanciamiento( monto,  fecha,  idTipoVenta,  idCliente,  saldo, pplaca,  interes,  plazo,1, " ", returnId);
-
-            if (int.Parse(returnId.Value.ToString())  > 0)
-            {
-                
-                return true;
-            }
             return false;
 
         }
