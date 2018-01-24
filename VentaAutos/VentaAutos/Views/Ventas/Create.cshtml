@@ -341,11 +341,16 @@
                 var Taza = $('#Interes1').val();
                 var Monto = parseFloat($('#Saldo1').val().split(",").join(""));
                 //alert('params: ' + Cuota + ' ' + Taza + ' ' + Monto);
-                $.post("@Url.Action("CantidadCuotas", "Ventas")", { Monto: Monto, Taza: Taza, Cuota: Cuota }, function (data) {
-                    if (data != null){
-                        $('#Plazo1').val(data + " Meses");
-                    }
-                 });
+                var interes = Monto * (Taza / 100);
+                if (Cuota > interes) {
+                    $.post("@Url.Action("CantidadCuotas", "Ventas")", { Monto: Monto, Taza: Taza, Cuota: Cuota }, function (data) {
+                        if (data != null) {
+                            var tiempo = (data / 12 | 0) + " años y " + data % 12 + " meses";
+                            $('#Plazo1').val(data + " Meses (" + tiempo +")");
+                        }
+                    });
+                }
+                else { alert('La cuota debe ser mayor al interés. El interes es de: '+ interes );}
             });
 
 

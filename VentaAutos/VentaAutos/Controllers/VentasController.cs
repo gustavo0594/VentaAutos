@@ -190,7 +190,8 @@ namespace VentaAutos.Controllers
                     {
                         if (pplazo != string.Empty)
                         {
-                            pplazo = pplazo.Replace(" Meses", "");
+                             
+                            pplazo = pplazo.Substring(0, pplazo.IndexOf(" Meses"));
                         }
                     }
                     Decimal saldo = Convert.ToDecimal(psaldo);
