@@ -4,50 +4,104 @@
     ViewBag.Title = "Details";
 }
 
-<h2>Details</h2>
+<h2>Detalle</h2>
 
 <div>
-    <h4>TVenta</h4>
+    <h5>Venta</h5>
     <hr />
     <dl class="dl-horizontal">
+
+        
         <dt>
             @Html.DisplayNameFor(model => model.Monto)
         </dt>
-
         <dd>
-            @Html.DisplayFor(model => model.Monto)
+            @Html.DisplayFor(modelItem => modelItem.Monto)
         </dd>
 
         <dt>
             @Html.DisplayNameFor(model => model.Fecha)
         </dt>
-
         <dd>
-            @Html.DisplayFor(model => model.Fecha)
+            @String.Format("{0:d}", Model.Fecha)
         </dd>
+
+        <dt>
+            Tipo Venta
+        </dt>
+        <dd>
+            @if (Model.IdTipoVenta == 1)
+            {<p>  Contado</p> }
+            else
+            {<p>  Financiado</p>}
+        </dd>
+
 
         <dt>
             @Html.DisplayNameFor(model => model.Saldo)
         </dt>
-
         <dd>
-            @Html.DisplayFor(model => model.Saldo)
+            @Html.DisplayFor(modelItem => Model.Saldo)
+        </dd>
+
+
+        <dt>
+            Plazo
+        </dt>
+        <dd>
+            @if (Model.TFinanciamiento.Count > 0)
+            {
+                var plazo = Model.TFinanciamiento.First().Plazo.ToString() + " Meses";
+                @(plazo)
+                @*@Html.DisplayFor(modelItem => modelItem.TFinanciamiento.First().Plazo)*@
+            }
+
+
         </dd>
 
         <dt>
-            @Html.DisplayNameFor(model => model.CTipoVenta.Descripcion)
+            Interés
         </dt>
-
         <dd>
-            @Html.DisplayFor(model => model.CTipoVenta.Descripcion)
+            @if (Model.TFinanciamiento.Count > 0)
+            {
+                var interes = Model.TFinanciamiento.First().Interes;
+                @(interes)
+            }
+        </dd>
+
+
+
+
+
+
+
+        
+
+    </dl>
+
+    <h5>Vehículo</h5>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.TVehiculo.Placa)
+        </dt>
+        <dd>
+            @Html.DisplayFor(modelItem => modelItem.TVehiculo.Placa)
         </dd>
 
         <dt>
-            @Html.DisplayNameFor(model => model.TCliente.Identificacion)
+            Marca
         </dt>
-
         <dd>
-            @Html.DisplayFor(model => model.TCliente.Identificacion)
+            @Html.DisplayFor(modelItem => modelItem.TVehiculo.CMarcaVehiculo.Descripcion)
+        </dd>
+
+        <dt>
+            Modelo
+        </dt>
+        <dd>
+            @Html.DisplayFor(modelItem => modelItem.TVehiculo.Modelo)
         </dd>
 
         <dt>
@@ -57,8 +111,25 @@
         <dd>
             @Html.DisplayFor(model => model.TVehiculo.Estilo)
         </dd>
-
     </dl>
+
+    <h5>Cliente</h5>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            Identificación
+        </dt>
+        <dd>
+            @Html.DisplayFor(modelItem => modelItem.TCliente.Identificacion )  @Html.DisplayFor(modelItem => modelItem.TCliente.PrimerApellido)  @Html.DisplayFor(modelItem => modelItem.TCliente.SegundoApellido)
+        </dd>
+        <dt>
+            Nombre
+        </dt>
+        <dd>
+            @Html.DisplayFor(modelItem => modelItem.TCliente.Nombre)  @Html.DisplayFor(modelItem => modelItem.TCliente.PrimerApellido)  @Html.DisplayFor(modelItem => modelItem.TCliente.SegundoApellido)
+        </dd>
+    </dl>
+
 </div>
 <p>
     @Html.ActionLink("Edit", "Edit", new { id = Model.IdVenta }) |
