@@ -176,6 +176,7 @@ namespace VentaAutos.Controllers
             //    // return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             //    return false;
             //}
+            bool inserto = false;
 
             try
             {
@@ -202,8 +203,9 @@ namespace VentaAutos.Controllers
                     int venta = db.InsertarVentaFinanciamiento(monto, fecha, idTipoVenta, idCliente, saldo, pplaca, interes, plazo, 1, " ", returnId);
                     if (int.Parse(returnId.Value.ToString()) > 0)
                     {
-                        RedirectToAction("Index");
-                        return true;
+                        //RedirectToAction("Index");
+                        inserto = true;
+                       // return true;
                     }
                 }
                 else
@@ -219,7 +221,8 @@ namespace VentaAutos.Controllers
                     db.TVenta.Add(tVenta);
                     await db.SaveChangesAsync();
                     RedirectToAction("Index");
-                    return true;
+                    inserto = true;
+                    //return true;
 
                     //revisar que el web config este seteado con el mismo idtipofinanciamiento de la BD tabla ctipoVenta (2)
                     //if (tVenta.IdTipoVenta == Int32.Parse(WebConfigurationManager.AppSettings["TipoVentaFinanciamiento"]))
@@ -233,8 +236,9 @@ namespace VentaAutos.Controllers
                 return false;
             }
 
+            RedirectToAction("Index");
 
-            return false;
+            return inserto;
 
         }
 

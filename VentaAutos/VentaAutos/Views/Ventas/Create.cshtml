@@ -266,9 +266,9 @@
 
             //guardar
             $("#Guardar").click(function () {
-                
+
                 var montoVenta = $('#Monto').val();
-                var idTipoVenta = $("#ckTipoVenta").prop('checked');// pidTipoVenta                               
+                var idTipoVenta = $("#ckTipoVenta").prop('checked');// pidTipoVenta
                 var idCliente = $('#IdCliente').find(":selected").val();// pidCliente
                 var placa = $('#Placa').find(":selected").val(); // pplaca
                 var fecha = $('#Fecha').val(); // pfecha
@@ -276,9 +276,6 @@
                 var montoFinanc = -1
                 var taza = -1
                 var montoMensual = -1
-                
-                alert('idTipoVenta' + idTipoVenta);
-                
                     if (idTipoVenta == true) {
                         idTipoVenta = 2; //si esta en true es fiananciamiento y en bd financiamiento es id = 2
                         plazo = $('#lblPlazo').html(); // *pplazo
@@ -289,14 +286,14 @@
                     else
                         idTipoVenta = 1;
                         //llamar funcion
-                    alert('idTipoVenta' + idTipoVenta);
                         $.post("@Url.Action("InsertarVentaFinanciamiento", "Ventas")", {
                             pmonto: montoVenta, pfecha: fecha, pidTipoVenta: idTipoVenta, pidCliente: idCliente,
                             psaldo: montoFinanc, pplaca: placa, pinteres: taza, pplazo: plazo
                         }, function (data) {
+                            alert('Insertando Venta... ');
                             if (data != null) {
                                 if (data == 'True') {
-                                    alert('inserto');
+                                    alert('La venta se insertó correctamente!');
                                     var url = '@Url.Action("Index", "Ventas")';
                                     window.location.href = url;
                                 }
@@ -309,7 +306,7 @@
                                 alert('ocurrio un error procesando la venta');
                             }
                         });
-                
+
         });
 
 

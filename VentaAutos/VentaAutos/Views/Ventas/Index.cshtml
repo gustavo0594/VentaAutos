@@ -7,75 +7,100 @@
 <h2>Index</h2>
 
 <p>
-    @Html.ActionLink("Create New", "Create")
+    @Html.ActionLink("Nueva Venta", "Create")
 </p>
 <table class="table">
     <tr>
         <th>
-            @Html.DisplayNameFor(model => model.Monto)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Interes)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Fecha)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Saldo)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.CTipoVenta.Descripcion)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.TCliente.Identificacion)
+            Cliente
         </th>
         <th>
             @Html.DisplayNameFor(model => model.TVehiculo.Placa)
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.TVehiculo.CMarcaVehiculo.Descripcion )
+            Marca
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.TVehiculo.Estilo)
+            Modelo
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Monto)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Fecha)
+        </th>
+
+        <th>
+            Tipo Venta
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Saldo)
+        </th>
+        <th>
+            Plazo
+        </th>
+        <th>
+            Interés
         </th>
         <th></th>
     </tr>
 
-@foreach (var item in Model) {
-    <tr>
-        <td>
-            @Html.DisplayFor(modelItem => item.Monto)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Interes)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Fecha)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Saldo)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.CTipoVenta.Descripcion)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.TCliente.Identificacion)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.TVehiculo.Placa)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.TVehiculo.CMarcaVehiculo.Descripcion)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.TVehiculo.Estilo)
-        </td>
-        <td>
-            @Html.ActionLink("Edit", "Edit", new { id=item.IdVenta }) |
-            @Html.ActionLink("Details", "Details", new { id=item.IdVenta }) |
-            @Html.ActionLink("Delete", "Delete", new { id=item.IdVenta })
-        </td>
-    </tr>
-}
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.TCliente.Nombre)  @Html.DisplayFor(modelItem => item.TCliente.PrimerApellido)  @Html.DisplayFor(modelItem => item.TCliente.SegundoApellido)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.TVehiculo.Placa)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.TVehiculo.CMarcaVehiculo.Descripcion)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.TVehiculo.Modelo)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Monto)
+            </td>
+            <td>
+                @* @Html.DisplayFor(modelItem => item.Fecha, "{0:dd/MM/yyyy}")*@
+                @String.Format("{0:d}", item.Fecha)
+            </td>
+            <td>
+                @if (item.IdTipoVenta == 1)
+                {<p>  Contado</p> }
+                else
+                {<p>  Financiado</p>}
+            </td>
+
+            <td>
+                @Html.DisplayFor(modelItem => item.Saldo)
+            </td>
+            <td>
+                @if (item.TFinanciamiento.Count > 0)
+                {
+                    var plazo = item.TFinanciamiento.First().Plazo.ToString() + " Meses";
+                    @(plazo)
+                    @*@Html.DisplayFor(modelItem => item.TFinanciamiento.First().Plazo)*@
+                }
+
+
+            </td>
+            <td>
+                @if (item.TFinanciamiento.Count > 0)
+                {
+                    var interes = item.TFinanciamiento.First().Interes;
+                    @(interes)
+                }
+            </td>
+
+            <td>
+                @Html.ActionLink("Detalle", "Details", new { id = item.IdVenta }) |
+                @Html.ActionLink("Eliminar", "Delete", new { id = item.IdVenta })
+            </td>
+
+        </tr>
+    }
 
 </table>
