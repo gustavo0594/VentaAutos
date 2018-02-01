@@ -18,6 +18,7 @@ namespace VentaAutos.Models
         public CTipoPago()
         {
             this.TPagoFinanciamiento = new HashSet<TPagoFinanciamiento>();
+            this.TPagos = new HashSet<TPagos>();
         }
     
         public int IdTipoPago { get; set; }
@@ -25,5 +26,7 @@ namespace VentaAutos.Models
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<TPagoFinanciamiento> TPagoFinanciamiento { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<TPagos> TPagos { get; set; }
     }
 }

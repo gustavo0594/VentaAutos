@@ -14,11 +14,15 @@ namespace VentaAutos.Models
     
     public partial class TPagos
     {
-        public Nullable<int> IdPago { get; set; }
+        public int IdPago { get; set; }
         public int IdVenta { get; set; }
         public System.DateTime Fecha { get; set; }
-        public short PeriodoCancelado { get; set; }
+        public Nullable<short> PeriodoCancelado { get; set; }
+        public decimal Saldo { get; set; }
+        public int IdTipoPago { get; set; }
+        public decimal Monto { get; set; }
     
+        public virtual CTipoPago CTipoPago { get; set; }
         public virtual TVenta TVenta { get; set; }
     }
 }

@@ -119,14 +119,15 @@
         </EntityType>
         <EntityType Name="TPagos">
           <Key>
-            <PropertyRef Name="IdVenta" />
-            <PropertyRef Name="Fecha" />
-            <PropertyRef Name="PeriodoCancelado" />
+            <PropertyRef Name="IdPago" />
           </Key>
-          <Property Name="IdPago" Type="int" />
+          <Property Name="IdPago" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="IdVenta" Type="int" Nullable="false" />
           <Property Name="Fecha" Type="datetime" Nullable="false" />
-          <Property Name="PeriodoCancelado" Type="smallint" Nullable="false" />
+          <Property Name="PeriodoCancelado" Type="smallint" />
+          <Property Name="Saldo" Type="decimal" Precision="18" Scale="2" Nullable="false" />
+          <Property Name="IdTipoPago" Type="int" Nullable="false" />
+          <Property Name="Monto" Type="decimal" Precision="18" Scale="2" Nullable="false" />
         </EntityType>
         <EntityType Name="TTelefonoCliente">
           <Key>
@@ -200,7 +201,9 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_TFinanciamiento_TVenta">
-          <End Role="TVenta" Type="Self.TVenta" Multiplicity="0..1" />
+          <End Role="TVenta" Type="Self.TVenta" Multiplicity="0..1">
+            <OnDelete Action="Cascade" />
+          </End>
           <End Role="TFinanciamiento" Type="Self.TFinanciamiento" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="TVenta">
@@ -219,6 +222,18 @@
               <PropertyRef Name="IdTipoPago" />
             </Principal>
             <Dependent Role="TPagoFinanciamiento">
+              <PropertyRef Name="IdTipoPago" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_TPagos_CTipoPago">
+          <End Role="CTipoPago" Type="Self.CTipoPago" Multiplicity="1" />
+          <End Role="TPagos" Type="Self.TPagos" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="CTipoPago">
+              <PropertyRef Name="IdTipoPago" />
+            </Principal>
+            <Dependent Role="TPagos">
               <PropertyRef Name="IdTipoPago" />
             </Dependent>
           </ReferentialConstraint>
@@ -425,6 +440,10 @@
             <End Role="CTipoPago" EntitySet="CTipoPago" />
             <End Role="TPagoFinanciamiento" EntitySet="TPagoFinanciamiento" />
           </AssociationSet>
+          <AssociationSet Name="FK_TPagos_CTipoPago" Association="Self.FK_TPagos_CTipoPago">
+            <End Role="CTipoPago" EntitySet="CTipoPago" />
+            <End Role="TPagos" EntitySet="TPagos" />
+          </AssociationSet>
           <AssociationSet Name="FK_TPagos_TVenta" Association="Self.FK_TPagos_TVenta">
             <End Role="TVenta" EntitySet="TVenta" />
             <End Role="TPagos" EntitySet="TPagos" />
@@ -513,6 +532,7 @@
           <Property Name="IdTipoPago" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="Descripcion" Type="String" MaxLength="256" FixedLength="false" Unicode="false" Nullable="false" />
           <NavigationProperty Name="TPagoFinanciamiento" Relationship="Self.FK_TPago_CTipoPago" FromRole="CTipoPago" ToRole="TPagoFinanciamiento" />
+          <NavigationProperty Name="TPagos" Relationship="VentasModel.FK_TPagos_CTipoPago" FromRole="CTipoPago" ToRole="TPagos" />
         </EntityType>
         <EntityType Name="CTipoVehiculo">
           <Key>
@@ -912,11 +932,6 @@
             <Parameter Name="new_diagramname" Mode="In" Type="String" />
           </FunctionImport>
           <FunctionImport Name="sp_upgraddiagrams" />
-          <EntitySet Name="TPagos" EntityType="VentasModel.TPagos" />
-          <AssociationSet Name="FK_TPagos_TVenta" Association="VentasModel.FK_TPagos_TVenta">
-            <End Role="TVenta" EntitySet="TVenta" />
-            <End Role="TPagos" EntitySet="TPagos" />
-          </AssociationSet>
           <FunctionImport Name="InsertarVentaFinanciamiento">
             <Parameter Name="Monto" Mode="In" Type="Decimal" />
             <Parameter Name="Fecha" Mode="In" Type="DateTime" />
@@ -931,7 +946,16 @@
             <Parameter Name="idVenta" Mode="InOut" Type="Int32" />
           </FunctionImport>
           <FunctionImport Name="VehiculosDisponibles" IsComposable="true" ReturnType="Collection(VentasModel.VehiculosDisponibles_Result)" />
-        </EntityContainer>
+          <EntitySet Name="TPagos" EntityType="VentasModel.TPagos" />
+          <AssociationSet Name="FK_TPagos_CTipoPago" Association="VentasModel.FK_TPagos_CTipoPago">
+            <End Role="CTipoPago" EntitySet="CTipoPago" />
+            <End Role="TPagos" EntitySet="TPagos" />
+          </AssociationSet>
+          <AssociationSet Name="FK_TPagos_TVenta" Association="VentasModel.FK_TPagos_TVenta">
+            <End Role="TVenta" EntitySet="TVenta" />
+            <End Role="TPagos" EntitySet="TPagos" />
+          </AssociationSet>
+          </EntityContainer>
         <EntityType Name="sysdiagrams">
           <Key>
             <PropertyRef Name="diagram_id" />
@@ -981,30 +1005,6 @@
           <Property Type="DateTime" Name="FechaIngreso" Nullable="true" />
           <Property Type="Int32" Name="IdCliente" Nullable="true" />
         </ComplexType>
-        <EntityType Name="TPagos">
-          <Key>
-            <PropertyRef Name="IdVenta" />
-            <PropertyRef Name="Fecha" />
-            <PropertyRef Name="PeriodoCancelado" />
-          </Key>
-          <Property Name="IdPago" Type="Int32" />
-          <Property Name="IdVenta" Type="Int32" Nullable="false" />
-          <Property Name="Fecha" Type="DateTime" Nullable="false" Precision="3" />
-          <Property Name="PeriodoCancelado" Type="Int16" Nullable="false" />
-          <NavigationProperty Name="TVenta" Relationship="VentasModel.FK_TPagos_TVenta" FromRole="TPagos" ToRole="TVenta" />
-        </EntityType>
-        <Association Name="FK_TPagos_TVenta">
-          <End Type="VentasModel.TVenta" Role="TVenta" Multiplicity="1" />
-          <End Type="VentasModel.TPagos" Role="TPagos" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="TVenta">
-              <PropertyRef Name="IdVenta" />
-            </Principal>
-            <Dependent Role="TPagos">
-              <PropertyRef Name="IdVenta" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <ComplexType Name="VehiculosDisponibles1_Result">
           <Property Type="String" Name="Placa" Nullable="false" MaxLength="50" />
           <Property Type="Int32" Name="IdMarca" Nullable="false" />
@@ -1021,7 +1021,45 @@
           <Property Type="DateTime" Name="FechaIngreso" Nullable="true" Precision="23" />
           <Property Type="Int32" Name="IdCliente" Nullable="true" />
         </ComplexType>
-      </Schema>
+        <EntityType Name="TPagos">
+          <Key>
+            <PropertyRef Name="IdPago" />
+          </Key>
+          <Property Name="IdPago" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="IdVenta" Type="Int32" Nullable="false" />
+          <Property Name="Fecha" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="PeriodoCancelado" Type="Int16" />
+          <Property Name="Saldo" Type="Decimal" Nullable="false" Precision="18" Scale="2" />
+          <Property Name="IdTipoPago" Type="Int32" Nullable="false" />
+          <Property Name="Monto" Type="Decimal" Nullable="false" Precision="18" Scale="2" />
+          <NavigationProperty Name="CTipoPago" Relationship="VentasModel.FK_TPagos_CTipoPago" FromRole="TPagos" ToRole="CTipoPago" />
+          <NavigationProperty Name="TVenta" Relationship="VentasModel.FK_TPagos_TVenta" FromRole="TPagos" ToRole="TVenta" />
+        </EntityType>
+        <Association Name="FK_TPagos_CTipoPago">
+          <End Type="VentasModel.CTipoPago" Role="CTipoPago" Multiplicity="1" />
+          <End Type="VentasModel.TPagos" Role="TPagos" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="CTipoPago">
+              <PropertyRef Name="IdTipoPago" />
+            </Principal>
+            <Dependent Role="TPagos">
+              <PropertyRef Name="IdTipoPago" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_TPagos_TVenta">
+          <End Type="VentasModel.TVenta" Role="TVenta" Multiplicity="1" />
+          <End Type="VentasModel.TPagos" Role="TPagos" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TVenta">
+              <PropertyRef Name="IdVenta" />
+            </Principal>
+            <Dependent Role="TPagos">
+              <PropertyRef Name="IdVenta" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
     <edmx:Mappings>
@@ -1203,16 +1241,6 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <EntitySetMapping Name="TPagos">
-            <EntityTypeMapping TypeName="VentasModel.TPagos">
-              <MappingFragment StoreEntitySet="TPagos">
-                <ScalarProperty Name="PeriodoCancelado" ColumnName="PeriodoCancelado" />
-                <ScalarProperty Name="Fecha" ColumnName="Fecha" />
-                <ScalarProperty Name="IdVenta" ColumnName="IdVenta" />
-                <ScalarProperty Name="IdPago" ColumnName="IdPago" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
           <FunctionImportMapping FunctionImportName="InsertarVentaFinanciamiento" FunctionName="VentasModel.Store.InsertarVentaFinanciamiento" />
           <FunctionImportMapping FunctionImportName="VehiculosDisponibles" FunctionName="VentasModel.Store.VehiculosDisponibles">
             <ResultMapping>
@@ -1234,6 +1262,19 @@
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>
+          <EntitySetMapping Name="TPagos">
+            <EntityTypeMapping TypeName="VentasModel.TPagos">
+              <MappingFragment StoreEntitySet="TPagos">
+                <ScalarProperty Name="Monto" ColumnName="Monto" />
+                <ScalarProperty Name="IdTipoPago" ColumnName="IdTipoPago" />
+                <ScalarProperty Name="Saldo" ColumnName="Saldo" />
+                <ScalarProperty Name="PeriodoCancelado" ColumnName="PeriodoCancelado" />
+                <ScalarProperty Name="Fecha" ColumnName="Fecha" />
+                <ScalarProperty Name="IdVenta" ColumnName="IdVenta" />
+                <ScalarProperty Name="IdPago" ColumnName="IdPago" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
         </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>

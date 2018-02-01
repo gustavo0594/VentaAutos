@@ -58,8 +58,9 @@
         <EntityTypeShape EntityType="VentasModel.sysdiagrams" Width="1.5" PointX="10.375" PointY="10.75" />
         <AssociationConnector Association="VentasModel.FK_TVehiculo_TCliente" />
       </Diagram>
-        <EntityTypeShape EntityType="VentasModel.TPagos" Width="1.5" PointX="3.6694104055265946" PointY="20.753359848984218" />
+        <EntityTypeShape EntityType="VentasModel.TPagos" Width="1.5" PointX="11.25" PointY="11.875" />
+        <AssociationConnector Association="VentasModel.FK_TPagos_CTipoPago" />
         <AssociationConnector Association="VentasModel.FK_TPagos_TVenta" />
-    </edmx:Diagrams>
+        </edmx:Diagrams>
   </edmx:Designer>
 </edmx:Edmx>
