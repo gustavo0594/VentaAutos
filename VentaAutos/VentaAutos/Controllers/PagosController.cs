@@ -41,7 +41,8 @@ namespace VentaAutos.Controllers
         public ActionResult Create()
         {
             ViewBag.IdTipoPago = new SelectList(db.CTipoPago, "IdTipoPago", "Descripcion");
-            ViewBag.IdVenta = new SelectList(db.TVenta, "IdVenta", "Placa");
+            //ViewBag.IdVenta = new SelectList(db.TVenta.Where(v => v.IdTipoVenta ==2 ) , "IdVenta", "Placa");//tipo venta == 2 (finaniamiento )
+            CargarComboVentas(null);
             return View();
         }
 
@@ -60,7 +61,8 @@ namespace VentaAutos.Controllers
             }
 
             ViewBag.IdTipoPago = new SelectList(db.CTipoPago, "IdTipoPago", "Descripcion", tPagos.IdTipoPago);
-            ViewBag.IdVenta = new SelectList(db.TVenta, "IdVenta", "Placa", tPagos.IdVenta);
+            //ViewBag.IdVenta = new SelectList(db.TVenta, "IdVenta", "Placa", tPagos.IdVenta);
+            CargarComboVentas(tPagos.IdVenta);
             return View(tPagos);
         }
 
@@ -77,7 +79,8 @@ namespace VentaAutos.Controllers
                 return HttpNotFound();
             }
             ViewBag.IdTipoPago = new SelectList(db.CTipoPago, "IdTipoPago", "Descripcion", tPagos.IdTipoPago);
-            ViewBag.IdVenta = new SelectList(db.TVenta, "IdVenta", "Placa", tPagos.IdVenta);
+            //ViewBag.IdVenta = new SelectList(db.TVenta, "IdVenta", "Placa", tPagos.IdVenta);
+            CargarComboVentas(tPagos.IdVenta);
             return View(tPagos);
         }
 
@@ -95,7 +98,8 @@ namespace VentaAutos.Controllers
                 return RedirectToAction("Index");
             }
             ViewBag.IdTipoPago = new SelectList(db.CTipoPago, "IdTipoPago", "Descripcion", tPagos.IdTipoPago);
-            ViewBag.IdVenta = new SelectList(db.TVenta, "IdVenta", "Placa", tPagos.IdVenta);
+            //ViewBag.IdVenta = new SelectList(db.TVenta, "IdVenta", "Placa", tPagos.IdVenta);
+            CargarComboVentas(tPagos.IdVenta);
             return View(tPagos);
         }
 
@@ -133,5 +137,34 @@ namespace VentaAutos.Controllers
             }
             base.Dispose(disposing);
         }
+
+        protected void CargarComboVentas(int? idVenta)
+        {
+           // ViewBag.IdVenta = new SelectList(db.TVenta.Where(v => v.IdTipoVenta == 2), "IdVenta", "Placa");//tipo venta == 2 (finaniamiento )
+
+            var ventas = db.TVenta.Where(v => v.IdTipoVenta == 2); //tipo venta == 2 (finaniamiento )
+            List<object> ventasList = new List<object>();
+            foreach (var v in ventas)
+                ventasList.Add(new
+                {
+                    Id = v.IdVenta,
+                    Name = v.TCliente.Nombre  + " " + v.TCliente.PrimerApellido + " " + v.TCliente.SegundoApellido + " - " + v.Placa
+                });
+
+            if (idVenta == null)
+            {
+
+                ViewBag.IdVenta = new SelectList(ventasList, "Id", "Name");
+            }
+            else
+            {
+                ViewBag.IdVenta = new SelectList(ventasList, "Id", "Name", idVenta);
+            }
+
+
+
+        }
+
+
     }
 }

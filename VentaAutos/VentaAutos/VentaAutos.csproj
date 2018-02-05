@@ -206,6 +206,7 @@
     <Compile Include="Controllers\TiposPagoController.cs" />
     <Compile Include="Controllers\TiposVehiculoController.cs" />
     <Compile Include="Controllers\TiposVentaController.cs" />
+    <Compile Include="Controllers\TransmisionsController.cs" />
     <Compile Include="Controllers\VehiculosController.cs" />
     <Compile Include="Controllers\VentasController.cs" />
     <Compile Include="Global.asax.cs">
@@ -566,6 +567,11 @@
     <Content Include="Views\Pagos\Details.cshtml" />
     <Content Include="Views\Pagos\Edit.cshtml" />
     <Content Include="Views\Pagos\Index.cshtml" />
+    <Content Include="Views\Transmisions\Create.cshtml" />
+    <Content Include="Views\Transmisions\Delete.cshtml" />
+    <Content Include="Views\Transmisions\Details.cshtml" />
+    <Content Include="Views\Transmisions\Edit.cshtml" />
+    <Content Include="Views\Transmisions\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
